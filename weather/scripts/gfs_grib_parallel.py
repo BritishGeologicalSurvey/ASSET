@@ -19,7 +19,7 @@ timesteps = []
 wtfiles_refir = []
 gribfiles = []
 arlfiles = []
-HYSPLIT = 'home/vulcanomod/HYSPLIT'
+HYSPLIT = '/home/vulcanomod/HYSPLIT'
 API2ARL = os.path.join(HYSPLIT,'hysplit.v4.2.0','exec','api2arl_v4')
 
 def lat_type(str):
