@@ -1,0 +1,8 @@
+python post_processing.py --set=True --mode=operational
+plot_ash_model_results /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/max/operational_max.res.nc --output_dir /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/max/iris_outputs --limits -30 40 10 70 --model_type fall3d
+plot_ash_model_results /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/avg/operational_avg.res.nc --output_dir /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/avg/iris_outputs --limits -30 40 10 70 --model_type fall3d
+plot_ash_model_results /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/min/operational_min.res.nc --output_dir /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/min/iris_outputs --limits -30 40 10 70 --model_type fall3d
+plot_ash_model_results /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump.nc --output_dir /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/iris_outputs --limits -30 40 10 70 --model_type hysplit
+plot_ash_model_results /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump.nc --output_dir /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/iris_outputs --limits -30 40 10 70 --model_type hysplit
+plot_ash_model_results /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump.nc --output_dir /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/iris_outputs --limits -30 40 10 70 --model_type hysplit
+Error processing outputs in parallel

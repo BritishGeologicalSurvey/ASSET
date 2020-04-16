@@ -1,0 +1,2314 @@
+...
+...
+...
+...
+...
+...
+...
+...
+...
+...
+...
+
+
+
+File profile_data_2020041600.txt not present
+Retrieving new GFS forecast data
+Analysis file at 00z not yet available. Retrieving the latest available
+Most up to date GFS analysis: http://www.ftp.ncep.noaa.gov/data/nccf/com/gfs/prod/gfs.20200415/18
+Checking if profile_data_2020041600.txt exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+Checking if weather_data_2020041518_f006 exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+File weather_data_2020041518_f006 found
+Checking if profile_data_2020041601.txt exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+Checking if weather_data_2020041518_f007 exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+File weather_data_2020041518_f007 found
+Checking if profile_data_2020041602.txt exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+Checking if weather_data_2020041518_f008 exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+File weather_data_2020041518_f008 found
+Checking if profile_data_2020041603.txt exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+Checking if weather_data_2020041518_f009 exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+File weather_data_2020041518_f009 found
+Checking if profile_data_2020041604.txt exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+Checking if weather_data_2020041518_f010 exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+File weather_data_2020041518_f010 found
+Checking if profile_data_2020041605.txt exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+Checking if weather_data_2020041518_f011 exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+File weather_data_2020041518_f011 found
+Checking if profile_data_2020041606.txt exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+Checking if weather_data_2020041518_f012 exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+File weather_data_2020041518_f012 found
+Checking if profile_data_2020041607.txt exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+Checking if weather_data_2020041518_f013 exists in /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/
+File weather_data_2020041518_f013 found
+Saving weather data along the vertical at the vent location
+Saving weather data along the vertical at the vent location
+Saving weather data along the vertical at the vent location
+Saving weather data along the vertical at the vent location
+Saving weather data along the vertical at the vent location
+Saving weather data along the vertical at the vent location
+Saving weather data along the vertical at the vent location
+Saving weather data along the vertical at the vent location
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+Elaborating profile_data_2020041600.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041600.txt
+>>>> phPlot maxtim: 5.0
+>>>> phPlot maxPH: 8896.0
+Eruption ended
+REFIR is going to stop
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/0/avg/operational_avg.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetDbs task...
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28322,1],7]
+  Exit code:    23
+--------------------------------------------------------------------------
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/0/max/operational_max.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetDbs task...
+Running model hycm_std with 10 processors!
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/0/min/operational_min.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetDbs task...
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28187,1],3]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28198,1],1]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28657,1],7]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28568,1],2]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28577,1],0]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28488,1],4]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28435,1],5]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28472,1],5]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[27846,1],7]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[27792,1],2]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[27837,1],7]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[27767,1],4]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[27676,1],4]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[27684,1],4]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28111,1],8]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28054,1],9]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[28093,1],1]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[27980,1],8]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[27931,1],7]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[27940,1],0]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[25293,1],0]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[25237,1],3]
+  Exit code:    23
+--------------------------------------------------------------------------
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+ ERROR metset: meteorological data time interval varies. Check input meteo file.
+  Changed from           60  min to          120  min
+  At day/hr           15          23
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[25274,1],3]
+  Exit code:    23
+--------------------------------------------------------------------------
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/0/min/operational_min.inp
+  Number of PEs: 0001                                  
+  Number of PEs in domain decomposition: 001 x 001 x 001
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetSrc task...
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/0/min/operational_min.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running FALL3D solver...
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/0/avg/operational_avg.inp
+  Number of PEs: 0001                                  
+  Number of PEs in domain decomposition: 001 x 001 x 001
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetSrc task...
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/0/max/operational_max.inp
+  Number of PEs: 0001                                  
+  Number of PEs in domain decomposition: 001 x 001 x 001
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetSrc task...
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/0/avg/operational_avg.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running FALL3D solver...
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/0/max/operational_max.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running FALL3D solver...
+Folder /home/vulcanomod/Operational_modelling/Runs/operational exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416 exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/0 exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416 exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/0 exists
+Error processing HYSPLIT outputs in parallel
+Error processing FALL3D in parallel

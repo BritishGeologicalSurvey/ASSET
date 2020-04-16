@@ -1,0 +1,3909 @@
+...
+...
+...
+...
+...
+...
+...
+...
+...
+...
+...
+
+
+
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+Elaborating profile_data_2020041606.txt
+Opening file /home/vulcanomod/REFIR/raw_forecast_weather_data_20200416/profile_data_2020041606.txt
+>>>> phPlot maxtim: 5.0
+>>>> phPlot maxPH: 8896.0
+Eruption ended
+REFIR is going to stop
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/min/operational_min.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetDbs task...
+ Calculation Started ... please be patient
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/max/operational_max.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetDbs task...
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/avg/operational_avg.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetDbs task...
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/min/operational_min.inp
+  Number of PEs: 0001                                  
+  Number of PEs in domain decomposition: 001 x 001 x 001
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetSrc task...
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/min/operational_min.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running FALL3D solver...
+ Percent complete:  12.5
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/avg/operational_avg.inp
+  Number of PEs: 0001                                  
+  Number of PEs in domain decomposition: 001 x 001 x 001
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetSrc task...
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/max/operational_max.inp
+  Number of PEs: 0001                                  
+  Number of PEs in domain decomposition: 001 x 001 x 001
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running SetSrc task...
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/avg/operational_avg.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running FALL3D solver...
+-----------------------------------------------------------
+                                                           
+           ______      _      _      ____  _____           
+          |  ____/\   | |    | |    |___ \|  __ \          
+          | |__ /  \  | |    | |      __) | |  | |         
+          |  __/ /\ \ | |    | |     |__ <| |  | |         
+          | | / ____ \| |____| |____ ___) | |__| |         
+          |_|/_/    \_\______|______|____/|_____/          
+                                                           
+                                                           
+                 Initializing FALL3D suite                 
+                                                           
+   Copyright: 2018 GNU General Public License version 3    
+                 (see licence for details)                 
+                                                           
+  Version      : 8.0.1                                     
+  Input File   : /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416/6/max/operational_max.inp
+  Number of PEs: 0060                                  
+  Number of PEs in domain decomposition: 005 x 004 x 003
+  Number of FALL3D instances: 0001                     
+                                                           
+-----------------------------------------------------------
+ Running FALL3D solver...
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Running model hycm_std with 10 processors!
+ Configured for multiple processors:           10
+ HYSPLIT4 - Initialization 001
+ HYSPLIT version: hysplit.v4.2.0
+ HYSPLIT4 - Initialization 005
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 002
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 003
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 008
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 010
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 006
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 007
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 009
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+ HYSPLIT4 - Initialization 004
+ HYSPLIT version: hysplit.v4.2.0
+ Last Changed Date: 2019-09-11
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+  NOTICE   main: using namelist file - SETUP.CFG                                                                       
+ Calculation Started ... please be patient
+ Percent complete:   1.0
+ Percent complete:   2.1
+ Percent complete:   3.1
+ Percent complete:   4.2
+ Percent complete:   5.2
+ Percent complete:   6.2
+ Percent complete:   7.3
+ Percent complete:   8.3
+ Percent complete:   9.4
+ Percent complete:  10.4
+ Percent complete:  11.5
+ Percent complete:  12.5
+ Percent complete:  13.5
+ Percent complete:  14.6
+ Percent complete:  15.6
+ Percent complete:  16.7
+ Percent complete:  17.7
+ Percent complete:  18.8
+ Percent complete:  19.8
+ Percent complete:  20.8
+ Percent complete:  21.9
+ Percent complete:  22.9
+ Percent complete:  24.0
+ Percent complete:  25.0
+ Percent complete:  26.0
+ Percent complete:  27.1
+ Percent complete:  28.1
+ Percent complete:  29.2
+ Percent complete:  30.2
+ Percent complete:  31.2
+ Percent complete:  32.3
+ Percent complete:  33.3
+ Percent complete:  34.4
+ Percent complete:  35.4
+ Percent complete:  36.5
+ Percent complete:  37.5
+ Percent complete:  38.5
+ Percent complete:  39.6
+ Percent complete:  40.6
+ Percent complete:  41.7
+ Percent complete:  42.7
+ Percent complete:  43.8
+ Percent complete:  44.8
+ Percent complete:  45.8
+ Percent complete:  46.9
+ Percent complete:  47.9
+ Percent complete:  49.0
+ Percent complete:  50.0
+ Percent complete:  51.0
+ Percent complete:  52.1
+ Percent complete:  53.1
+ Percent complete:  54.2
+ Percent complete:  55.2
+ Percent complete:  56.2
+ Percent complete:  57.3
+ Percent complete:  58.3
+ Percent complete:  59.4
+ Percent complete:  60.4
+ Percent complete:  61.5
+ Percent complete:  62.5
+ Percent complete:  63.5
+ Percent complete:  64.6
+ Percent complete:  65.6
+ Percent complete:  66.7
+ Percent complete:  67.7
+ Percent complete:  68.8
+ Percent complete:  69.8
+ Percent complete:  70.8
+ Percent complete:  71.9
+ Percent complete:  72.9
+ Percent complete:  74.0
+ Percent complete:  75.0
+ Percent complete:  76.0
+ Percent complete:  77.1
+ Percent complete:  78.1
+ Percent complete:  79.2
+ Percent complete:  80.2
+ Percent complete:  81.2
+ Percent complete:  82.3
+ Percent complete:  83.3
+ Percent complete:  84.4
+ Percent complete:  85.4
+ Percent complete:  86.5
+ Percent complete:  87.5
+ Percent complete:  88.5
+ Percent complete:  89.6
+ Percent complete:  90.6
+ Percent complete:  91.7
+ Percent complete:  92.7
+ Percent complete:  93.8
+ Percent complete:  94.8
+ Percent complete:  95.8
+ Percent complete:  96.9
+ Percent complete:  97.9
+ Percent complete:  99.0
+ Percent complete: 100.0
+ Complete Hysplit
+ Complete Hysplit
+ Finalized Hysplit MPI version
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+ Complete Hysplit
+Folder /home/vulcanomod/Operational_modelling/Runs/operational exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/FALL3D/20200416 exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416 exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416 exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6 exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416 exists
+Folder /home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6 exists
+Error processing FALL3D in parallel
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump2 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump2 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump2 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump3 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump3 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump3 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump4 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump4 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump4 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump5 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump5 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump5 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump6 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump6 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump6 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump7 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump7 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump7 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump8 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/min/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump8 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/avg/output/cdump_temp
+salloc -n 1 srun /home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec/concadd -i/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump8 -b/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_base -o/home/vulcanomod/Operational_modelling/Runs/operational/HYSPLIT/20200416/6/max/output/cdump_temp
+Error processing HYSPLIT outputs in parallel

@@ -1,0 +1,54 @@
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1932: UserWarning: Ignoring netCDF variable 'lev' invalid units 'sigma_level'
+  warnings.warn(msg)
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1932: UserWarning: Ignoring netCDF variable 'tephra_cloud_top' invalid units 'm (a.s.l.)'
+  warnings.warn(msg)
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1932: UserWarning: Ignoring netCDF variable 'lev' invalid units 'sigma_level'
+  warnings.warn(msg)
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'longitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'latitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1932: UserWarning: Ignoring netCDF variable 'tephra_cloud_top' invalid units 'm (a.s.l.)'
+  warnings.warn(msg)
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1932: UserWarning: Ignoring netCDF variable 'lev' invalid units 'sigma_level'
+  warnings.warn(msg)
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1932: UserWarning: Ignoring netCDF variable 'lev' invalid units 'sigma_level'
+  warnings.warn(msg)
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'longitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'latitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1932: UserWarning: Ignoring netCDF variable 'lev' invalid units 'sigma_level'
+  warnings.warn(msg)
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1932: UserWarning: Ignoring netCDF variable 'lev' invalid units 'sigma_level'
+  warnings.warn(msg)
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/fileformats/_pyke_rules/compiled_krb/fc_rules_cf_fc.py:1932: UserWarning: Ignoring netCDF variable 'tephra_cloud_top' invalid units 'm (a.s.l.)'
+  warnings.warn(msg)
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'longitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'latitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/ash_model_plotting_project/ash-model-plotting/ash_model_plotting/ash_model_results/hysplit.py:65: UserWarning: Source data has no units for air_concentration, using g/m3.
+  warn(f"Source data has no units for air_concentration, "
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'longitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'latitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1355: UserWarning: Collapsing a non-contiguous coordinate. Metadata may not be fully descriptive for 'Top height of each layer'.
+  warnings.warn(msg.format(self.name()))
+/home/vulcanomod/ash_model_plotting_project/ash-model-plotting/ash_model_plotting/ash_model_results/hysplit.py:65: UserWarning: Source data has no units for air_concentration, using g/m3.
+  warn(f"Source data has no units for air_concentration, "
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'longitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'latitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1355: UserWarning: Collapsing a non-contiguous coordinate. Metadata may not be fully descriptive for 'Top height of each layer'.
+  warnings.warn(msg.format(self.name()))
+/home/vulcanomod/ash_model_plotting_project/ash-model-plotting/ash_model_plotting/ash_model_results/hysplit.py:65: UserWarning: Source data has no units for air_concentration, using g/m3.
+  warn(f"Source data has no units for air_concentration, "
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'longitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1138: UserWarning: Coordinate 'latitude' is not bounded, guessing contiguous bounds.
+  'contiguous bounds.'.format(self.name()))
+/home/vulcanomod/anaconda3/envs/ash_model_plotting/lib/python3.7/site-packages/iris/coords.py:1355: UserWarning: Collapsing a non-contiguous coordinate. Metadata may not be fully descriptive for 'Top height of each layer'.
+  warnings.warn(msg.format(self.name()))
