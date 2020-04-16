@@ -4,7 +4,7 @@ from pathos.multiprocessing import ThreadingPool
 
 ROOT = os.getcwd()
 RUNS = os.path.join(ROOT,'Runs')
-NP = int(os.environ["SLURM_JOB_CPUS_PER_NODE"])
+#NP = int(os.environ["SLURM_JOB_CPUS_PER_NODE"])
 
 parser = argparse.ArgumentParser(description='Input data for the post_processing script')
 parser.add_argument('--mode',default='operational',help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
