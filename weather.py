@@ -206,7 +206,7 @@ def extract_data_gfs(wtfile, wtfile_int, profile_grb, profile):
 time_now = datetime.datetime.utcnow()
 syr,smo,sda,shr,shr_wt_st,shr_wt_run_st,today,yesterday,twodaysago,time_diff_hours = get_times(time_now)
 
-root = ('/home/vulcanomod/Operational_modelling')
+root = os.getcwd()
 weather_scripts_dir = os.path.join(root,'weather','scripts')
 if mode == 'operational':
     data_dir = os.path.join(root,'weather','data','operational')
