@@ -246,9 +246,9 @@ except:
 
 os.chdir(weather_scripts_dir)
 if shr_wt_run_st == '18':
-    command = 'srun -J python python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + yesterday
+    command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + yesterday
 else:
-    command = 'srun -J python python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + today
+    command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + today
 os.system(command)
 os.system('srun -J grib2nc sh grib2nc.sh ' + time_diff_hours)
 if mode == 'manual':
