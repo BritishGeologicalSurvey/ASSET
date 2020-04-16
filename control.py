@@ -802,7 +802,7 @@ def run_models(short_simulation):
 
             def run_hysplit_mpi(path):
                 os.chdir(path)
-                logger.write(os.getcwd())
+                #logger.write(os.getcwd())
                 command = 'srun -J HYSPLIT_mpi sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
                 os.system(command)
 
@@ -833,7 +833,7 @@ def run_models(short_simulation):
                         print('File ' + os.path.join(OUT, 'cdump' + str(i)) + ' not found')
 
             solutions = ['avg', 'max', 'min']
-            logger = open(os.path.join(ROOT,'logger.txt'),'a')
+            #logger = open(os.path.join(ROOT,'logger.txt'),'a')
             paths = []
             for solution in solutions:
                 SIM_solution = os.path.join(SIM, solution)
@@ -850,7 +850,6 @@ def run_models(short_simulation):
             try:
                 pool_hysplit_post = ThreadingPool(3)
                 pool_hysplit_post.map(post_processing_hysplit, solutions)
-                pool_hysplit_post.join()
             except:
                 print('Error processing HYSPLIT outputs in parallel')
 
