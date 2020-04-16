@@ -58,7 +58,7 @@ else:
         lat_min = args.latmin
         lat_max = args.latmax
 
-def post_process_model(NP):
+def post_process_model():
     def post_process_solution(output_folder, output_file, model_in):
         try:
             output_dir = os.path.join(output_folder,'iris_outputs')
@@ -66,8 +66,7 @@ def post_process_model(NP):
                 os.mkdir(output_dir)
             except:
                 print('Folder ' + output_dir + ' already exists')
-            print('plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir + ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' + model_in)
-            os.system('plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir + ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' + model_in)
+            os.system('srun -J plot_ADM plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir + ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' + model_in)
         except:
             print('Unable to process ' + output_file)
 
@@ -108,7 +107,7 @@ def post_process_model(NP):
                 file_check = True
                 try:
                     temp_cdo_file = file + '_cdo'
-                    os.system('salloc -n 1 cdo -selyear,2020/2999 ' + os.path.join(folder,file) + ' ' + os.path.join(folder,temp_cdo_file) + ' &> cdo.txt')
+                    os.system('srun -J CDO cdo -selyear,2020/2999 ' + os.path.join(folder,file) + ' ' + os.path.join(folder,temp_cdo_file) + ' &> cdo.txt')
                     os.rename(os.path.join(folder,temp_cdo_file), os.path.join(folder,file))
                 except:
                     file_check = False
@@ -119,7 +118,7 @@ def post_process_model(NP):
     for folder in solution_folders[3:6]:
         model_type.append('hysplit')
         files = os.listdir(folder)
-        file_check = False  # If no res.nc file found, it remains False and decrease NP
+        file_check = False  # If no res.nc file found, it remains False
         for file in files:
             if file.endswith('.nc'):
                 file_check = True
@@ -132,10 +131,9 @@ def post_process_model(NP):
     try:
         pool_solution_post = ThreadingPool(len(solution_folders))
         pool_solution_post.map(post_process_solution, solution_folders, solution_files, model_type)
-        pool_solution_post.join()
     except:
         print('Error processing outputs in parallel')
 
-post_process_model(NP)
+post_process_model()
 
 
