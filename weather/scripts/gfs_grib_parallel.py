@@ -21,6 +21,7 @@ gribfiles = []
 arlfiles = []
 HYSPLIT = '/home/vulcanomod/HYSPLIT'
 API2ARL = os.path.join(HYSPLIT,'hysplit.v4.2.0','exec','api2arl_v4')
+API2ARL_CFG = os.path.join(os.getcwd(),'api2arl.cfg')
 
 def lat_type(str):
     try:
@@ -136,7 +137,9 @@ def main():
         request.save_data()
 
     def convert_to_arl(gribfile,arlfile):
-        os.system('srun -J api2arl + ' + API2ARL + ' -dapi2arl.cfg -i' + gribfile + ' -o' + arlfile)
+        print(os.getcwd())
+        print('srun -J api2arl + ' + API2ARL + ' -d' + API2ARL_CFG + ' -i' + gribfile + ' -o' + arlfile)
+        os.system('srun -J api2arl + ' + API2ARL + ' -d' + API2ARL_CFG + ' -i' + gribfile + ' -o' + arlfile)
 
     pool = ThreadingPool(args.time[1]+1)
     pool.map(launch_requests,timesteps)
