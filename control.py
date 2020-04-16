@@ -81,20 +81,6 @@ def get_times(time):
     smo_2d = twodaysago_t.strftime('%m')
     sda_2d = twodaysago_t.strftime('%d')
     twodaysago = syr_2d+smo_2d+sda_2d
-    # if int(shr) >= 6:
-    #       if int(shr) >= 12:
-    #           if int(shr) >= 18:
-    #               shr_wt_st = '18'
-    #           else:
-    #               shr_wt_st = '12'
-    #       else:
-    #           shr_wt_st = '6'
-    # else:
-    #       time = time - datetime.timedelta(days=1)
-    #       syr = time.strftime('%Y')
-    #       smo = time.strftime('%m')
-    #       sda = time.strftime('%d')
-    #       shr_wt_st = '0'
     shr_wt_st = '{:01d}'.format(int(shr))
     shr_wt_end = str(int(shr_wt_st) + int(run_duration))
     return syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago
@@ -212,7 +198,7 @@ def run_foxi():
                 fix_config.write(fix_config_records[i] + '\n')
 
     os.chdir(REFIR)
-    foxi_command = 'python FOXI.py background operational'
+    foxi_command = 'srun -J REFIR_FOXI python FOXI.py background operational'
     os.system(foxi_command)
     os.chdir(ROOT)
     return esps_dur, esps_plh, summit, volc_lat, volc_lon, tgsd
@@ -222,11 +208,13 @@ def run_refir():
     volcano_list_file = os.path.join(REFIR_CONFIG,'volcano_list.ini')
     os.system('source activate refir')
     os.chdir(REFIR_CONFIG)
-    foxset_command = 'python FoxSet.py'
+    foxset_command = 'srun -J REFIR_FoxSet python FoxSet.py'
     os.system(foxset_command)
     os.chdir(REFIR)
-    refir_command = 'python REFIR.py'
-    os.system(refir_command)
+    fix_command = 'srun -J REFIR_FIX python FIX.py &'
+    foxi_command = 'srun -J REFIR_FOXI python FOXI.py &'
+    os.system(fix_command)
+    os.system(foxi_command)
     with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
         for line in volcano_list:
             try:
@@ -556,9 +544,9 @@ def run_models(short_simulation):
             def run_scripts(solution):
                 RUN = os.path.join(RUNS_TIME, solution)
                 INPUT = os.path.join(RUN, mode + '_' + solution + '.inp')
-                command_setdbs = 'salloc -n ' + str(np) + ' -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
-                command_setsrc = 'salloc -n 1  -t 01:00:00 ' + FALL3D + ' SetSrc ' + INPUT
-                command_fall3d = 'salloc -n ' + str(np) + ' -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz) + ' &'
+                command_setdbs = 'salloc -n ' + str(np) + ' -J FALL3D_SetDbs -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
+                command_setsrc = 'salloc -n 1 -J FALL3D_SetSrc -t 01:00:00 ' + FALL3D + ' SetSrc ' + INPUT
+                command_fall3d = 'salloc -n ' + str(np) + ' -J FALL3D -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
                 os.system(command_setdbs)
                 os.system(command_setsrc)
                 os.system(command_fall3d)
@@ -566,7 +554,7 @@ def run_models(short_simulation):
                 solutions = ['avg','max','min']
                 pool_fall3d = ThreadingPool(3)
                 pool_fall3d.map(run_scripts,solutions)
-                pool_fall3d.join()
+                #pool_fall3d.join()
             except:
                 print('Error processing FALL3D in parallel')
 
@@ -812,17 +800,10 @@ def run_models(short_simulation):
             ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
             ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
 
-            def run_scripts(solution):
-                def run_hysplit_mpi(path):
-                    os.chdir(path)
-                    command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
-                    os.system(command)
-
-                SIM_solution = os.path.join(SIM,solution)
-                RUN = os.path.join(SIM_solution, 'runs')
-                for i in range(1,int(n_bins) + 1):
-                    path = os.path.join(RUN,'poll'+str(i),'run')
-                    run_hysplit_mpi(path)
+            def run_hysplit_mpi(path):
+                os.chdir(path)
+                command = 'srun -J HYSPLIT_mpi sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
+                os.system(command)
 
             def post_processing_hysplit(solution):
                 SIM_solution = os.path.join(SIM, solution)
@@ -836,20 +817,14 @@ def run_models(short_simulation):
                 else:
                     os.rename(os.path.join(OUT,'cdump1'), os.path.join(OUT,'cdump_base'))
                     for i in range(2, int(n_bins) + 1):
-                        print('salloc -n 1 srun ' + os.path.join(HYSPLIT, 'concadd') + ' -i' + os.path.join(OUT,'cdump') + str(
-                                i) + ' -b' + os.path.join(OUT,'cdump_base') + ' -o' + os.path.join(OUT,'cdump_temp'))
-                        os.system('salloc -n 1 srun ' + os.path.join(HYSPLIT, 'concadd') + ' -i' + os.path.join(OUT,'cdump') + str(
+                        os.system('srun -J HYSPLIT_concadd ' + os.path.join(HYSPLIT, 'concadd') + ' -i' + os.path.join(OUT,'cdump') + str(
                                 i) + ' -b' + os.path.join(OUT,'cdump_base') + ' -o' + os.path.join(OUT,'cdump_temp'))
                         os.rename(os.path.join(OUT,'cdump_temp'), os.path.join(OUT,'cdump_base'))
                 try:
                     os.rename(os.path.join(OUT,'cdump_base'), os.path.join(OUT,'cdump'))
                 except:
                     print('File ' + os.path.join(OUT,'cdump_base') + ' not found')
-                os.system('salloc -n 1 srun ' + os.path.join(HYSPLIT, 'con2cdf4') + ' ' + os.path.join(OUT,'cdump') + ' ' + os.path.join(OUT,'cdump.nc'))
-                #try:
-                #    os.remove(os.path.join(OUT,'cdump'))
-                #except:
-                #    print('File ' + os.path.join(OUT, 'cdump') + ' not found')
+                os.system('srun -J HYSPLIT_con2cdf4 ' + os.path.join(HYSPLIT, 'con2cdf4') + ' ' + os.path.join(OUT,'cdump') + ' ' + os.path.join(OUT,'cdump.nc'))
                 for i in range(2, int(n_bins) + 1):
                     try:
                         os.remove(os.path.join(OUT, 'cdump' + str(i)))
@@ -857,17 +832,22 @@ def run_models(short_simulation):
                         print('File ' + os.path.join(OUT, 'cdump' + str(i)) + ' not found')
 
             solutions = ['avg', 'max', 'min']
-            #try:
-            #    pool_hysplit = ThreadingPool(3)
-            #    pool_hysplit.map(run_scripts,solutions)
-            #except:
-            #    print('Error processing HYSPLIT in parallel')
+            paths = []
             for solution in solutions:
-                run_scripts(solution)
+                SIM_solution = os.path.join(SIM, solution)
+                RUN = os.path.join(SIM_solution, 'runs')
+                for i in range(1, int(n_bins) + 1):
+                    path = os.path.join(RUN, 'poll' + str(i), 'run')
+                    paths.append(path)
+            try:
+                pool_hysplit = ThreadingPool(len(paths))
+                pool_hysplit.map(run_hysplit_mpi,paths)
+            except:
+                print('Error processing HYSPLIT in parallel')
+
             try:
                 pool_hysplit_post = ThreadingPool(3)
                 pool_hysplit_post.map(post_processing_hysplit, solutions)
-                pool_hysplit_post.join()
             except:
                 print('Error processing HYSPLIT outputs in parallel')
 

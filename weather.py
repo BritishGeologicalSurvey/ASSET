@@ -124,9 +124,9 @@ def extract_data_gfs(wtfile, wtfile_int, profile_grb, profile):
     lon_corner = str(int(lon_corner - 2))
     lat_corner = str(int(lat_corner - 2))
     os.system(
-        'salloc -n 1 srun wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + lon_corner + ':400:0.01 ' + lat_corner + ':400:0.01 ' + wtfile_int)
+        'srun -J wgrib2 wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + lon_corner + ':400:0.01 ' + lat_corner + ':400:0.01 ' + wtfile_int)
     print('Saving weather data along the vertical at the vent location')
-    os.system('salloc -n 1 srun wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' + profile_grb)
+    os.system('srun -J wgrib2 wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' + profile_grb)
     file = open(profile_grb, "r",encoding="utf-8", errors="surrogateescape")
     records1 = []
     records2 = []
@@ -206,7 +206,7 @@ def extract_data_gfs(wtfile, wtfile_int, profile_grb, profile):
 time_now = datetime.datetime.utcnow()
 syr,smo,sda,shr,shr_wt_st,shr_wt_run_st,today,yesterday,twodaysago,time_diff_hours = get_times(time_now)
 
-root = ('/home/vulcanomod/Operational_modelling')
+root = os.getcwd()
 weather_scripts_dir = os.path.join(root,'weather','scripts')
 if mode == 'operational':
     data_dir = os.path.join(root,'weather','data','operational')
@@ -250,7 +250,7 @@ if shr_wt_run_st == '18':
 else:
     command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + today
 os.system(command)
-os.system('sh grib2nc.sh ' + time_diff_hours)
+os.system('srun -J grib2nc sh grib2nc.sh ' + time_diff_hours)
 if mode == 'manual':
     os.rename('operational.nc',mode + '.nc')
 os.system('cat *.arl > ' + mode + '.arl')
