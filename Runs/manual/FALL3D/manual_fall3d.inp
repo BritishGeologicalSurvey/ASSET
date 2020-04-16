@@ -1,0 +1,177 @@
+!
+!-----------------------------------------------------
+!
+!   FALL3D : EXAMPLE INPUT FILE
+!   VERSION: 8.x
+!   NOTE   : This file has no backwards compatibility
+!            with versions 7.x or lower
+!
+!-----------------------------------------------------
+!
+ ----
+ CODE
+ ----
+   !
+   VERSION 8.0
+   !
+--------
+TIME_UTC
+--------
+   YEAR  = xxxx
+   MONTH = xx
+   DAY   = xx
+   RUN_START_(HOURS_AFTER_00) = xx
+   RUN_END_(HOURS_AFTER_00)   = xx
+   INITIAL_CONDITION          = NONE
+   RESTART_FILE               = operational.rst.nc
+   !
+ ----------
+ METEO_DATA
+ ----------
+   METEO_DATA_FORMAT          = GRIB2NC
+   METEO_DATA_FILE            = xxxx
+   METEO_LEVELS_FILE          = /home/vulcanomod/FALL3D/fall3d-8.0.1/Other/Meteo/Tables/GFS.tbl
+   !
+   DBS_BEGIN_METEO_DATA_(HOURS_AFTER_00) = xx
+   DBS_END_METEO_DATA_(HOURS_AFTER_00)   = xx
+   METEO_COUPLING_INTERVAL_(MIN)         = 60
+   !
+ ----
+ GRID
+ ----
+   HORIZONTAL_MAPPING = SPHERICAL
+   VERTICAL_MAPPING   = SIGMA_NO_DECAY
+   LONMIN = xx
+   LONMAX = xx
+   LATMIN = xx
+   LATMAX = xx
+   NX RESOLUTION = 0.25
+   NY RESOLUTION = 0.25
+   NZ = xx
+   ZMAX_(M) = xxxx
+ -------
+ SPECIES
+ -------
+   TEPHRA = On
+   DUST   = Off
+   H2O    = Off   MASS_FRACTION_(%) = 0.
+   SO2    = Off   MASS_FRACTION_(%) = 0.
+   CS134  = Off   MASS_FRACTION_(%) = 0.
+   CS137  = Off   MASS_FRACTION_(%) = 0.
+   I131   = Off   MASS_FRACTION_(%) = 0.
+   SR90   = Off   MASS_FRACTION_(%) = 0.
+   Y90    = Off   MASS_FRACTION_(%) = 0.
+ -------------
+ TEPHRA_TGSD
+ -------------
+   NUMBER_OF_BINS   = 12
+   FI_RANGE         = -2 9
+   DENSITY_RANGE    = 1200 2300
+   SPHERICITY_RANGE = 0.9  0.9
+   DISTRIBUTION     = GAUSSIAN
+     !
+     IF_GAUSSIAN    FI_MEAN  = 2.5        FI_DISP = 1.5
+     IF_BIGAUSSIAN  FI_MEAN  = 0.25 0.75  FI_DISP = 1.44 1.46  MIXING_FACTOR = 0.5
+     IF_WEIBULL     FI_SCALE = 1.0        W_SHAPE = 1.0
+     IF_BIWEIBULL   FI_SCALE = 1.0  1.0   W_SHAPE = 1.0  1.0  MIXING_FACTOR = 0.5
+     IF_CUSTOM      FILE = my_file.tgsd
+     IF_ESTIMATE    VISCOSITY_(PAS) = 1d6  HEIGHT_ABOVE_VENT_(M) = 20000
+ -------------
+ CS137_TGSD
+ CS134_TGSD
+ I131_TGSD
+ SR90_TGSD
+ Y90_TGSD
+ -------------
+   NUMBER_OF_BINS   = 11
+   FI_RANGE         = -2 8
+   DENSITY_RANGE    = 1200 2300
+   SPHERICITY_RANGE = 0.9  0.9
+   DISTRIBUTION     = GAUSSIAN
+     !
+     IF_GAUSSIAN    FI_MEAN  = 2.5        FI_DISP = 1.5
+     IF_BIGAUSSIAN  FI_MEAN  = 0.25 0.75  FI_DISP = 1.44 1.46  MIXING_FACTOR = 0.5
+     IF_WEIBULL     FI_SCALE = 1.0        W_SHAPE = 1.0
+     IF_BIWEIBULL   FI_SCALE = 1.0  1.0   W_SHAPE = 1.0  1.0  MIXING_FACTOR = 0.5
+     IF_CUSTOM      FILE = my_file.tgsd
+     IF_ESTIMATE    VISCOSITY_(PAS) = 1d6  HEIGHT_ABOVE_VENT_(M) = 20000
+ ---------------------
+ PARTICLE_AGGREGATION
+  --------------------
+   PARTICLE_CUT_OFF          = D_MIC_LARGER_THAN 500
+   AGGREGATION_MODEL         = PERCENTAGE
+   NUMBER_OF_AGGREGATE_BINS  = 2
+   DIAMETER_AGGREGATES_(MIC) = 250. 100.
+   DENSITY_AGGREGATES_(KGM3) = 350. 250.
+   PERCENTAGE_(%)            = 20.   10.
+   VSET_FACTOR               = 0.5
+   FRACTAL_EXPONENT          = 2.99
+------
+SOURCE
+------
+   SOURCE_TYPE                   = TOP-HAT
+   SOURCE_START_(HOURS_AFTER_00) = xx
+   SOURCE_END_(HOURS_AFTER_00)   = xx
+   LON_VENT        = xx
+   LAT_VENT        = xx
+   VENT_HEIGHT_(M) = xx
+   !
+   HEIGHT_ABOVE_VENT_(M)         = xx
+   MASS_FLOW_RATE_(KGS)          = xx   
+   IF_TOP-HAT_SOURCE
+      THICKNESS_(M) = xx
+   EXIT_TEMPERATURE_(K)          = 1200.
+   EXIT_WATER_FRACTION_(%)       = 0.
+   !
+ -------------
+ MODEL_PHYSICS
+ -------------
+   LIMITER                     = SUPERBEE
+   TIME_MARCHING               = EULER
+   CFL_CRITERION               = ALL_DIMENSIONS
+   CFL_SAFETY_FACTOR           = 0.9
+   !
+   TERMINAL_VELOCITY_MODEL     = GANSER
+   HORIZONTAL_TURBULENCE_MODEL constant = 0.0 ! CMAQ
+   VERTICAL_TURBULENCE_MODEL   constant = 0.0 ! SIMILARITY
+   WET_DEPOSITION              = no
+   DRY_DEPOSITION              = no
+   GRAVITY_CURRENT             = no
+   !
+   IF_GRAVITY_CURRENT
+      C_FLOW_RATE               = 0.87d3
+      LAMBDA_GRAV               = 0.2
+      K_ENTRAIN                 = 0.1
+      BRUNT_VAISALA             = 0.02
+      GC_START_(HOURS_AFTER_00) = 0
+      GC_END_(HOURS_AFTER_00)   = 3
+   !
+ -------------
+ MODEL_OUTPUT
+ -------------
+   !
+   PARALLEL_IO                   = NO
+   LOG_FILE_LEVEL                = FULL
+   RESTART_TIME_INTERVAL_(HOURS) = END_ONLY
+   OUTPUT_INTERMEDIATE_FILES     = no
+   OUTPUT_TIME_START_(HOURS)     = RUN_START
+   OUTPUT_TIME_INTERVAL_(HOURS)  = 1.
+   OUTPUT_3D_CONCENTRATION       = yes
+   OUTPUT_3D_CONCENTRATION_BINS  = no
+   OUTPUT_COLUMN_LOAD            = yes
+   OUTPUT_CLOUD_TOP              = yes
+   OUTPUT_GROUND_LOAD            = yes
+   OUTPUT_GROUND_LOAD_BINS       = no
+   OUTPUT_WET_DEPOSITION         = no
+   TRACK_POINTS                  = no
+   TRACK_POINTS_FILE             = my_file.pts
+   !
+   OUTPUT_CONCENTRATION_AT_XCUTS = no
+      X-VALUES  15
+   OUTPUT_CONCENTRATION_AT_YCUTS = no
+      Y-VALUES  37.5
+   OUTPUT_CONCENTRATION_AT_ZCUTS = yes
+      Z-VALUES  5000 10000 15000
+   OUTPUT_CONCENTRATION_AT_FL    = yes
+      FL-VALUES  50 100 150 200 250 300 350 400
+
