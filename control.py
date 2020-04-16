@@ -546,7 +546,7 @@ def run_models(short_simulation):
                 INPUT = os.path.join(RUN, mode + '_' + solution + '.inp')
                 command_setdbs = 'salloc -n ' + str(np) + ' -J FALL3D_SetDbs -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
                 command_setsrc = 'salloc -n 1 -J FALL3D_SetSrc -t 01:00:00 ' + FALL3D + ' SetSrc ' + INPUT
-                command_fall3d = 'salloc -n ' + str(np) + ' -J FALL3D -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz) + ' &'
+                command_fall3d = 'salloc -n ' + str(np) + ' -J FALL3D -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
                 os.system(command_setdbs)
                 os.system(command_setsrc)
                 os.system(command_fall3d)
@@ -554,7 +554,7 @@ def run_models(short_simulation):
                 solutions = ['avg','max','min']
                 pool_fall3d = ThreadingPool(3)
                 pool_fall3d.map(run_scripts,solutions)
-                pool_fall3d.join()
+                #pool_fall3d.join()
             except:
                 print('Error processing FALL3D in parallel')
 
@@ -802,6 +802,7 @@ def run_models(short_simulation):
 
             def run_hysplit_mpi(path):
                 os.chdir(path)
+                logger.write(os.getcwd())
                 command = 'srun -J HYSPLIT_mpi sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
                 os.system(command)
 
@@ -832,6 +833,7 @@ def run_models(short_simulation):
                         print('File ' + os.path.join(OUT, 'cdump' + str(i)) + ' not found')
 
             solutions = ['avg', 'max', 'min']
+            logger = open(os.path.join(ROOT,'logger.txt'),'a')
             paths = []
             for solution in solutions:
                 SIM_solution = os.path.join(SIM, solution)
@@ -839,7 +841,6 @@ def run_models(short_simulation):
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
                     paths.append(path)
-
             try:
                 pool_hysplit = ThreadingPool(len(paths))
                 pool_hysplit.map(run_hysplit_mpi,paths)
