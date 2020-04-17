@@ -3,7 +3,6 @@ import datetime
 import shutil
 import argparse
 from pathos.multiprocessing import ThreadingPool
-from sh import cd
 
 # Folder structure
 ROOT = os.getcwd()
@@ -802,8 +801,7 @@ def run_models(short_simulation):
             ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
 
             def run_hysplit_mpi(path):
-                cd(path)
-                #os.chdir(path)
+                os.chdir(path)
                 logger.write(path + '\n' + os.getcwd()+'\n\n')
                 command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
                 os.system(command)
