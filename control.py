@@ -800,11 +800,20 @@ def run_models(short_simulation):
             ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
             ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
 
-            def run_hysplit_mpi(path):
-                os.chdir(path)
-                logger.write(path + '\n' + os.getcwd()+'\n\n')
-                command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
-                os.system(command)
+            #def run_hysplit_mpi(path):
+            #    os.chdir(path)
+            #    logger.write(path + '\n' + os.getcwd()+'\n\n')
+            #    command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
+            #    os.system(command)
+            def run_hysplit_mpi(solution):
+                SIM_solution = os.path.join(SIM, solution)
+                RUN = os.path.join(SIM_solution, 'runs')
+                for i in range(1, int(n_bins) + 1):
+                    path = os.path.join(RUN, 'poll' + str(i), 'run')
+                    os.chdir(path)
+                    logger.write(path + '\n' + os.getcwd()+'\n\n')
+                    command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
+                    os.system(command)
 
             def post_processing_hysplit(solution):
                 SIM_solution = os.path.join(SIM, solution)
@@ -835,18 +844,18 @@ def run_models(short_simulation):
             logger = open(os.path.join(ROOT,'logger.txt'),'a')
             solutions = ['avg', 'max', 'min']
             #paths = []
-            for solution in solutions:
-                SIM_solution = os.path.join(SIM, solution)
-                RUN = os.path.join(SIM_solution, 'runs')
-                for i in range(1, int(n_bins) + 1):
-                    path = os.path.join(RUN, 'poll' + str(i), 'run')
-                    #paths.append(path)
-                    run_hysplit_mpi(path)
-            #try:
-            #    pool_hysplit = ThreadingPool(len(paths))
-            #    pool_hysplit.map(run_hysplit_mpi,paths)
-            #except:
-            #    print('Error processing HYSPLIT in parallel')
+            # for solution in solutions:
+            #     SIM_solution = os.path.join(SIM, solution)
+            #     RUN = os.path.join(SIM_solution, 'runs')
+            #     for i in range(1, int(n_bins) + 1):
+            #         path = os.path.join(RUN, 'poll' + str(i), 'run')
+            #         #paths.append(path)
+            #         run_hysplit_mpi(path)
+            try:
+                pool_hysplit = ThreadingPool(len(solutions))
+                pool_hysplit.map(run_hysplit_mpi,solutions)
+            except:
+                print('Error processing HYSPLIT in parallel')
 
             try:
                 pool_hysplit_post = ThreadingPool(3)
