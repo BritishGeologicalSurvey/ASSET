@@ -841,6 +841,7 @@ def run_models(short_simulation):
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
                     paths.append(path)
+                    logger.write(path + '\n')
             try:
                 pool_hysplit = ThreadingPool(len(paths))
                 pool_hysplit.map(run_hysplit_mpi,paths)
