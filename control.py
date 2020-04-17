@@ -858,9 +858,11 @@ def run_models(short_simulation):
 
     mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation = read_refir_outputs(short_simulation)
     programs = ['fall3d','hysplit']
-    pool_programs = ThreadingPool(2)
-    pool_programs.map(controller, programs)
-    pool_programs.join()
+    for program in programs:
+        controller(program)
+    #pool_programs = ThreadingPool(2)
+    #pool_programs.map(controller, programs)
+    #pool_programs.join()
 
 time_now = datetime.datetime.utcnow()
 syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
