@@ -802,8 +802,9 @@ def run_models(short_simulation):
 
             def run_hysplit_mpi(path):
                 os.chdir(path)
-                logger.write(path+'\n')
+                logger.write(os.getcwd()+'\n')
                 command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
+                logger.write(command + '\n')
                 os.system(command)
 
             def post_processing_hysplit(solution):
@@ -841,7 +842,6 @@ def run_models(short_simulation):
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
                     paths.append(path)
-                    logger.write(path + '\n')
             try:
                 pool_hysplit = ThreadingPool(len(paths))
                 pool_hysplit.map(run_hysplit_mpi,paths)
