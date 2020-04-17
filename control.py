@@ -811,8 +811,7 @@ def run_models(short_simulation):
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
                     os.chdir(path)
-                    logger.write(path + '\n' + os.getcwd()+'\n\n')
-                    command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
+                    command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std &'
                     os.system(command)
 
             def post_processing_hysplit(solution):
@@ -841,7 +840,6 @@ def run_models(short_simulation):
                     except:
                         print('File ' + os.path.join(OUT, 'cdump' + str(i)) + ' not found')
 
-            logger = open(os.path.join(ROOT,'logger.txt'),'a')
             solutions = ['avg', 'max', 'min']
             #paths = []
             # for solution in solutions:
