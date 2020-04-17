@@ -852,12 +852,14 @@ def run_models(short_simulation):
             #         path = os.path.join(RUN, 'poll' + str(i), 'run')
             #         #paths.append(path)
             #         run_hysplit_mpi(path)
-            try:
-                pool_hysplit = ThreadingPool(len(solutions))
-                pool_hysplit.map(run_hysplit_mpi,solutions)
-                pool_hysplit.join()
-            except:
-                print('Error processing HYSPLIT in parallel')
+            #try:
+            #    pool_hysplit = ThreadingPool(len(solutions))
+            #    pool_hysplit.map(run_hysplit_mpi,solutions)
+            #    pool_hysplit.join()
+            #except:
+            #    print('Error processing HYSPLIT in parallel')
+            for solution in solutions:
+                run_hysplit_mpi(solution)
 
             try:
                 pool_hysplit_post = ThreadingPool(3)
