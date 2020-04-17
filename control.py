@@ -802,7 +802,7 @@ def run_models(short_simulation):
 
             def run_hysplit_mpi(path):
                 os.chdir(path)
-                command = 'srun -J HYSPLIT_mpi sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
+                command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
                 os.system(command)
 
             def post_processing_hysplit(solution):
