@@ -8,7 +8,7 @@ shr=$(date -u +%H)
 
 source ~/.bashrc
 conda activate ash_dispersion_modelling
-cd /home/vulcanomod/Operational_modelling
+cd /home/vulcanomod/Operational_modelling/BGS-AADM
 python weather.py > log/log_weather_$shr.txt # Download weather data
 python control.py --set=True > log/log_models_$shr.txt # Add options
 conda deactivate
@@ -17,4 +17,4 @@ process_id=$!
 wait $process_id
 mv cdo.txt log/
 mv post_processing.err log/
-mv post_provessing.txt log/
+mv post_processing.txt log/
