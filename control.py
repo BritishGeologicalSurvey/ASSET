@@ -802,6 +802,7 @@ def run_models(short_simulation):
 
             def run_hysplit_mpi(path):
                 os.chdir(path)
+                logger.write(path+'\n')
                 command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
                 os.system(command)
 
@@ -831,6 +832,7 @@ def run_models(short_simulation):
                     except:
                         print('File ' + os.path.join(OUT, 'cdump' + str(i)) + ' not found')
 
+            logger = open(os.path.join(ROOT,'logger.txt'),'a')
             solutions = ['avg', 'max', 'min']
             paths = []
             for solution in solutions:
@@ -858,11 +860,9 @@ def run_models(short_simulation):
 
     mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation = read_refir_outputs(short_simulation)
     programs = ['fall3d','hysplit']
-    for program in programs:
-        controller(program)
-    #pool_programs = ThreadingPool(2)
-    #pool_programs.map(controller, programs)
-    #pool_programs.join()
+    pool_programs = ThreadingPool(2)
+    pool_programs.map(controller, programs)
+    pool_programs.join()
 
 time_now = datetime.datetime.utcnow()
 syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
