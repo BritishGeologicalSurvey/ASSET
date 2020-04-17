@@ -852,6 +852,7 @@ def run_models(short_simulation):
             try:
                 pool_hysplit = ThreadingPool(len(solutions))
                 pool_hysplit.map(run_hysplit_mpi,solutions)
+                pool_hysplit.join()
             except:
                 print('Error processing HYSPLIT in parallel')
 
