@@ -834,18 +834,19 @@ def run_models(short_simulation):
 
             logger = open(os.path.join(ROOT,'logger.txt'),'a')
             solutions = ['avg', 'max', 'min']
-            paths = []
+            #paths = []
             for solution in solutions:
                 SIM_solution = os.path.join(SIM, solution)
                 RUN = os.path.join(SIM_solution, 'runs')
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
-                    paths.append(path)
-            try:
-                pool_hysplit = ThreadingPool(len(paths))
-                pool_hysplit.map(run_hysplit_mpi,paths)
-            except:
-                print('Error processing HYSPLIT in parallel')
+                    #paths.append(path)
+                    run_hysplit_mpi(path)
+            #try:
+            #    pool_hysplit = ThreadingPool(len(paths))
+            #    pool_hysplit.map(run_hysplit_mpi,paths)
+            #except:
+            #    print('Error processing HYSPLIT in parallel')
 
             try:
                 pool_hysplit_post = ThreadingPool(3)
