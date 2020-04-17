@@ -811,7 +811,10 @@ def run_models(short_simulation):
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
                     os.chdir(path)
-                    command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std &'
+                    if i == int(n_bins) + 1:
+                        command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
+                    else:
+                        command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std &'
                     os.system(command)
 
             def post_processing_hysplit(solution):
