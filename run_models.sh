@@ -1,10 +1,10 @@
 #!/bin/bash
 shr=$(date -u +%H)
-if [ $shr -eq 0 ] || [ $shr -eq 6 ] || [ $shr -eq 12 ] || [ $shr -eq 18 ]; then
-    echo $shr
-else
-    exit
-fi
+#if [ $shr -eq 0 ] || [ $shr -eq 6 ] || [ $shr -eq 12 ] || [ $shr -eq 18 ]; then
+#    echo $shr
+#else
+#    exit
+#fi
 
 source ~/.bashrc
 conda activate ash_dispersion_modelling
