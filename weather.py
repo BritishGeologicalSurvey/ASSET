@@ -6,12 +6,12 @@ from pathos.multiprocessing import ThreadingPool
 import pandas as pd
 
 parser = argparse.ArgumentParser(description='Input data for the control script')
-parser.add_argument('--set',default='True',help='Read simulation parameters from operational_settings.txt')
+parser.add_argument('--set',default='True',help='True or False. True: Read simulation parameters from operational_settings.txt. False: simulation parameters are read from the other arguments')
 parser.add_argument('--mode',default='operational',help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
-parser.add_argument('--latmin',default='True',help='Domain minimum latitude')
-parser.add_argument('--latmax',default='True',help='Domain maximum latitude')
-parser.add_argument('--lonmin',default='True',help='Domain minimum longitude')
-parser.add_argument('--lonmax',default='True',help='Domain maximum longitude')
+parser.add_argument('--latmin',default='999',help='Domain minimum latitude')
+parser.add_argument('--latmax',default='999',help='Domain maximum latitude')
+parser.add_argument('--lonmin',default='999',help='Domain minimum longitude')
+parser.add_argument('--lonmax',default='999',help='Domain maximum longitude')
 parser.add_argument('--dur',default='96',help='Simulation duration')
 parser.add_argument('--volc',default='999',help='Smithsonian Institude volcano ID')
 args = parser.parse_args()
@@ -51,8 +51,51 @@ elif settings_file == 'False':
     lat_max = args.latmax
     lon_min = args.lonmin
     lon_max = args.lonmax
-    duration = int(args.dur)
-    volc_id = int(args.volc)
+    try:
+        duration = int(args.dur)
+        if duration <= 0:
+            print('Please provide a valid duration (> 0)')
+            exit()
+    except:
+        print('Please provide a valid duration')
+        exit()
+    try:
+        volc_id = int(args.volc)
+        if volc_id <= 0:
+            print('Please provide a valid ID (> 0)')
+            exit()
+    except:
+        print('Please provide a valid ID')
+    if lat_min == '999':
+        print('Please specify a valid value for lat_min')
+        exit()
+    if lat_max == '999':
+        print('Please specify a valid value for lat_max')
+        exit()
+    if lon_min == '999':
+        print('Please specify a valid value for lon_min')
+        exit()
+    if lon_max == '999':
+        print('Please specify a valid value for lon_max')
+        exit()
+    if float(lat_max) > 90 or float(lat_max) < -90:
+        print('lat_max not in the valid range -90 < latitude < 90. Please specify a valid value')
+        exit()
+    if float(lat_min) > 90 or float(lat_min) < -90:
+        print('lat_min not in the valid range -90 < latitude < 90. Please specify a valid value')
+        exit()
+    if float(lat_min) >= float(lat_max):
+        print('lat_min greater than or equal to lat_max. Please check the values')
+        exit()
+    if float(lon_min) > 180 or float(lon_min) < -180:
+        print('lon_min not in the valid range -90 < longitude < 90. Please specify a valid value')
+        exit()
+    if float(lon_max) > 180 or float(lon_max) < -180:
+        print('lon_max not in the valid range -90 < longitude < 90. Please specify a valid value')
+        exit()
+    if float(lon_min) >= float(lon_max):
+        print('lon_min greater than or equal to lon_max. Please check the values')
+        exit()
 else:
     print('Wrong value for variable --set')
     exit()

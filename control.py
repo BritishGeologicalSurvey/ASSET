@@ -58,17 +58,68 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     lon_min = float(lon_min)
     lat_max = float(lat_max)
     lat_min = float(lat_min)
+    if lat_min == 999:
+        print('Please specify a valid value for lat_min')
+        exit()
+    if lat_max == 999:
+        print('Please specify a valid value for lat_max')
+        exit()
+    if lon_min == 999:
+        print('Please specify a valid value for lon_min')
+        exit()
+    if lon_max == 999:
+        print('Please specify a valid value for lon_max')
+        exit()
+    if lat_max > 90 or lat_max < -90:
+        print('lat_max not in the valid range -90 < latitude < 90. Please specify a valid value')
+        exit()
+    if lat_min > 90 or lat_min < -90:
+        print('lat_min not in the valid range -90 < latitude < 90. Please specify a valid value')
+        exit()
+    if lat_min >= lat_max:
+        print('lat_min greater than or equal to lat_max. Please check the values')
+        exit()
+    if lon_min > 180 or lon_min < -180:
+        print('lon_min not in the valid range -90 < longitude < 90. Please specify a valid value')
+        exit()
+    if lon_max > 180 or lon_max < -180:
+        print('lon_max not in the valid range -90 < longitude < 90. Please specify a valid value')
+        exit()
+    if lon_min >= lon_max:
+        print('lon_min greater than or equal to lon_max. Please check the values')
+        exit()
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
-    volc_id = int(volc_id)
-    n_processes = int(n_processes)
-    run_duration = int(run_duration)
+    try:
+        volc_id = int(volc_id)
+        if volc_id <= 0:
+            print('Please provide a valid ID (> 0)')
+            exit()
+    except:
+        print('Please provide a valid ID')
+
+    try:
+        n_processes = int(n_processes)
+        if n_processes <= 0:
+            print('Please provide a valid number of processes (> 0)')
+            exit()
+    except:
+        print('Please provide a valid number of processes')
+    try:
+        run_duration = int(run_duration)
+        if run_duration <= 0:
+            print('Please provide a valid duration (> 0)')
+            exit()
+    except:
+        print('Please provide a valid duration')
+        exit()
     if Iceland_scenario == 'True':
         Iceland_scenario = True
     elif Iceland_scenario == 'False':
         Iceland_scenario = False
     else:
         print('Wrong value for variable --i')
+        exit()
     return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration
 
 def get_times(time):
