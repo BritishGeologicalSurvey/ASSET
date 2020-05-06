@@ -14,7 +14,7 @@ TGSDS = os.path.join(ROOT,'TGSDs')
 # Parse input arguments
 parser = argparse.ArgumentParser(description='Input data for the control script')
 parser.add_argument('--mode',default='operational',help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
-parser.add_argument('--set',default='True',help='Read simulation parameters from operational_settings.txt')
+parser.add_argument('--set',default='True',help='True: Read simulation parameters from operational_settings.txt. False: simulation parameters are read from the other arguments')
 parser.add_argument('--volc',default=999,help='This is the volcano ID based on the Smithsonian Institute IDs')
 parser.add_argument('--np',default=0,help='Number of processes for parallel processing')
 parser.add_argument('--s',default='True',help='True or False. True: run REFIR for 5 minutes; False: run REFIR for the duration set by the ESPs database')
