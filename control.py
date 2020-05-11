@@ -183,7 +183,7 @@ def run_foxi():
         print('Folder ' + REFIR_CONFIG_OPERATIONAL + ' already exists')
     for file in setting_files:
         if file.endswith('ini'):
-            shutil.copy(file,REFIR_CONFIG_OPERATIONAL)
+            shutil.copy(file,os.path.join(REFIR_CONFIG_OPERATIONAL,file))
     volcano_list_file = os.path.join(REFIR_CONFIG, 'volcano_list.ini')
     fix_config_records = []
 
