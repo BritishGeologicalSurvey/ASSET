@@ -262,7 +262,7 @@ def run_refir():
     foxset_command = 'python FoxSet.py'
     os.system(foxset_command)
     os.chdir(REFIR)
-    fix_command = 'python FIX.py &'
+    fix_command = 'python FIX.py'
     foxi_command = 'python FOXI.py background manual'
     os.system(fix_command)
     os.system(foxi_command)
