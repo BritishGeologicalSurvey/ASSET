@@ -181,8 +181,8 @@ def run_foxi():
             fix_config_records.append(line.split('\n')[0])
 
     esps_dur, esps_plh, summit, volc_lat, volc_lon = read_esps_database()
-    if esps_dur > 24:
-        esps_dur = 24
+    if esps_dur > run_duration:
+        esps_dur = run_duration
 
     if short_simulation:
         time_end = time_now + datetime.timedelta(minutes=5)
@@ -289,8 +289,8 @@ def run_refir():
             lines.append(line)
     er_dur = lines[173]
     er_dur = float(er_dur.split('\n')[0])
-    if er_dur > 24:
-        er_dur = 24
+    if er_dur > run_duration or er_dur == 0:
+        er_dur = run_duration
     tgsd = 'user_defined'
     return er_dur, summit, volc_lat, volc_lon, tgsd
 
@@ -342,14 +342,13 @@ def run_models(short_simulation):
                 for line in mer_file_r:
                     try:
                         minute = int(line.split('\t')[1])
-                        if minute == 5:
-                            mer_min = line.split('\t')[2]
-                            mer_min = mer_min.split('.')[0]
-                            mer_avg = line.split('\t')[3]
-                            mer_avg = mer_avg.split('.')[0]
-                            mer_max = line.split('\t')[4]
-                            mer_max = mer_max.split('\n')[0]
-                            mer_max = mer_max.split('.')[0]
+                        mer_min = line.split('\t')[2]
+                        mer_min = mer_min.split('.')[0]
+                        mer_avg = line.split('\t')[3]
+                        mer_avg = mer_avg.split('.')[0]
+                        mer_max = line.split('\t')[4]
+                        mer_max = mer_max.split('\n')[0]
+                        mer_max = mer_max.split('.')[0]
                     except:
                         continue
             with open(plh_file, 'r', encoding="utf-8", errors="surrogateescape") as plh_file_r:
@@ -359,14 +358,13 @@ def run_models(short_simulation):
                 for line in plh_file_r:
                     try:
                         minute = int(line.split('\t')[1])
-                        if minute == 5:
-                            plh_min = line.split('\t')[2]
-                            plh_min = plh_min.split('.')[0]
-                            plh_avg = line.split('\t')[3]
-                            plh_avg = plh_avg.split('.')[0]
-                            plh_max = line.split('\t')[4]
-                            plh_max = plh_max.split('\n')[0]
-                            plh_max = plh_max.split('.')[0]
+                        plh_min = line.split('\t')[2]
+                        plh_min = plh_min.split('.')[0]
+                        plh_avg = line.split('\t')[3]
+                        plh_avg = plh_avg.split('.')[0]
+                        plh_max = line.split('\t')[4]
+                        plh_max = plh_max.split('\n')[0]
+                        plh_max = plh_max.split('.')[0]
                     except:
                         continue
         else:
@@ -855,7 +853,7 @@ def run_models(short_simulation):
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
                     os.chdir(path)
-                    if i == int(n_bins) + 1:
+                    if i == int(n_bins):
                         command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
                     else:
                         command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std &'
