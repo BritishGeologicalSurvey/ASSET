@@ -262,10 +262,8 @@ def run_refir():
     foxset_command = 'python FoxSet.py'
     os.system(foxset_command)
     os.chdir(REFIR)
-    fix_command = 'python FIX.py'
-    foxi_command = 'python FOXI.py background manual'
-    os.system(fix_command)
-    os.system(foxi_command)
+    refir_command = 'python REFIR.py'
+    os.system(refir_command)
     with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
         for line in volcano_list:
             try:
@@ -955,6 +953,7 @@ if mode == 'operational':
 else:
     eruption_dur, summit, volc_lat, volc_lon, tgsd = run_refir()
     # now download weather data
+    os.chdir(ROOT)
     os.system('python ' + os.path.join(ROOT,'weather.py') + ' --mode=manual --set=False --latmin=' + '{:.1f}'.format(lat_min) + ' --latmax=' + '{:.1f}'.format(lat_max) + ' --lonmin=' + '{:.1f}'.format(lon_min) + ' --lonmax=' + '{:.1f}'.format(lon_max))
 # Check the tgsd file is available in TGSDs
 tgsd_file = os.path.join(TGSDS,tgsd)
