@@ -173,7 +173,18 @@ def run_foxi():
 
     shutil.copy(os.path.join(ROOT, 'fix_config.txt'), os.path.join(REFIR, 'fix_config.txt'))
     fix_config_file = os.path.join(REFIR, 'fix_config.txt')
-    volcano_list_file = os.path.join(REFIR, 'refir_config', 'volcano_list.ini')
+    REFIR_CONFIG = os.path.join(REFIR, 'refir_config')
+    REFIR_CONFIG_OPERATIONAL = os.path.join(REFIR_CONFIG,'operational_setting')
+    print('Storing configuration files in ' + REFIR_CONFIG_OPERATIONAL)
+    setting_files = os.listdir(REFIR_CONFIG)
+    try:
+        os.mkdir(REFIR_CONFIG_OPERATIONAL)
+    except FileExistsError:
+        print('Folder ' + REFIR_CONFIG_OPERATIONAL + ' already exists')
+    for file in setting_files:
+        if file.endswith('ini'):
+            shutil.copy(file,REFIR_CONFIG_OPERATIONAL)
+    volcano_list_file = os.path.join(REFIR_CONFIG, 'volcano_list.ini')
     fix_config_records = []
 
     with open(fix_config_file, 'r', encoding="utf-8", errors="surrogateescape") as fix_config:
@@ -256,6 +267,7 @@ def run_foxi():
 
 def run_refir():
     REFIR_CONFIG = os.path.join(REFIR,'refir_config')
+    REFIR_CONFIG_OPERATIONAL = os.path.join(REFIR_CONFIG, 'operational_setting')
     volcano_list_file = os.path.join(REFIR_CONFIG,'volcano_list.ini')
     os.system('source activate refir')
     os.chdir(REFIR_CONFIG)
@@ -292,6 +304,10 @@ def run_refir():
     if er_dur > run_duration or er_dur == 0:
         er_dur = run_duration
     tgsd = 'user_defined'
+    print('Restoring pre-existing coniguration files in ' + REFIR_CONFIG)
+    original_config_files = os.listdir(REFIR_CONFIG_OPERATIONAL)
+    for file in original_config_files:
+        shutil.copy(os.path.join(REFIR_CONFIG_OPERATIONAL,file),REFIR_CONFIG)
     return er_dur, summit, volc_lat, volc_lon, tgsd
 
 def run_models(short_simulation):
