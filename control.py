@@ -249,7 +249,7 @@ def run_foxi():
                 fix_config.write(fix_config_records[i] + '\n')
 
     os.chdir(REFIR)
-    foxi_command = 'srun -J REFIR_FOXI python FOXI.py background operational'
+    foxi_command = 'python FOXI.py background operational'
     os.system(foxi_command)
     os.chdir(ROOT)
     return esps_dur, esps_plh, summit, volc_lat, volc_lon, tgsd
@@ -259,11 +259,11 @@ def run_refir():
     volcano_list_file = os.path.join(REFIR_CONFIG,'volcano_list.ini')
     os.system('source activate refir')
     os.chdir(REFIR_CONFIG)
-    foxset_command = 'srun -J REFIR_FoxSet python FoxSet.py'
+    foxset_command = 'python FoxSet.py'
     os.system(foxset_command)
     os.chdir(REFIR)
-    fix_command = 'srun -J REFIR_FIX python FIX.py &'
-    foxi_command = 'srun -J REFIR_FOXI python FOXI.py &'
+    fix_command = 'python FIX.py &'
+    foxi_command = 'python FOXI.py background manual'
     os.system(fix_command)
     os.system(foxi_command)
     with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
@@ -955,7 +955,7 @@ if mode == 'operational':
 else:
     eruption_dur, summit, volc_lat, volc_lon, tgsd = run_refir()
     # now download weather data
-    os.system('python ' + os.path.join(ROOT,'weather_new.py') + ' --mode=manual --set=False --latmin=' + '{:.1f}'.format(lat_min) + ' --latmax=' + '{:.1f}'.format(lat_max) + ' --lonmin=' + '{:.1f}'.format(lon_min) + ' --lonmax=' + '{:.1f}'.format(lon_max))
+    os.system('python ' + os.path.join(ROOT,'weather.py') + ' --mode=manual --set=False --latmin=' + '{:.1f}'.format(lat_min) + ' --latmax=' + '{:.1f}'.format(lat_max) + ' --lonmin=' + '{:.1f}'.format(lon_min) + ' --lonmax=' + '{:.1f}'.format(lon_max))
 # Check the tgsd file is available in TGSDs
 tgsd_file = os.path.join(TGSDS,tgsd)
 if not os.path.exists(tgsd_file):
