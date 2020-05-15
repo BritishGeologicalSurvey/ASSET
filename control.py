@@ -24,6 +24,7 @@ parser.add_argument('--latmax',default=999,help='Domain maximum latitude')
 parser.add_argument('--lonmin',default=999,help='Domain minimum longitude')
 parser.add_argument('--lonmax',default=999,help='Domain maximum longitude')
 parser.add_argument('--dur',default=96,help='Ash dispersion simulation duration')
+parser.add_argument('--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -36,6 +37,7 @@ lon_max = args.lonmax
 lat_min = args.latmin
 lat_max = args.latmax
 run_duration = args.dur
+start_time = args.start_time
 if settings_file == 'True':
     settings_file = True
 elif settings_file == 'False':
@@ -52,6 +54,12 @@ if mode != 'manual' and mode != 'operational':
     print('Wrong value for variable --mode')
     print('Execution stopped')
     exit()
+if start_time != '999':
+    try:
+        start_time_datetime = datetime.datetime.strptime(start_time, format('%d/%m/%Y-%H:%M'))
+    except:
+        print('Unable to read starting time. Please check the format')
+        exit()
 
 def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration):
     lon_max = float(lon_max)
@@ -120,6 +128,7 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     else:
         print('Wrong value for variable --i')
         exit()
+
     return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration
 
 def get_times(time):
@@ -922,7 +931,10 @@ def run_models(short_simulation):
     pool_programs.map(controller, programs)
     pool_programs.join()
 
-time_now = datetime.datetime.utcnow()
+if start_time != '999' and mode == 'manual':
+    time_now = start_time_datetime
+else:
+    time_now = datetime.datetime.utcnow()
 syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
 
 if settings_file:
@@ -955,8 +967,7 @@ if settings_file:
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
 else:
-    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration = convert_args(
-        volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration)
+    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration)
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy

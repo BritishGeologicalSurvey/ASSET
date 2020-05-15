@@ -14,7 +14,7 @@ parser.add_argument('--lonmin',default='999',help='Domain minimum longitude')
 parser.add_argument('--lonmax',default='999',help='Domain maximum longitude')
 parser.add_argument('--dur',default='96',help='Simulation duration')
 parser.add_argument('--volc',default='999',help='Smithsonian Institude volcano ID')
-parser.add_argument('--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM)')
+parser.add_argument('--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
 args = parser.parse_args()
 settings_file = args.set
 mode = args.mode
@@ -253,7 +253,7 @@ def extract_data_gfs(wtfile, wtfile_int, profile_grb, profile):
         hgt[i], p[i], tmp_k[i], tmp_c[i], u[i], v[i], wind[i]))
     wt_output.close()
 
-if start_time != '999':
+if start_time != '999' and mode == 'manual':
     time_now = start_time_datetime
 else:
     time_now = datetime.datetime.utcnow()
