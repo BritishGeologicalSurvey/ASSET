@@ -269,7 +269,7 @@ def run_foxi():
                 fix_config.write(fix_config_records[i] + '\n')
 
     os.chdir(REFIR)
-    foxi_command = 'python FOXI.py background operational'
+    foxi_command = 'python FOXI.py -M background -N operational'
     os.system(foxi_command)
     os.chdir(ROOT)
     return esps_dur, esps_plh, summit, volc_lat, volc_lon, tgsd
