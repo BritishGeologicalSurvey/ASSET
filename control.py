@@ -875,16 +875,18 @@ def run_models(short_simulation):
             ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
 
             def run_hysplit_mpi(solution):
+                import subprocess
                 SIM_solution = os.path.join(SIM, solution)
                 RUN = os.path.join(SIM_solution, 'runs')
+                ps = []
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
                     os.chdir(path)
-                    if i == int(n_bins):
-                        command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std'
-                    else:
-                        command = 'sh ' + os.path.join(HYSPLIT, 'run_mpi.sh') + ' ' + '{:.0f}'.format(ncpu_per_pollutant) + ' hycm_std &'
-                    os.system(command)
+                    p = subprocess.Popen(['sh',os.path.join(HYSPLIT, 'run_mpi.sh'),'{:.0f}'.format(ncpu_per_pollutant), 'hycm_std'])
+                    ps.append(p)
+                for p in ps:
+                    p.wait()
+
 
             def post_processing_hysplit(solution):
                 SIM_solution = os.path.join(SIM, solution)
