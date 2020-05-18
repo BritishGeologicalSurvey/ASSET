@@ -283,7 +283,7 @@ def run_refir():
     foxset_command = 'python FoxSet.py'
     os.system(foxset_command)
     os.chdir(REFIR)
-    fix_command = 'python FIX.py &'
+    fix_command = 'python FIX.py'
     os.system(fix_command)
     foxi_command = 'python FOXI.py -M background -N manual -T eruption_start -E ' + datetime.datetime.strftime(time_now,format('%d/%m/%Y-%H:%M'))
     os.system(foxi_command)
