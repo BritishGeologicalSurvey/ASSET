@@ -981,7 +981,7 @@ else:
     eruption_dur, summit, volc_lat, volc_lon, tgsd = run_refir()
     # now download weather data
     os.chdir(ROOT)
-    os.system('python ' + os.path.join(ROOT,'weather.py') + ' --mode=manual --set=False --latmin=' + '{:.1f}'.format(lat_min) + ' --latmax=' + '{:.1f}'.format(lat_max) + ' --lonmin=' + '{:.1f}'.format(lon_min) + ' --lonmax=' + '{:.1f}'.format(lon_max))
+    os.system('python ' + os.path.join(ROOT,'weather.py') + ' --mode=manual --set=False --latmin=' + '{:.1f}'.format(lat_min) + ' --latmax=' + '{:.1f}'.format(lat_max) + ' --lonmin=' + '{:.1f}'.format(lon_min) + ' --lonmax=' + '{:.1f}'.format(lon_max) + ' --start_time=' + datetime.datetime.strftime(time_now,format('%d/%m/%Y-%H:%M')))
 # Check the tgsd file is available in TGSDs
 tgsd_file = os.path.join(TGSDS,tgsd)
 if not os.path.exists(tgsd_file):
