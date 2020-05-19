@@ -283,9 +283,9 @@ def run_refir():
     foxset_command = 'python FoxSet.py'
     os.system(foxset_command)
     os.chdir(REFIR)
-    fix_command = 'python FIX.py'
+    fix_command = 'python FIX.py &'
     os.system(fix_command)
-    foxi_command = 'python FOXI.py -M background -N manual -T eruption_start -E ' + datetime.datetime.strftime(time_now,format('%d/%m/%Y-%H:%M'))
+    foxi_command = 'python FOXI.py'# -M background -N manual -T eruption_start -E ' + datetime.datetime.strftime(time_now,format('%d/%m/%Y-%H:%M'))
     os.system(foxi_command)
     with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
         for line in volcano_list:
@@ -882,7 +882,7 @@ def run_models(short_simulation):
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
                     os.chdir(path)
-                    p = subprocess.Popen(['sh',os.path.join(HYSPLIT, 'run_mpi.sh'),'{:.0f}'.format(ncpu_per_pollutant), 'hycm_std'])
+                    p = subprocess.Popen(['sh',os.path.join(HYSPLIT, 'run_mpi.sh'),'{:.0f}'.format(ncpu_per_pollutant), 'hycm_std','&'])
                     ps.append(p)
                 for p in ps:
                     p.wait()
