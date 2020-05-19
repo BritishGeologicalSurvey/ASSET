@@ -14,9 +14,11 @@ parser.add_argument('--lonmin',default='999',help='Domain minimum longitude')
 parser.add_argument('--lonmax',default='999',help='Domain maximum longitude')
 parser.add_argument('--dur',default='96',help='Simulation duration')
 parser.add_argument('--volc',default='999',help='Smithsonian Institude volcano ID')
+parser.add_argument('--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
 args = parser.parse_args()
 settings_file = args.set
 mode = args.mode
+start_time = args.start_time
 
 if mode != 'manual' and mode != 'operational':
     print('Wrong value for variable --mode')
@@ -99,6 +101,12 @@ elif settings_file == 'False':
 else:
     print('Wrong value for variable --set')
     exit()
+if start_time != '999':
+    try:
+        start_time_datetime = datetime.datetime.strptime(start_time,format('%d/%m/%Y-%H:%M'))
+    except:
+        print('Unable to read starting time. Please check the format')
+        exit()
 
 def get_times(time):
     import urllib3
@@ -245,7 +253,10 @@ def extract_data_gfs(wtfile, wtfile_int, profile_grb, profile):
         hgt[i], p[i], tmp_k[i], tmp_c[i], u[i], v[i], wind[i]))
     wt_output.close()
 
-time_now = datetime.datetime.utcnow()
+if start_time != '999' and mode == 'manual':
+    time_now = start_time_datetime
+else:
+    time_now = datetime.datetime.utcnow()
 syr,smo,sda,shr,shr_wt_st,shr_wt_run_st,today,yesterday,twodaysago,time_diff_hours = get_times(time_now)
 
 root = os.getcwd()

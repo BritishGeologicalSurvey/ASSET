@@ -24,6 +24,7 @@ parser.add_argument('--latmax',default=999,help='Domain maximum latitude')
 parser.add_argument('--lonmin',default=999,help='Domain minimum longitude')
 parser.add_argument('--lonmax',default=999,help='Domain maximum longitude')
 parser.add_argument('--dur',default=96,help='Ash dispersion simulation duration')
+parser.add_argument('--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -36,6 +37,7 @@ lon_max = args.lonmax
 lat_min = args.latmin
 lat_max = args.latmax
 run_duration = args.dur
+start_time = args.start_time
 if settings_file == 'True':
     settings_file = True
 elif settings_file == 'False':
@@ -52,6 +54,12 @@ if mode != 'manual' and mode != 'operational':
     print('Wrong value for variable --mode')
     print('Execution stopped')
     exit()
+if start_time != '999':
+    try:
+        start_time_datetime = datetime.datetime.strptime(start_time, format('%d/%m/%Y-%H:%M'))
+    except:
+        print('Unable to read starting time. Please check the format')
+        exit()
 
 def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration):
     lon_max = float(lon_max)
@@ -120,6 +128,7 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     else:
         print('Wrong value for variable --i')
         exit()
+
     return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration
 
 def get_times(time):
@@ -274,8 +283,10 @@ def run_refir():
     foxset_command = 'python FoxSet.py'
     os.system(foxset_command)
     os.chdir(REFIR)
-    refir_command = 'python REFIR.py'
-    os.system(refir_command)
+    fix_command = 'python FIX.py &'
+    os.system(fix_command)
+    foxi_command = 'python FOXI.py'
+    os.system(foxi_command)
     with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
         for line in volcano_list:
             try:
@@ -875,6 +886,10 @@ def run_models(short_simulation):
                     ps.append(p)
                 for p in ps:
                     p.wait()
+<<<<<<< control.py
+
+=======
+>>>>>>> control.py
 
             def post_processing_hysplit(solution):
                 SIM_solution = os.path.join(SIM, solution)
@@ -923,7 +938,10 @@ def run_models(short_simulation):
     pool_programs.map(controller, programs)
     pool_programs.join()
 
-time_now = datetime.datetime.utcnow()
+if start_time != '999' and mode == 'manual':
+    time_now = start_time_datetime
+else:
+    time_now = datetime.datetime.utcnow()
 syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
 
 if settings_file:
@@ -956,8 +974,7 @@ if settings_file:
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
 else:
-    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration = convert_args(
-        volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration)
+    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration)
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy
@@ -967,9 +984,7 @@ if mode == 'operational':
     eruption_dur, eruption_plh, summit, volc_lat, volc_lon, tgsd = run_foxi()
 else:
     eruption_dur, summit, volc_lat, volc_lon, tgsd = run_refir()
-    # now download weather data
     os.chdir(ROOT)
-    os.system('python ' + os.path.join(ROOT,'weather.py') + ' --mode=manual --set=False --latmin=' + '{:.1f}'.format(lat_min) + ' --latmax=' + '{:.1f}'.format(lat_max) + ' --lonmin=' + '{:.1f}'.format(lon_min) + ' --lonmax=' + '{:.1f}'.format(lon_max))
 # Check the tgsd file is available in TGSDs
 tgsd_file = os.path.join(TGSDS,tgsd)
 if not os.path.exists(tgsd_file):

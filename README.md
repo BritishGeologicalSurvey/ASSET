@@ -77,6 +77,7 @@ Executable of the ash-model-plotting package (https://github.com/BritishGeologic
 
 
 Improvements for the future:
+- specification of starting date and time in manual mode. This can be useful when running a case that started few hours ago. For doing so, FOXI needs to be modified to start the simulations in real-time at the time specified in the first widget (if this works)
 - selection of one dispersion model only
 - implementation of NAME (reanalysis mode only unless usage of GFS data is implemented)
 - possibility to bypass REFIR and use all data from ESPs database and/or specify plume height and MER in input
