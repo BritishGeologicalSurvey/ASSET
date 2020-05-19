@@ -886,10 +886,6 @@ def run_models(short_simulation):
                     ps.append(p)
                 for p in ps:
                     p.wait()
-<<<<<<< control.py
-
-=======
->>>>>>> control.py
 
             def post_processing_hysplit(solution):
                 SIM_solution = os.path.join(SIM, solution)
