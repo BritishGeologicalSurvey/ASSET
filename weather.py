@@ -6,15 +6,15 @@ from pathos.multiprocessing import ThreadingPool
 import pandas as pd
 
 parser = argparse.ArgumentParser(description='Input data for the control script')
-parser.add_argument('--set',default='True',help='True or False. True: Read simulation parameters from operational_settings.txt. False: simulation parameters are read from the other arguments')
-parser.add_argument('--mode',default='operational',help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
-parser.add_argument('--latmin',default='999',help='Domain minimum latitude')
-parser.add_argument('--latmax',default='999',help='Domain maximum latitude')
-parser.add_argument('--lonmin',default='999',help='Domain minimum longitude')
-parser.add_argument('--lonmax',default='999',help='Domain maximum longitude')
-parser.add_argument('--dur',default='96',help='Simulation duration')
-parser.add_argument('--volc',default='999',help='Smithsonian Institude volcano ID')
-parser.add_argument('--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
+parser.add_argument('-SET','--set',default='True',help='True or False. True: Read simulation parameters from operational_settings.txt. False: simulation parameters are read from the other arguments')
+parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
+parser.add_argument('-LATMIN','--latmin',default='999',help='Domain minimum latitude')
+parser.add_argument('-LATMAX','--latmax',default='999',help='Domain maximum latitude')
+parser.add_argument('-LONMIN','--lonmin',default='999',help='Domain minimum longitude')
+parser.add_argument('-LONMAX','--lonmax',default='999',help='Domain maximum longitude')
+parser.add_argument('-D','--dur',default='96',help='Ash dispersion simulation duration')
+parser.add_argument('-V','--volc',default='999',help='Smithsonian Institude volcano ID')
+parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
 args = parser.parse_args()
 settings_file = args.set
 mode = args.mode

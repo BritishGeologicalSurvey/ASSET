@@ -7,12 +7,12 @@ RUNS = os.path.join(ROOT,'Runs')
 #NP = int(os.environ["SLURM_JOB_CPUS_PER_NODE"])
 
 parser = argparse.ArgumentParser(description='Input data for the post_processing script')
-parser.add_argument('--mode',default='operational',help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
-parser.add_argument('--set',default='True',help='Read simulation parameters from operational_settings.txt')
-parser.add_argument('--latmin',default=999,help='Domain minimum latitude')
-parser.add_argument('--latmax',default=999,help='Domain maximum latitude')
-parser.add_argument('--lonmin',default=999,help='Domain minimum longitude')
-parser.add_argument('--lonmax',default=999,help='Domain maximum longitude')
+parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
+parser.add_argument('-SET','--set',default='True',help='Read simulation parameters from operational_settings.txt')
+parser.add_argument('-LATMIN','--latmin',default=999,help='Domain minimum latitude')
+parser.add_argument('-LATMAX','--latmax',default=999,help='Domain maximum latitude')
+parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longitude')
+parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
 args = parser.parse_args()
 mode = args.mode
 if mode != 'manual' and mode != 'operational':
