@@ -23,8 +23,9 @@ parser.add_argument('-LATMIN','--latmin',default=999,help='Domain minimum latitu
 parser.add_argument('-LATMAX','--latmax',default=999,help='Domain maximum latitude')
 parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longitude')
 parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
-parser.add_argument('-D','--dur',default=96,help='Ash dispersion simulation duration')
+parser.add_argument('-D','--dur',default=96,help='Ash dispersion simulation duration (hours)')
 parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
+parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours)')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -38,6 +39,7 @@ lat_min = args.latmin
 lat_max = args.latmax
 run_duration = args.dur
 start_time = args.start_time
+er_duration_input = args.er_duration
 if settings_file == 'True':
     settings_file = True
 elif settings_file == 'False':
@@ -60,6 +62,7 @@ if start_time != '999':
     except:
         print('Unable to read starting time. Please check the format')
         exit()
+er_duration_input = float(er_duration_input)
 
 def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration):
     lon_max = float(lon_max)
@@ -145,41 +148,35 @@ def get_times(time):
     shr_wt_end = str(int(shr_wt_st) + int(run_duration))
     return syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago
 
-def run_foxi():
-    def read_esps_database():
-        import pandas as pd
 
-        with open(volcano_list_file, 'r', encoding="utf-8", errors="surrogateescape") as volcano_list:
-            for line in volcano_list:
-                try:
-                    if int(line.split('\t')[0]) == volc_id:
-                        volc_lat = line.split('\t')[1]
-                        volc_lon = line.split('\t')[2]
-                except:
-                    continue
-        try:
-            database = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
+def read_esps_database():
+    import pandas as pd
+    try:
+        database = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
                                  sheetname='volcanoes')
-        except:
-            database = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
+    except:
+        database = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
                                      sheet_name='volcanoes')
-        nrows = database.shape[0]
-        row = 0
-        while True:
-            if database['SMITHSONIAN_ID'][row] == volc_id:
-                summit = database['ELEVATION_m'][row]
-                esps_dur = database['DURATION_hour'][row]
-                esps_plh = database['HEIGHT_ABOVE_VENT_km'][row] * 1000
-                esps_plh += summit
-
+    nrows = database.shape[0]
+    row = 0
+    while True:
+        if database['SMITHSONIAN_ID'][row] == volc_id:
+            volc_lat = database['LATITUDE'][row]
+            volc_lon = database['LONGITUDE'][row]
+            summit = database['ELEVATION_m'][row]
+            esps_dur = database['DURATION_hour'][row]
+            esps_plh = database['HEIGHT_ABOVE_VENT_km'][row] * 1000
+            esps_plh += summit
+            esps_mer = database['MASS_ERUPTION_RATES_kg/s'][row]
+            break
+        else:
+            row += 1
+            if row >= nrows:
+                print('ID not found')
                 break
-            else:
-                row += 1
-                if row >= nrows:
-                    print('ID not found')
-                    break
-        return esps_dur, esps_plh, summit, volc_lat, volc_lon
+    return esps_dur, esps_plh, esps_mer, summit, volc_lat, volc_lon
 
+def run_foxi():
     shutil.copy(os.path.join(ROOT, 'fix_config.txt'), os.path.join(REFIR, 'fix_config.txt'))
     fix_config_file = os.path.join(REFIR, 'fix_config.txt')
     REFIR_CONFIG = os.path.join(REFIR, 'refir_config')
@@ -193,14 +190,17 @@ def run_foxi():
     for file in setting_files:
         if file.endswith('ini'):
             shutil.copy(os.path.join(REFIR_CONFIG,file),os.path.join(REFIR_CONFIG_OPERATIONAL,file))
-    volcano_list_file = os.path.join(REFIR_CONFIG, 'volcano_list.ini')
     fix_config_records = []
-
     with open(fix_config_file, 'r', encoding="utf-8", errors="surrogateescape") as fix_config:
         for line in fix_config:
             fix_config_records.append(line.split('\n')[0])
-
-    esps_dur, esps_plh, summit, volc_lat, volc_lon = read_esps_database()
+    try:
+        esps_dur, esps_plh, dummy, summit, volc_lat, volc_lon = read_esps_database()
+    except:
+        print('Unable to read ESPs database')
+        exit()
+    if er_duration_input != 999:
+        esps_dur = er_duration_input
     if esps_dur > run_duration:
         esps_dur = run_duration
 
@@ -276,8 +276,6 @@ def run_foxi():
 
 def run_refir():
     REFIR_CONFIG = os.path.join(REFIR,'refir_config')
-    REFIR_CONFIG_OPERATIONAL = os.path.join(REFIR_CONFIG, 'operational_setting')
-    volcano_list_file = os.path.join(REFIR_CONFIG,'volcano_list.ini')
     os.system('source activate refir')
     os.chdir(REFIR_CONFIG)
     foxset_command = 'python FoxSet.py'
@@ -287,17 +285,20 @@ def run_refir():
     os.system(fix_command)
     foxi_command = 'python FOXI.py'
     os.system(foxi_command)
-    with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
-        for line in volcano_list:
-            try:
-                if int(line.split('\t')[0]) == volc_id:
-                    volc_lat = line.split('\t')[1]
-                    volc_lon = line.split('\t')[2]
-                    summit = float(line.split('\t')[3])
-                    #tgsd = line.split('\t')[5]
-                    #tgsd = tgsd.split('\n')[0]
-            except:
-                continue
+    try:
+        dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
+    except:
+        REFIR_CONFIG_OPERATIONAL = os.path.join(REFIR_CONFIG, 'operational_setting')
+        volcano_list_file = os.path.join(REFIR_CONFIG, 'volcano_list.ini')
+        with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
+            for line in volcano_list:
+                try:
+                    if int(line.split('\t')[0]) == volc_id:
+                        volc_lat = line.split('\t')[1]
+                        volc_lon = line.split('\t')[2]
+                        summit = float(line.split('\t')[3])
+                except:
+                    continue
     paths = []
     files = os.listdir(REFIR)
     for file in files:
@@ -310,8 +311,11 @@ def run_refir():
         lines = []
         for line in refir_config_r:
             lines.append(line)
-    er_dur = lines[173]
-    er_dur = float(er_dur.split('\n')[0])
+    if er_duration_input != 999:
+        er_dur = er_duration_input
+    else:
+        er_dur = lines[173] # This is updated by FIX if the ESPs usage is activated in FIX. Otherwise this is 0.
+        er_dur = float(er_dur.split('\n')[0])
     if er_dur > run_duration or er_dur == 0:
         er_dur = run_duration
     tgsd = 'user_defined'
@@ -361,6 +365,7 @@ def run_models(short_simulation):
             if lines == 2:
                 short_simulation = True # always convert to a short simulation if REFIR has been run manually for one time step only
             mer_file_r.close()
+        new_er_dur = 0
         if short_simulation:
             with open(mer_file, 'r', encoding="utf-8", errors="surrogateescape") as mer_file_r:
                 mer_min = ''
@@ -414,7 +419,8 @@ def run_models(short_simulation):
             for line in mer_file:
                 try:
                     minute = int(line.split('\t')[1])
-                    if minute % 60 == 0:
+                    if 0 <= minute % 60 <= 2 or 0 <= 60 % minute <= 2:
+                        new_er_dur = minute / 60
                         mer_min_tmp = line.split('\t')[2]
                         mer_min_tmp = mer_min_tmp.split('.')[0]
                         mer_min += ' ' + mer_min_tmp
@@ -432,7 +438,7 @@ def run_models(short_simulation):
             for line in plh_file:
                 try:
                     minute = int(line.split('\t')[1])
-                    if minute % 60 == 0:
+                    if 0 <= minute % 60 <= 2 or 0 <= 60 % minute <= 2:
                         plh_min_tmp = line.split('\t')[2]
                         plh_min_tmp = plh_min_tmp.split('.')[0]
                         plh_min += ' ' + plh_min_tmp
@@ -444,7 +450,47 @@ def run_models(short_simulation):
                         plh_max += ' ' + plh_max_tmp
                 except:
                     continue
-        return mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation
+            if new_er_dur < 1:
+                mer_min_new = 0
+                mer_avg_new = 0
+                mer_max_new = 0
+                plh_min_new = 0
+                plh_avg_new = 0
+                plh_max_new = 0
+                for line in mer_file:
+                    minute_max = float(line.split('\t')[1]) * 60
+                    mer_min_tmp = line.split('\t')[2]
+                    mer_min_tmp = mer_min_tmp.split('.')[0]
+                    mer_min_new += float(mer_min_tmp)
+                    mer_avg_tmp = line.split('\t')[3]
+                    mer_avg_tmp = mer_avg_tmp.split('.')[0]
+                    mer_avg_new += float(mer_avg_tmp)
+                    mer_max_tmp = line.split('\t')[4]
+                    mer_max_tmp = mer_max_tmp.split('.')[0]
+                    mer_max_new += float(mer_max_tmp)
+                mer_min_new = mer_min_new / minute_max
+                mer_min += ' ' + mer_min_new
+                mer_avg_new = mer_avg_new / minute_max
+                mer_avg += ' ' + mer_avg_new
+                mer_max_new = mer_max_new / minute_max
+                mer_max += ' ' + mer_max_new
+                for line in plh_file:
+                    plh_min_tmp = line.split('\t')[2]
+                    plh_min_tmp = plh_min_tmp.split('.')[0]
+                    plh_min_new += float(plh_min_tmp)
+                    plh_avg_tmp = line.split('\t')[3]
+                    plh_avg_tmp = plh_avg_tmp.split('.')[0]
+                    plh_avg_new += float(plh_avg_tmp)
+                    plh_max_tmp = line.split('\t')[4]
+                    plh_max_tmp = plh_max_tmp.split('.')[0]
+                    plh_max_new += float(plh_max_tmp)
+                plh_min_new = plh_min_new / minute_max
+                plh_min += ' ' + plh_min_new
+                plh_avg_new = plh_avg_new / minute_max
+                plh_avg += ' ' + plh_avg_new
+                plh_max_new = plh_max_new / minute_max
+                plh_max += ' ' + plh_max_new
+        return mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur
 
     def controller(program):
         def run_fall3d():
@@ -928,7 +974,9 @@ def run_models(short_simulation):
         elif program == 'hysplit':
             run_hysplit()
 
-    mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation = read_refir_outputs(short_simulation)
+    mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur = read_refir_outputs(short_simulation)
+    if new_er_dur != 0:
+        eruption_dur = new_er_dur
     programs = ['fall3d','hysplit']
     pool_programs = ThreadingPool(2)
     pool_programs.map(controller, programs)
