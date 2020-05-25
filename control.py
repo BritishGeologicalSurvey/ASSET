@@ -934,12 +934,6 @@ def run_models(short_simulation):
     pool_programs.map(controller, programs)
     pool_programs.join()
 
-if start_time != '999' and mode == 'manual':
-    time_now = start_time_datetime
-else:
-    time_now = datetime.datetime.utcnow()
-syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
-
 if settings_file:
     with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
         for line in settings:
@@ -975,6 +969,12 @@ dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy
 grid_centre_lon = lon_min + dx
+
+if start_time != '999' and mode == 'manual':
+    time_now = start_time_datetime
+else:
+    time_now = datetime.datetime.utcnow()
+syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
 
 if mode == 'operational':
     eruption_dur, eruption_plh, summit, volc_lat, volc_lon, tgsd = run_foxi()
