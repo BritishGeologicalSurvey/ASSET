@@ -782,7 +782,7 @@ def run_models(short_simulation):
                         for j in range(0, len(plh_vector)):
                             control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' + '{:.2f}'.format(float(volc_lon)) + ' ' + str(summit) + '\n')
                             control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' + '{:.2f}'.format(float(volc_lon)) + ' ' + '{:.2f}'.format(float(plh_vector[j])) + '\n')
-                        control_file.write(shr_wt_end + '\n')
+                        control_file.write('96\n')
                         control_file.write('0\n')
                         control_file.write(str(max_altitude) + '\n')
                         control_file.write('2\n')
