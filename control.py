@@ -276,6 +276,7 @@ def run_foxi():
 
 def run_refir():
     REFIR_CONFIG = os.path.join(REFIR,'refir_config')
+    REFIR_CONFIG_OPERATIONAL = os.path.join(REFIR_CONFIG, 'operational_setting')
     os.system('source activate refir')
     os.chdir(REFIR_CONFIG)
     foxset_command = 'python FoxSet.py'
@@ -288,7 +289,6 @@ def run_refir():
     try:
         dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
     except:
-        REFIR_CONFIG_OPERATIONAL = os.path.join(REFIR_CONFIG, 'operational_setting')
         volcano_list_file = os.path.join(REFIR_CONFIG, 'volcano_list.ini')
         with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
             for line in volcano_list:
@@ -325,7 +325,7 @@ def run_refir():
         shutil.copy(os.path.join(REFIR_CONFIG_OPERATIONAL,file),REFIR_CONFIG)
     return er_dur, summit, volc_lat, volc_lon, tgsd
 
-def run_models(short_simulation):
+def run_models(short_simulation, eruption_dur):
     def read_refir_outputs(short_simulation):
         files = os.listdir(REFIR)
         paths = []
@@ -401,22 +401,22 @@ def run_models(short_simulation):
                         continue
         else:
             try:
-                mer_file = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+                mer_file_r = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
                 for line in mer_file:
                     minute_dummy = int(line.split('\t')[1])
             except:
-                mer_file = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+                mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
             try:
-                plh_file = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+                plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
                 for line in mer_file:
                     minute_dummy = int(line.split('\t')[1])
             except:
-                plh_file = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+                plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
 
             mer_min = ''
             mer_avg = ''
             mer_max = ''
-            for line in mer_file:
+            for line in mer_file_r:
                 try:
                     minute = int(line.split('\t')[1])
                     if 0 <= minute % 60 <= 2 or 0 <= 60 % minute <= 2:
@@ -435,7 +435,7 @@ def run_models(short_simulation):
             plh_min = ''
             plh_avg = ''
             plh_max = ''
-            for line in plh_file:
+            for line in plh_file_r:
                 try:
                     minute = int(line.split('\t')[1])
                     if 0 <= minute % 60 <= 2 or 0 <= 60 % minute <= 2:
@@ -457,7 +457,7 @@ def run_models(short_simulation):
                 plh_min_new = 0
                 plh_avg_new = 0
                 plh_max_new = 0
-                for line in mer_file:
+                for line in mer_file_r:
                     minute_max = float(line.split('\t')[1]) * 60
                     mer_min_tmp = line.split('\t')[2]
                     mer_min_tmp = mer_min_tmp.split('.')[0]
@@ -474,7 +474,7 @@ def run_models(short_simulation):
                 mer_avg += ' ' + mer_avg_new
                 mer_max_new = mer_max_new / minute_max
                 mer_max += ' ' + mer_max_new
-                for line in plh_file:
+                for line in plh_file_r:
                     plh_min_tmp = line.split('\t')[2]
                     plh_min_tmp = plh_min_tmp.split('.')[0]
                     plh_min_new += float(plh_min_tmp)
@@ -1028,7 +1028,7 @@ if mode == 'operational':
     eruption_dur, eruption_plh, summit, volc_lat, volc_lon, tgsd = run_foxi()
 else:
     eruption_dur, summit, volc_lat, volc_lon, tgsd = run_refir()
-    os.chdir(ROOT)
+os.chdir(ROOT)
 # Check the tgsd file is available in TGSDs
 tgsd_file = os.path.join(TGSDS,tgsd)
 if not os.path.exists(tgsd_file):
@@ -1065,6 +1065,6 @@ else:
     except FileExistsError:
         print('Folder ' + RUNS + ' exists')
 
-run_models(short_simulation)
+run_models(short_simulation, eruption_dur)
 clean_folders()
 
