@@ -955,7 +955,7 @@ if settings_file:
                 volc_id = int(line.split('=')[1])
             elif line.split('=')[0] == 'NP':
                 n_processes = int(line.split('=')[1])
-            elif line.split('=')[0] == 'DURATION':
+            elif line.split('=')[0] == 'DURATION_[hours]':
                 run_duration = int(line.split('=')[1])
             elif line.split('=')[0] == 'SHORT_SIMULATION':
                 short_simulation = line.split('=')[1]
