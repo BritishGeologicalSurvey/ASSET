@@ -458,6 +458,7 @@ def run_models(short_simulation, eruption_dur):
                 plh_min_new = 0
                 plh_avg_new = 0
                 plh_max_new = 0
+                minute_max = 1
                 for line in mer_file_r:
                     minute_max = float(line.split('\t')[1]) * 60
                     mer_min_tmp = line.split('\t')[2]
