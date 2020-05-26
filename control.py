@@ -161,8 +161,8 @@ def read_esps_database():
     row = 0
     while True:
         if database['SMITHSONIAN_ID'][row] == volc_id:
-            volc_lat = database['LATITUDE'][row]
-            volc_lon = database['LONGITUDE'][row]
+            volc_lat = str(database['LATITUDE'][row])
+            volc_lon = str(database['LONGITUDE'][row])
             summit = database['ELEVATION_m'][row]
             esps_dur = database['DURATION_hour'][row]
             esps_plh = database['HEIGHT_ABOVE_VENT_km'][row] * 1000
