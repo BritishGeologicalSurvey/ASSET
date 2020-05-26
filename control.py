@@ -404,16 +404,11 @@ def run_models(short_simulation, eruption_dur):
             i = 0
             for line in mer_file_r:
                 i += 1
+            mer_file_r.close()
             if i == 1: #if the file is empty with just the header
-                mer_file_r.close()
                 mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
-            plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
-            i = 0
-            for line in plh_file_r:
-                i += 1
-            if i == 1: #if the file is empty with just the header
-                plh_file_r.close()
-                plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            else:
+                mer_file_r = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
             mer_min = ''
             mer_avg = ''
             mer_max = ''
@@ -433,6 +428,16 @@ def run_models(short_simulation, eruption_dur):
                         mer_max += ' ' + mer_max_tmp
                 except:
                     continue
+            mer_file_r.close()
+            plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            i = 0
+            for line in plh_file_r:
+                i += 1
+            plh_file_r.close()
+            if i == 1: #if the file is empty with just the header
+                plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            else:
+                plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
             plh_min = ''
             plh_avg = ''
             plh_max = ''
@@ -451,6 +456,7 @@ def run_models(short_simulation, eruption_dur):
                         plh_max += ' ' + plh_max_tmp
                 except:
                     continue
+            plh_file_r.close()
             if new_er_dur < 1:
                 mer_min_new = 0
                 mer_avg_new = 0
@@ -471,11 +477,11 @@ def run_models(short_simulation, eruption_dur):
                     mer_max_tmp = mer_max_tmp.split('.')[0]
                     mer_max_new += float(mer_max_tmp)
                 mer_min_new = mer_min_new / minute_max
-                mer_min += ' ' + mer_min_new
+                mer_min += ' ' + str(mer_min_new)
                 mer_avg_new = mer_avg_new / minute_max
-                mer_avg += ' ' + mer_avg_new
+                mer_avg += ' ' + str(mer_avg_new)
                 mer_max_new = mer_max_new / minute_max
-                mer_max += ' ' + mer_max_new
+                mer_max += ' ' + str(mer_max_new)
                 for line in plh_file_r:
                     plh_min_tmp = line.split('\t')[2]
                     plh_min_tmp = plh_min_tmp.split('.')[0]
@@ -487,11 +493,11 @@ def run_models(short_simulation, eruption_dur):
                     plh_max_tmp = plh_max_tmp.split('.')[0]
                     plh_max_new += float(plh_max_tmp)
                 plh_min_new = plh_min_new / minute_max
-                plh_min += ' ' + plh_min_new
+                plh_min += ' ' + str(plh_min_new)
                 plh_avg_new = plh_avg_new / minute_max
-                plh_avg += ' ' + plh_avg_new
+                plh_avg += ' ' + str(plh_avg_new)
                 plh_max_new = plh_max_new / minute_max
-                plh_max += ' ' + plh_max_new
+                plh_max += ' ' + str(plh_max_new)
         return mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur
 
     def controller(program):
