@@ -400,26 +400,27 @@ def run_models(short_simulation, eruption_dur):
                     except:
                         continue
         else:
-            try:
-                mer_file_r = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
-                for line in mer_file:
-                    minute_dummy = int(line.split('\t')[1])
-            except:
+            mer_file_r = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+            i = 0
+            for line in mer_file_r:
+                i += 1
+            if i == 1: #if the file is empty with just the header
+                mer_file_r.close()
                 mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
-            try:
-                plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
-                for line in mer_file:
-                    minute_dummy = int(line.split('\t')[1])
-            except:
+            plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            i = 0
+            for line in plh_file_r:
+                i += 1
+            if i == 1: #if the file is empty with just the header
+                plh_file_r.close()
                 plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
-
             mer_min = ''
             mer_avg = ''
             mer_max = ''
             for line in mer_file_r:
                 try:
                     minute = int(line.split('\t')[1])
-                    if 0 <= minute % 60 <= 2 or 0 <= 60 % minute <= 2:
+                    if minute % 60 == 0 or minute - 1 % 60 == 0 or minute + 1 % 60 == 0:
                         new_er_dur = minute / 60
                         mer_min_tmp = line.split('\t')[2]
                         mer_min_tmp = mer_min_tmp.split('.')[0]
@@ -438,7 +439,7 @@ def run_models(short_simulation, eruption_dur):
             for line in plh_file_r:
                 try:
                     minute = int(line.split('\t')[1])
-                    if 0 <= minute % 60 <= 2 or 0 <= 60 % minute <= 2:
+                    if minute % 60 == 0 or minute - 1 % 60 == 0 or minute + 1 % 60 == 0:
                         plh_min_tmp = line.split('\t')[2]
                         plh_min_tmp = plh_min_tmp.split('.')[0]
                         plh_min += ' ' + plh_min_tmp
