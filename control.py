@@ -385,6 +385,7 @@ def run_models(short_simulation, eruption_dur):
             if lines == 2:
                 short_simulation = True  # always convert to a short simulation if REFIR has been run manually for one time step only
             mer_file_r.close()
+        new_er_dur = 0
         if short_simulation:
             with open(mer_file, 'r', encoding="utf-8", errors="surrogateescape") as mer_file_r:
                 mer_min = ''
@@ -419,7 +420,6 @@ def run_models(short_simulation, eruption_dur):
                     except:
                         continue
         else:
-            new_er_dur = 0
             lines = 0
             with open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape") as mer_file_r:
                 for line in mer_file_r:
@@ -948,21 +948,17 @@ def run_models(short_simulation, eruption_dur):
                 em_file_records.append('YYYY MM DD HH MM DURATION(hhmm) LAT LON HGT(m) RATE(/h) AREA(m2) HEAT(w)\n')
                 start_time_short = datetime.datetime.strftime(time_now, "%Y %m %d %H")
                 time_emission = time_now
-                time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
-                if eruption_dur < 10:
-                    eruption_dur_s = '000' + str(int(round(eruption_dur + 0.5)))
-                else:
-                    eruption_dur_s = '00' + str(int(round(eruption_dur + 0.5)))
+                eruption_dur_s = '{:03d}'.format(int(round(eruption_dur + 0.49)))
                 em_file_records.append(start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n')
                 effective_time_end_emission = time_now + datetime.timedelta(hours=eruption_dur)
                 while True:
                     time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
                     if time_end_emission >= effective_time_end_emission:
+                        time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
                         time_difference = time_end_emission - effective_time_end_emission
                         time_end_emission -= time_difference
                         time_step_s = ' '
-                        time_step = (time_end_emission - time_emission).total_seconds()
-                        time_step_minutes = int(round(time_step / 60))
+                        time_step_minutes = source_resolution
                         time_step_hours = int(time_step_minutes / 60)
                         if time_step_hours >= 1:
                             remainder = time_step_minutes % 60
@@ -970,18 +966,16 @@ def run_models(short_simulation, eruption_dur):
                             remainder = time_step_minutes
                         time_step_s += '{:02d}'.format(time_step_hours)
                         time_step_s += '{:02d}'.format(remainder) + ' '
-                        mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt) / float(n_processes)
-                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(
-                            summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        mer_bin = float(mer_vector[time]) * 3600 * 1000
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
                         em_file_records.append(
-                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + plh_vector[
-                                time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + plh_vector[time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        n_records += 2
                         break
                     else:
                         time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
                         time_step_s = ' '
-                        time_step = (time_end_emission - time_emission).total_seconds()
-                        time_step_minutes = int(round(time_step / 60))
+                        time_step_minutes = source_resolution
                         time_step_hours = int(time_step_minutes / 60)
                         if time_step_hours >= 1:
                             remainder = time_step_minutes % 60
@@ -989,16 +983,14 @@ def run_models(short_simulation, eruption_dur):
                             remainder = time_step_minutes
                         time_step_s += '{:02d}'.format(time_step_hours)
                         time_step_s += '{:02d}'.format(remainder) + ' '
-                        mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt) / float(n_processes)
-                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(
-                            summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
-                        em_file_records.append(
-                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + plh_vector[
-                                time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        mer_bin = float(mer_vector[time]) * 3600 * 1000
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + plh_vector[time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
                         time += 1
+                        n_records += 2
                         time_emission += datetime.timedelta(minutes=source_resolution)
                         time_end_emission += datetime.timedelta(minutes=source_resolution)
-
+                em_file_records[2] = start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n'  # Overwrite with the correct number of records
                 with open(emission_file, 'w', encoding="utf-8", errors="surrogateescape") as em_file:
                     for record in em_file_records:
                         em_file.write(record)
