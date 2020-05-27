@@ -625,7 +625,8 @@ def run_models(short_simulation, eruption_dur):
                     levels += ' ' + str(int(altitude))
                 time_emission = time_now
                 if not short_simulation:
-                    effective_time_end_emission = time_now + datetime.timedelta(hours=eruption_dur)
+                    print('line 628', eruption_dur)
+                    effective_time_end_emission = time_emission + datetime.timedelta(hours=eruption_dur)
                     time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
                     while True:
                         if time_end_emission >= effective_time_end_emission:
@@ -939,18 +940,17 @@ def run_models(short_simulation, eruption_dur):
                 mer_vector = mer_vector[1:]
                 plh_vector = plh.split(' ')
                 plh_vector = plh_vector[1:]
-                n_records = int(eruption_dur * 2)
-                if eruption_dur % 1 > 0:
-                    n_records += 2
+                n_records = 0
                 time = 0
                 em_file_records = []
                 em_file_records.append('YYYY MM DD HH DURATION(hhhh) #RECORDS\n')
                 em_file_records.append('YYYY MM DD HH MM DURATION(hhmm) LAT LON HGT(m) RATE(/h) AREA(m2) HEAT(w)\n')
                 start_time_short = datetime.datetime.strftime(time_now, "%Y %m %d %H")
                 time_emission = time_now
+                print('line 950', eruption_dur)
                 eruption_dur_s = '{:03d}'.format(int(round(eruption_dur + 0.49)))
                 em_file_records.append(start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n')
-                effective_time_end_emission = time_now + datetime.timedelta(hours=eruption_dur)
+                effective_time_end_emission = time_emission + datetime.timedelta(hours=eruption_dur)
                 while True:
                     time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
                     if time_end_emission >= effective_time_end_emission:
@@ -1117,6 +1117,7 @@ if mode == 'operational':
     eruption_dur, eruption_plh, summit, volc_lat, volc_lon, tgsd = run_foxi()
 else:
     eruption_dur, summit, volc_lat, volc_lon, tgsd = run_refir()
+print(eruption_dur)
 os.chdir(ROOT)
 # Check the tgsd file is available in TGSDs
 tgsd_file = os.path.join(TGSDS,tgsd)
