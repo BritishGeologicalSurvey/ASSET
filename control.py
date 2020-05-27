@@ -385,7 +385,6 @@ def run_models(short_simulation, eruption_dur):
             if lines == 2:
                 short_simulation = True  # always convert to a short simulation if REFIR has been run manually for one time step only
             mer_file_r.close()
-        new_er_dur = 0
         if short_simulation:
             with open(mer_file, 'r', encoding="utf-8", errors="surrogateescape") as mer_file_r:
                 mer_min = ''
@@ -420,16 +419,18 @@ def run_models(short_simulation, eruption_dur):
                     except:
                         continue
         else:
+            new_er_dur = 0
             lines = 0
-            mer_file_r = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
-            for line in mer_file_r:
-                lines += 1
-            if lines == 1:
-                mer_file_r.close()
-                mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+            with open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape") as mer_file_r:
+                for line in mer_file_r:
+                    lines += 1
             mer_min = ''
             mer_avg = ''
             mer_max = ''
+            if lines == 1:
+                mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+            else:
+                mer_file_r = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
             for line in mer_file_r:
                 try:
                     minute = int(line.split('\t')[1])
@@ -448,15 +449,16 @@ def run_models(short_simulation, eruption_dur):
                     continue
             mer_file_r.close()
             lines = 0
-            plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
-            for line in plh_file_r:
-                lines += 1
-            if lines == 1:
-                plh_file_r.close()
-                plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            with open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape") as plh_file_r:
+                for line in plh_file_r:
+                    lines += 1
             plh_min = ''
             plh_avg = ''
             plh_max = ''
+            if lines == 1:
+                plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            else:
+                plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
             for line in plh_file_r:
                 try:
                     minute = int(line.split('\t')[1])
