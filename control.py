@@ -251,7 +251,18 @@ def run_foxi():
     else:
         volc_number = 0
         tgsd = 'user_defined'
-
+    if source_resolution == 15:
+        refir_PM_TAV = 1
+    elif source_resolution == 30:
+        refir_PM_TAV = 2
+    elif source_resolution == 60:
+        refir_PM_TAV = 3
+    elif source_resolution == 180:
+        refir_PM_TAV = 4
+    elif source_resolution == 360:
+        refir_PM_TAV = 5
+    else:
+        refir_PM_TAV = 0
     with open(fix_config_file, 'w', encoding="utf-8", errors="surrogateescape") as fix_config:
         for i in range(0, len(fix_config_records)):
             if i == 0:
@@ -265,7 +276,7 @@ def run_foxi():
             elif i == 167:
                 fix_config.write(stop_time + '\n')
             elif i == 169:
-                fix_config.write('60\n')
+                fix_config.write(refir_PM_TAV + '\n')
             elif i == 172:
                 fix_config.write('1\n')
             elif i == 173:
@@ -340,6 +351,8 @@ def run_models(short_simulation, eruption_dur):
         paths = []
         mer_file = ''
         plh_file = ''
+        tavg_plh_file = ''
+        tavg_mer_file = ''
         refir_run_name = ''
         for file in files:
             file_path = os.path.join(REFIR,file)
@@ -350,12 +363,16 @@ def run_models(short_simulation, eruption_dur):
         files = os.listdir(refir_run)
         for file in files:
             if file.endswith('_STATUS_REPORT.txt'):
-                refir_run_name = file.split('_')[0] #Get REFIR run name
+                refir_run_name = file.split('_')[0]  # Get REFIR run name
         for file in files:
-            if mode == 'manual' and file == refir_run_name + '_FMER.txt':
-                mer_file = os.path.join(refir_run,file)
+            if file.endswith('tavg_FMER.txt'):
+                tavg_mer_file = os.path.join(refir_run, file)
+            elif file.endswith('tavg_PLH.txt'):
+                tavg_plh_file = os.path.join(refir_run, file)
+            elif mode == 'manual' and file == refir_run_name + '_FMER.txt':
+                mer_file = os.path.join(refir_run, file)
             elif mode == 'manual' and file == refir_run_name + '_PLH.txt':
-                plh_file = os.path.join(refir_run,file)
+                plh_file = os.path.join(refir_run, file)
             elif mode == 'operational' and file == 'operational_FMER.txt':
                 mer_file = os.path.join(refir_run, file)
             elif mode == 'operational' and file == 'operational_PLH.txt':
@@ -366,7 +383,7 @@ def run_models(short_simulation, eruption_dur):
                 for line in mer_file_r:
                     lines += 1
             if lines == 2:
-                short_simulation = True # always convert to a short simulation if REFIR has been run manually for one time step only
+                short_simulation = True  # always convert to a short simulation if REFIR has been run manually for one time step only
             mer_file_r.close()
         new_er_dur = 0
         if short_simulation:
@@ -403,15 +420,21 @@ def run_models(short_simulation, eruption_dur):
                     except:
                         continue
         else:
-            mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+            lines = 0
+            mer_file_r = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+            for line in mer_file_r:
+                lines += 1
+            if lines == 1:
+                mer_file_r.close()
+                mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
             mer_min = ''
             mer_avg = ''
             mer_max = ''
             for line in mer_file_r:
                 try:
                     minute = int(line.split('\t')[1])
-                    if minute % 60 == 0 or minute - 1 % 60 == 0 or minute + 1 % 60 == 0:
-                        new_er_dur = minute / 60
+                    new_er_dur = minute
+                    if minute % source_resolution == 0 or minute - 1 % source_resolution == 0 or minute + 1 % source_resolution == 0:
                         mer_min_tmp = line.split('\t')[2]
                         mer_min_tmp = mer_min_tmp.split('.')[0]
                         mer_min += ' ' + mer_min_tmp
@@ -424,7 +447,13 @@ def run_models(short_simulation, eruption_dur):
                 except:
                     continue
             mer_file_r.close()
-            plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            lines = 0
+            plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            for line in plh_file_r:
+                lines += 1
+            if lines == 1:
+                plh_file_r.close()
+                plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
             plh_min = ''
             plh_avg = ''
             plh_max = ''
@@ -444,49 +473,61 @@ def run_models(short_simulation, eruption_dur):
                 except:
                     continue
             plh_file_r.close()
-            if new_er_dur < 1:
+            if new_er_dur < source_resolution:
                 mer_min_new = 0
                 mer_avg_new = 0
                 mer_max_new = 0
                 plh_min_new = 0
                 plh_avg_new = 0
                 plh_max_new = 0
-                minute_max = 1
                 mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+                minute_old = 0
                 for line in mer_file_r:
-                    minute_max = float(line.split('\t')[1]) * 60
-                    mer_min_tmp = line.split('\t')[2]
-                    mer_min_tmp = mer_min_tmp.split('.')[0]
-                    mer_min_new += float(mer_min_tmp)
-                    mer_avg_tmp = line.split('\t')[3]
-                    mer_avg_tmp = mer_avg_tmp.split('.')[0]
-                    mer_avg_new += float(mer_avg_tmp)
-                    mer_max_tmp = line.split('\t')[4]
-                    mer_max_tmp = mer_max_tmp.split('.')[0]
-                    mer_max_new += float(mer_max_tmp)
-                mer_min_new = mer_min_new / minute_max
+                    try:
+                        minute = int(line.split('\t')[1])
+                        delta_min = minute - minute_old
+                        mer_min_tmp = line.split('\t')[2]
+                        mer_min_tmp = mer_min_tmp.split('.')[0]
+                        mer_min_new += float(mer_min_tmp) * delta_min
+                        mer_avg_tmp = line.split('\t')[3]
+                        mer_avg_tmp = mer_avg_tmp.split('.')[0]
+                        mer_avg_new += float(mer_avg_tmp) * delta_min
+                        mer_max_tmp = line.split('\t')[4]
+                        mer_max_tmp = mer_max_tmp.split('.')[0]
+                        mer_max_new += float(mer_max_tmp) * delta_min
+                        minute_old = minute
+                    except:
+                        continue
+                mer_min_new = mer_min_new / new_er_dur
                 mer_min += ' ' + str(mer_min_new)
-                mer_avg_new = mer_avg_new / minute_max
+                mer_avg_new = mer_avg_new / new_er_dur
                 mer_avg += ' ' + str(mer_avg_new)
-                mer_max_new = mer_max_new / minute_max
+                mer_max_new = mer_max_new / new_er_dur
                 mer_max += ' ' + str(mer_max_new)
                 mer_file_r.close()
                 plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+                minute_old = 0
                 for line in plh_file_r:
-                    plh_min_tmp = line.split('\t')[2]
-                    plh_min_tmp = plh_min_tmp.split('.')[0]
-                    plh_min_new += float(plh_min_tmp)
-                    plh_avg_tmp = line.split('\t')[3]
-                    plh_avg_tmp = plh_avg_tmp.split('.')[0]
-                    plh_avg_new += float(plh_avg_tmp)
-                    plh_max_tmp = line.split('\t')[4]
-                    plh_max_tmp = plh_max_tmp.split('.')[0]
-                    plh_max_new += float(plh_max_tmp)
-                plh_min_new = plh_min_new / minute_max
+                    try:
+                        minute = int(line.split('\t')[1])
+                        delta_min = minute - minute_old
+                        plh_min_tmp = line.split('\t')[2]
+                        plh_min_tmp = plh_min_tmp.split('.')[0]
+                        plh_min_new += float(plh_min_tmp) * delta_min
+                        plh_avg_tmp = line.split('\t')[3]
+                        plh_avg_tmp = plh_avg_tmp.split('.')[0]
+                        plh_avg_new += float(plh_avg_tmp) * delta_min
+                        plh_max_tmp = line.split('\t')[4]
+                        plh_max_tmp = plh_max_tmp.split('.')[0]
+                        plh_max_new += float(plh_max_tmp) * delta_min
+                        minute_old = minute
+                    except:
+                        continue
+                plh_min_new = plh_min_new / new_er_dur
                 plh_min += ' ' + str(plh_min_new)
-                plh_avg_new = plh_avg_new / minute_max
+                plh_avg_new = plh_avg_new / new_er_dur
                 plh_avg += ' ' + str(plh_avg_new)
-                plh_max_new = plh_max_new / minute_max
+                plh_max_new = plh_max_new / new_er_dur
                 plh_max += ' ' + str(plh_max_new)
                 plh_file_r.close()
         return mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur
