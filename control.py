@@ -26,6 +26,7 @@ parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longit
 parser.add_argument('-D','--dur',default=96,help='Ash dispersion simulation duration (hours)')
 parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
 parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours)')
+parser.add_argument('-SR','--source_resolution',default=60,help='Time resolution of the source (minutes)')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -40,6 +41,7 @@ lat_max = args.latmax
 run_duration = args.dur
 start_time = args.start_time
 er_duration_input = args.er_duration
+source_resolution = args.source_resolution
 if settings_file == 'True':
     settings_file = True
 elif settings_file == 'False':
@@ -64,7 +66,7 @@ if start_time != '999':
         exit()
 er_duration_input = float(er_duration_input)
 
-def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration):
+def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution):
     lon_max = float(lon_max)
     lon_min = float(lon_min)
     lat_max = float(lat_max)
@@ -131,8 +133,15 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     else:
         print('Wrong value for variable --i')
         exit()
+    try:
+        source_resolution = int(source_resolution)
+    except:
+        print('Please provide a valid integer for the source resolution in minutes')
+        exit()
+    base = 5
+    source_resolution = base * round(source_resolution / base) #Ensure the source resolution is always a multiple of 5
 
-    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration
+    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution
 
 def get_times(time):
     twodaysago_t = time - datetime.timedelta(days=2)
@@ -329,8 +338,6 @@ def run_models(short_simulation, eruption_dur):
     def read_refir_outputs(short_simulation):
         files = os.listdir(REFIR)
         paths = []
-        tavg_mer_file = ''
-        tavg_plh_file = ''
         mer_file = ''
         plh_file = ''
         refir_run_name = ''
@@ -345,11 +352,7 @@ def run_models(short_simulation, eruption_dur):
             if file.endswith('_STATUS_REPORT.txt'):
                 refir_run_name = file.split('_')[0] #Get REFIR run name
         for file in files:
-            if file.endswith('tavg_FMER.txt'):
-                tavg_mer_file = os.path.join(refir_run,file)
-            elif file.endswith('tavg_PLH.txt'):
-                tavg_plh_file = os.path.join(refir_run,file)
-            elif mode == 'manual' and file == refir_run_name + '_FMER.txt':
+            if mode == 'manual' and file == refir_run_name + '_FMER.txt':
                 mer_file = os.path.join(refir_run,file)
             elif mode == 'manual' and file == refir_run_name + '_PLH.txt':
                 plh_file = os.path.join(refir_run,file)
@@ -400,15 +403,7 @@ def run_models(short_simulation, eruption_dur):
                     except:
                         continue
         else:
-            mer_file_r = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
-            i = 0
-            for line in mer_file_r:
-                i += 1
-            mer_file_r.close()
-            if i == 1: #if the file is empty with just the header
-                mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
-            else:
-                mer_file_r = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+            mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
             mer_min = ''
             mer_avg = ''
             mer_max = ''
@@ -429,22 +424,14 @@ def run_models(short_simulation, eruption_dur):
                 except:
                     continue
             mer_file_r.close()
-            plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
-            i = 0
-            for line in plh_file_r:
-                i += 1
-            plh_file_r.close()
-            if i == 1: #if the file is empty with just the header
-                plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
-            else:
-                plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
             plh_min = ''
             plh_avg = ''
             plh_max = ''
             for line in plh_file_r:
                 try:
                     minute = int(line.split('\t')[1])
-                    if minute % 60 == 0 or minute - 1 % 60 == 0 or minute + 1 % 60 == 0:
+                    if minute % source_resolution == 0 or minute - 1 % source_resolution == 0 or minute + 1 % source_resolution == 0:
                         plh_min_tmp = line.split('\t')[2]
                         plh_min_tmp = plh_min_tmp.split('.')[0]
                         plh_min += ' ' + plh_min_tmp
@@ -465,6 +452,7 @@ def run_models(short_simulation, eruption_dur):
                 plh_avg_new = 0
                 plh_max_new = 0
                 minute_max = 1
+                mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
                 for line in mer_file_r:
                     minute_max = float(line.split('\t')[1]) * 60
                     mer_min_tmp = line.split('\t')[2]
@@ -482,6 +470,8 @@ def run_models(short_simulation, eruption_dur):
                 mer_avg += ' ' + str(mer_avg_new)
                 mer_max_new = mer_max_new / minute_max
                 mer_max += ' ' + str(mer_max_new)
+                mer_file_r.close()
+                plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
                 for line in plh_file_r:
                     plh_min_tmp = line.split('\t')[2]
                     plh_min_tmp = plh_min_tmp.split('.')[0]
@@ -498,6 +488,7 @@ def run_models(short_simulation, eruption_dur):
                 plh_avg += ' ' + str(plh_avg_new)
                 plh_max_new = plh_max_new / minute_max
                 plh_max += ' ' + str(plh_max_new)
+                plh_file_r.close()
         return mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur
 
     def controller(program):
@@ -542,6 +533,12 @@ def run_models(short_simulation, eruption_dur):
                     np = npx * npy * npz
                     return np, npx, npy, npz
 
+                def convert_to_decimal(time_input):
+                    hours = float(datetime.datetime.strftime(time_input, "%H"))
+                    minutes = int(datetime.datetime.strftime(time_input, "%M"))
+                    decimal_time = hours + minutes / 60
+                    return decimal_time
+
                 RUN = os.path.join(RUNS_TIME,solution)
                 try:
                     os.mkdir(RUN)
@@ -578,30 +575,36 @@ def run_models(short_simulation, eruption_dur):
                 shr_er_end = float(shr) + eruption_dur
                 source_start_string = ''
                 source_end_string = ''
-                max_altitude = round(max_altitude, -3)
-                dz = 1000
-                n_levels = int(max_altitude / dz + 1)
                 levels = '0'
                 altitude = 0
                 while altitude < max_altitude:
                     altitude += dz
                     levels += ' ' + str(int(altitude))
+                time_emission = time_now
                 if not short_simulation:
-                    time = 0
-                    time_emission = time_now
-                    time_end_emission = time_emission + datetime.timedelta(hours=1)
-                    source_start_string += datetime.datetime.strftime(time_emission, "%H") + ' '
-                    source_end_string += datetime.datetime.strftime(time_end_emission, "%H") + ' '
-                    time += 1
-                    while time <= int(eruption_dur) - 1:
-                        time_emission += datetime.timedelta(hours=1)
-                        time_end_emission = time_emission + datetime.timedelta(hours=1)
-                        source_start_string += datetime.datetime.strftime(time_emission, "%H") + ' '
-                        source_end_string += datetime.datetime.strftime(time_end_emission, "%H") + ' '
-                        time += 1
+                    effective_time_end_emission = time_now + datetime.timedelta(hours=eruption_dur)
+                    time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
+                    while True:
+                        if time_end_emission > effective_time_end_emission:
+                            time_end_emission -= time_end_emission - effective_time_end_emission
+                            decimal_time_start = convert_to_decimal(time_emission)
+                            decimal_time_end = convert_to_decimal(time_end_emission)
+                            source_start_string += '{:.1f}'.format(decimal_time_start) + ' '
+                            source_end_string += '{:.1f}'.format(decimal_time_end) + ' '
+                            break
+                        else:
+                            decimal_time_start = convert_to_decimal(time_emission)
+                            decimal_time_end = convert_to_decimal(time_end_emission)
+                            source_start_string += '{:.1f}'.format(decimal_time_start) + ' '
+                            source_end_string += '{:.1f}'.format(decimal_time_end) + ' '
+                            time_emission += datetime.timedelta(minutes=source_resolution)
+                            time_end_emission += datetime.timedelta(minutes=source_resolution)
                 else:
-                    source_start_string = shr
-                    source_end_string = '{:.0f}'.format(shr_er_end)
+                    time_end_emission = time_now + datetime.timedelta(hours=eruption_dur)
+                    decimal_time_start = convert_to_decimal(time_emission)
+                    decimal_time_end = convert_to_decimal(time_end_emission)
+                    source_start_string += '{:.1f}'.format(decimal_time_start)
+                    source_end_string += '{:.1f}'.format(decimal_time_end)
                 np, npx, npy, npz = distribute_processes(n_processes)
                 lines = []
                 with open(INPUT,'r',encoding="utf-8", errors="surrogateescape") as fall3d_input:
@@ -809,6 +812,7 @@ def run_models(short_simulation, eruption_dur):
                     for i in range(0, len(wt_fraction)):
                         em_rates.append(0.0)  # Here divide per the number of processes
                         em_rates_strings.append('em_rate[' + str(i + 1) + ']')
+                    em_duration = '0.0'
                 else:
                     plh = float(plh_vector[0])
                     mer = float(mer) * 3600.0 * 1000 #Convert in g/h for HYSPLIT
@@ -817,6 +821,7 @@ def run_models(short_simulation, eruption_dur):
                     for i in range(0, len(wt_fraction)):
                         em_rates.append(mer * float(wt_fraction[i]) / float(n_processes))  # Here divide per the number of processes
                         em_rates_strings.append('em_rate[' + str(i+1) + ']')
+                    em_duration = str(eruption_dur)
                 n_source_locations = 2 * len(plh_vector)
                 max_altitude = round(max_altitude, -3)
                 dz = 1000
@@ -847,7 +852,7 @@ def run_models(short_simulation, eruption_dur):
                         control_file.write('1\n')
                         control_file.write(pollutants[i-1] + '\n')
                         control_file.write('{:.1f}'.format(em_rates[i-1]) + '\n')
-                        control_file.write(str(eruption_dur) + '\n')
+                        control_file.write(em_duration + '\n')
                         control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + ' 00\n')
                         control_file.write('1\n')
                         control_file.write('{:.1f}'.format(grid_centre_lat) + ' ' + '{:.1f}'.format(grid_centre_lon) + '\n')
@@ -892,6 +897,8 @@ def run_models(short_simulation, eruption_dur):
                 plh_vector = plh.split(' ')
                 plh_vector = plh_vector[1:]
                 n_records = int(eruption_dur * 2)
+                if eruption_dur % 1 > 0:
+                    n_records += 2
                 time = 0
                 em_file_records = []
                 em_file_records.append('YYYY MM DD HH DURATION(hhhh) #RECORDS\n')
@@ -900,20 +907,59 @@ def run_models(short_simulation, eruption_dur):
                 time_emission = time_now
                 time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
                 if eruption_dur < 10:
-                    eruption_dur_s = '000' + str(int(eruption_dur))
+                    eruption_dur_s = '000' + str(int(round(eruption_dur + 0.5)))
                 else:
-                    eruption_dur_s = '00' + str(int(eruption_dur))
+                    eruption_dur_s = '00' + str(int(round(eruption_dur + 0.5)))
                 em_file_records.append(start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n')
-                while time <= eruption_dur - 1:
-                    mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt) / float(n_processes)
-                    em_file_records.append(time_emission_s + ' 0100 ' + volc_lat + ' ' + volc_lon + ' ' + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
-                    em_file_records.append(time_emission_s + ' 0100 ' + volc_lat + ' ' + volc_lon + ' ' + plh_vector[time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
-                    time += 1
-                    time_emission += datetime.timedelta(hours=1)
-                    time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
+                effective_time_end_emission = time_now + datetime.timedelta(hours=eruption_dur)
+                while True:
+                    time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
+                    if time_end_emission >= effective_time_end_emission:
+                        time_difference = time_end_emission - effective_time_end_emission
+                        time_end_emission -= time_difference
+                        time_step_s = ' '
+                        time_step = (time_end_emission - time_emission).total_seconds()
+                        time_step_minutes = int(round(time_step / 60))
+                        time_step_hours = int(time_step_minutes / 60)
+                        if time_step_hours >= 1:
+                            remainder = time_step_minutes % 60
+                        else:
+                            remainder = time_step_minutes
+                        time_step_s += '{:02d}'.format(time_step_hours)
+                        time_step_s += '{:02d}'.format(remainder) + ' '
+                        mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt) / float(n_processes)
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(
+                            summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        em_file_records.append(
+                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + plh_vector[
+                                time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        break
+                    else:
+                        time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
+                        time_step_s = ' '
+                        time_step = (time_end_emission - time_emission).total_seconds()
+                        time_step_minutes = int(round(time_step / 60))
+                        time_step_hours = int(time_step_minutes / 60)
+                        if time_step_hours >= 1:
+                            remainder = time_step_minutes % 60
+                        else:
+                            remainder = time_step_minutes
+                        time_step_s += '{:02d}'.format(time_step_hours)
+                        time_step_s += '{:02d}'.format(remainder) + ' '
+                        mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt) / float(n_processes)
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(
+                            summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        em_file_records.append(
+                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + plh_vector[
+                                time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        time += 1
+                        time_emission += datetime.timedelta(minutes=source_resolution)
+                        time_end_emission += datetime.timedelta(minutes=source_resolution)
+
                 with open(emission_file, 'w', encoding="utf-8", errors="surrogateescape") as em_file:
                     for record in em_file_records:
                         em_file.write(record)
+
             try:
                 n_bins, diam, rho, shape, wt_fraction, pollutants, diam_strings, rho_strings, shape_strings, wt_fraction_strings, pollutants_strings = read_tgsd_file(tgsd)
             except:
@@ -1020,7 +1066,7 @@ if settings_file:
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
 else:
-    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration)
+    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution)
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy
