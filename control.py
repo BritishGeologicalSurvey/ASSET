@@ -585,7 +585,7 @@ def run_models(short_simulation, eruption_dur):
                     effective_time_end_emission = time_now + datetime.timedelta(hours=eruption_dur)
                     time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
                     while True:
-                        if time_end_emission > effective_time_end_emission:
+                        if time_end_emission >= effective_time_end_emission:
                             time_end_emission -= time_end_emission - effective_time_end_emission
                             decimal_time_start = convert_to_decimal(time_emission)
                             decimal_time_end = convert_to_decimal(time_end_emission)
