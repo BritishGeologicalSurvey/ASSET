@@ -532,6 +532,8 @@ def run_models(short_simulation, eruption_dur):
                 plh_max_new = plh_max_new / new_er_dur
                 plh_max += ' ' + str(plh_max_new)
                 plh_file_r.close()
+            else:
+                new_er_dur = 0
         return mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur
 
     def controller(program):
