@@ -482,6 +482,12 @@ def run_models(short_simulation, eruption_dur):
                 plh_min_new = 0
                 plh_avg_new = 0
                 plh_max_new = 0
+                plh_min = ''
+                plh_avg = ''
+                plh_max = ''
+                mer_min = ''
+                mer_avg = ''
+                mer_max = ''
                 mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
                 minute_old = 0
                 for line in mer_file_r:
@@ -501,11 +507,11 @@ def run_models(short_simulation, eruption_dur):
                     except:
                         continue
                 mer_min_new = mer_min_new / new_er_dur
-                mer_min += ' ' + str(mer_min_new)
+                mer_min += ' ' + '{:.0f}'.format(mer_min_new)
                 mer_avg_new = mer_avg_new / new_er_dur
-                mer_avg += ' ' + str(mer_avg_new)
+                mer_avg += ' ' + '{:.0f}'.format(mer_avg_new)
                 mer_max_new = mer_max_new / new_er_dur
-                mer_max += ' ' + str(mer_max_new)
+                mer_max += ' ' + '{:.0f}'.format(mer_max_new)
                 mer_file_r.close()
                 plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
                 minute_old = 0
@@ -526,11 +532,11 @@ def run_models(short_simulation, eruption_dur):
                     except:
                         continue
                 plh_min_new = plh_min_new / new_er_dur
-                plh_min += ' ' + str(plh_min_new)
+                plh_min += ' ' + '{:.0f}'.format(plh_min_new)
                 plh_avg_new = plh_avg_new / new_er_dur
-                plh_avg += ' ' + str(plh_avg_new)
+                plh_avg += ' ' + '{:.0f}'.format(plh_avg_new)
                 plh_max_new = plh_max_new / new_er_dur
-                plh_max += ' ' + str(plh_max_new)
+                plh_max += ' ' + '{:.0f}'.format(plh_max_new)
                 plh_file_r.close()
             else:
                 new_er_dur = 0
@@ -627,7 +633,6 @@ def run_models(short_simulation, eruption_dur):
                     levels += ' ' + str(int(altitude))
                 time_emission = time_now
                 if not short_simulation:
-                    print('line 628', eruption_dur)
                     effective_time_end_emission = time_emission + datetime.timedelta(hours=eruption_dur)
                     time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
                     while True:
@@ -949,7 +954,6 @@ def run_models(short_simulation, eruption_dur):
                 em_file_records.append('YYYY MM DD HH MM DURATION(hhmm) LAT LON HGT(m) RATE(/h) AREA(m2) HEAT(w)\n')
                 start_time_short = datetime.datetime.strftime(time_now, "%Y %m %d %H")
                 time_emission = time_now
-                print('line 950', eruption_dur)
                 eruption_dur_s = '{:03d}'.format(int(round(eruption_dur + 0.49)))
                 em_file_records.append(start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n')
                 effective_time_end_emission = time_emission + datetime.timedelta(hours=eruption_dur)
@@ -1067,7 +1071,7 @@ def run_models(short_simulation, eruption_dur):
 
     mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur = read_refir_outputs(short_simulation)
     if new_er_dur != 0:
-        eruption_dur = new_er_dur
+        eruption_dur = new_er_dur / 60
     programs = ['fall3d','hysplit']
     pool_programs = ThreadingPool(2)
     pool_programs.map(controller, programs)
@@ -1119,7 +1123,6 @@ if mode == 'operational':
     eruption_dur, eruption_plh, summit, volc_lat, volc_lon, tgsd = run_foxi()
 else:
     eruption_dur, summit, volc_lat, volc_lon, tgsd = run_refir()
-print(eruption_dur)
 os.chdir(ROOT)
 # Check the tgsd file is available in TGSDs
 tgsd_file = os.path.join(TGSDS,tgsd)
