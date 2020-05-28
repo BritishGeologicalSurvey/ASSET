@@ -475,7 +475,7 @@ def run_models(short_simulation, eruption_dur):
                 except:
                     continue
             plh_file_r.close()
-            if new_er_dur < source_resolution:
+            if 0 < new_er_dur < source_resolution:
                 mer_min_new = 0
                 mer_avg_new = 0
                 mer_max_new = 0
