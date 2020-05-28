@@ -276,7 +276,7 @@ def run_foxi():
             elif i == 167:
                 fix_config.write(stop_time + '\n')
             elif i == 169:
-                fix_config.write(refir_PM_TAV + '\n')
+                fix_config.write(str(refir_PM_TAV) + '\n')
             elif i == 172:
                 fix_config.write('1\n')
             elif i == 173:
