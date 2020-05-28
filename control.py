@@ -623,7 +623,6 @@ def run_models(short_simulation, eruption_dur):
                 max_altitude = round(max_altitude, -3)
                 dz = 1000
                 n_levels = int(max_altitude / dz + 1)
-                shr_er_end = float(shr) + eruption_dur
                 source_start_string = ''
                 source_end_string = ''
                 levels = '0'
@@ -635,26 +634,25 @@ def run_models(short_simulation, eruption_dur):
                 if not short_simulation:
                     effective_time_end_emission = time_emission + datetime.timedelta(hours=eruption_dur)
                     time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
+                    decimal_time_start = convert_to_decimal(time_emission)
+                    decimal_time_end = decimal_time_start + source_resolution / 60
                     while True:
                         if time_end_emission >= effective_time_end_emission:
-                            time_end_emission -= time_end_emission - effective_time_end_emission
-                            decimal_time_start = convert_to_decimal(time_emission)
-                            decimal_time_end = convert_to_decimal(time_end_emission)
+                            delta_time = (time_end_emission - effective_time_end_emission).seconds
+                            decimal_time_end -= delta_time / 3600
                             source_start_string += '{:.1f}'.format(decimal_time_start) + ' '
                             source_end_string += '{:.1f}'.format(decimal_time_end) + ' '
                             break
                         else:
-                            decimal_time_start = convert_to_decimal(time_emission)
-                            decimal_time_end = convert_to_decimal(time_end_emission)
                             source_start_string += '{:.1f}'.format(decimal_time_start) + ' '
                             source_end_string += '{:.1f}'.format(decimal_time_end) + ' '
-                            time_emission += datetime.timedelta(minutes=source_resolution)
+                            decimal_time_start += source_resolution / 60
+                            decimal_time_end += source_resolution / 60
                             time_end_emission += datetime.timedelta(minutes=source_resolution)
                 else:
-                    time_end_emission = time_now + datetime.timedelta(hours=eruption_dur)
                     decimal_time_start = convert_to_decimal(time_emission)
-                    decimal_time_end = convert_to_decimal(time_end_emission)
                     source_start_string += '{:.1f}'.format(decimal_time_start)
+                    decimal_time_end = decimal_time_start + eruption_dur
                     source_end_string += '{:.1f}'.format(decimal_time_end)
                 np, npx, npy, npz = distribute_processes(n_processes)
                 lines = []
