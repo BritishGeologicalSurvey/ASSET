@@ -23,8 +23,10 @@ parser.add_argument('-LATMIN','--latmin',default=999,help='Domain minimum latitu
 parser.add_argument('-LATMAX','--latmax',default=999,help='Domain maximum latitude')
 parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longitude')
 parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
-parser.add_argument('-D','--dur',default=96,help='Ash dispersion simulation duration')
+parser.add_argument('-D','--dur',default=96,help='Ash dispersion simulation duration (hours)')
 parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
+parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours)')
+parser.add_argument('-SR','--source_resolution',default=60,help='Time resolution of the source (minutes)')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -38,6 +40,8 @@ lat_min = args.latmin
 lat_max = args.latmax
 run_duration = args.dur
 start_time = args.start_time
+er_duration_input = args.er_duration
+source_resolution = args.source_resolution
 if settings_file == 'True':
     settings_file = True
 elif settings_file == 'False':
@@ -60,8 +64,9 @@ if start_time != '999':
     except:
         print('Unable to read starting time. Please check the format')
         exit()
+er_duration_input = float(er_duration_input)
 
-def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration):
+def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution):
     lon_max = float(lon_max)
     lon_min = float(lon_min)
     lat_max = float(lat_max)
@@ -128,8 +133,15 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     else:
         print('Wrong value for variable --i')
         exit()
+    try:
+        source_resolution = int(source_resolution)
+    except:
+        print('Please provide a valid integer for the source resolution in minutes')
+        exit()
+    base = 5
+    source_resolution = base * round(source_resolution / base) #Ensure the source resolution is always a multiple of 5
 
-    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration
+    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution
 
 def get_times(time):
     twodaysago_t = time - datetime.timedelta(days=2)
@@ -145,41 +157,35 @@ def get_times(time):
     shr_wt_end = str(int(shr_wt_st) + int(run_duration))
     return syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago
 
-def run_foxi():
-    def read_esps_database():
-        import pandas as pd
 
-        with open(volcano_list_file, 'r', encoding="utf-8", errors="surrogateescape") as volcano_list:
-            for line in volcano_list:
-                try:
-                    if int(line.split('\t')[0]) == volc_id:
-                        volc_lat = line.split('\t')[1]
-                        volc_lon = line.split('\t')[2]
-                except:
-                    continue
-        try:
-            database = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
+def read_esps_database():
+    import pandas as pd
+    try:
+        database = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
                                  sheetname='volcanoes')
-        except:
-            database = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
+    except:
+        database = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
                                      sheet_name='volcanoes')
-        nrows = database.shape[0]
-        row = 0
-        while True:
-            if database['SMITHSONIAN_ID'][row] == volc_id:
-                summit = database['ELEVATION_m'][row]
-                esps_dur = database['DURATION_hour'][row]
-                esps_plh = database['HEIGHT_ABOVE_VENT_km'][row] * 1000
-                esps_plh += summit
-
+    nrows = database.shape[0]
+    row = 0
+    while True:
+        if database['SMITHSONIAN_ID'][row] == volc_id:
+            volc_lat = str(database['LATITUDE'][row])
+            volc_lon = str(database['LONGITUDE'][row])
+            summit = database['ELEVATION_m'][row]
+            esps_dur = database['DURATION_hour'][row]
+            esps_plh = database['HEIGHT_ABOVE_VENT_km'][row] * 1000
+            esps_plh += summit
+            esps_mer = database['MASS_ERUPTION_RATES_kg/s'][row]
+            break
+        else:
+            row += 1
+            if row >= nrows:
+                print('ID not found')
                 break
-            else:
-                row += 1
-                if row >= nrows:
-                    print('ID not found')
-                    break
-        return esps_dur, esps_plh, summit, volc_lat, volc_lon
+    return esps_dur, esps_plh, esps_mer, summit, volc_lat, volc_lon
 
+def run_foxi():
     shutil.copy(os.path.join(ROOT, 'fix_config.txt'), os.path.join(REFIR, 'fix_config.txt'))
     fix_config_file = os.path.join(REFIR, 'fix_config.txt')
     REFIR_CONFIG = os.path.join(REFIR, 'refir_config')
@@ -193,14 +199,17 @@ def run_foxi():
     for file in setting_files:
         if file.endswith('ini'):
             shutil.copy(os.path.join(REFIR_CONFIG,file),os.path.join(REFIR_CONFIG_OPERATIONAL,file))
-    volcano_list_file = os.path.join(REFIR_CONFIG, 'volcano_list.ini')
     fix_config_records = []
-
     with open(fix_config_file, 'r', encoding="utf-8", errors="surrogateescape") as fix_config:
         for line in fix_config:
             fix_config_records.append(line.split('\n')[0])
-
-    esps_dur, esps_plh, summit, volc_lat, volc_lon = read_esps_database()
+    try:
+        esps_dur, esps_plh, dummy, summit, volc_lat, volc_lon = read_esps_database()
+    except:
+        print('Unable to read ESPs database')
+        exit()
+    if er_duration_input != 999:
+        esps_dur = er_duration_input
     if esps_dur > run_duration:
         esps_dur = run_duration
 
@@ -242,7 +251,18 @@ def run_foxi():
     else:
         volc_number = 0
         tgsd = 'user_defined'
-
+    if source_resolution == 15:
+        refir_PM_TAV = 1
+    elif source_resolution == 30:
+        refir_PM_TAV = 2
+    elif source_resolution == 60:
+        refir_PM_TAV = 3
+    elif source_resolution == 180:
+        refir_PM_TAV = 4
+    elif source_resolution == 360:
+        refir_PM_TAV = 5
+    else:
+        refir_PM_TAV = 0
     with open(fix_config_file, 'w', encoding="utf-8", errors="surrogateescape") as fix_config:
         for i in range(0, len(fix_config_records)):
             if i == 0:
@@ -256,7 +276,7 @@ def run_foxi():
             elif i == 167:
                 fix_config.write(stop_time + '\n')
             elif i == 169:
-                fix_config.write('60\n')
+                fix_config.write(str(refir_PM_TAV) + '\n')
             elif i == 172:
                 fix_config.write('1\n')
             elif i == 173:
@@ -277,7 +297,6 @@ def run_foxi():
 def run_refir():
     REFIR_CONFIG = os.path.join(REFIR,'refir_config')
     REFIR_CONFIG_OPERATIONAL = os.path.join(REFIR_CONFIG, 'operational_setting')
-    volcano_list_file = os.path.join(REFIR_CONFIG,'volcano_list.ini')
     os.system('source activate refir')
     os.chdir(REFIR_CONFIG)
     foxset_command = 'python FoxSet.py'
@@ -287,17 +306,19 @@ def run_refir():
     os.system(fix_command)
     foxi_command = 'python FOXI.py'
     os.system(foxi_command)
-    with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
-        for line in volcano_list:
-            try:
-                if int(line.split('\t')[0]) == volc_id:
-                    volc_lat = line.split('\t')[1]
-                    volc_lon = line.split('\t')[2]
-                    summit = float(line.split('\t')[3])
-                    #tgsd = line.split('\t')[5]
-                    #tgsd = tgsd.split('\n')[0]
-            except:
-                continue
+    try:
+        dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
+    except:
+        volcano_list_file = os.path.join(REFIR_CONFIG, 'volcano_list.ini')
+        with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
+            for line in volcano_list:
+                try:
+                    if int(line.split('\t')[0]) == volc_id:
+                        volc_lat = line.split('\t')[1]
+                        volc_lon = line.split('\t')[2]
+                        summit = float(line.split('\t')[3])
+                except:
+                    continue
     paths = []
     files = os.listdir(REFIR)
     for file in files:
@@ -310,8 +331,11 @@ def run_refir():
         lines = []
         for line in refir_config_r:
             lines.append(line)
-    er_dur = lines[173]
-    er_dur = float(er_dur.split('\n')[0])
+    if er_duration_input != 999:
+        er_dur = er_duration_input
+    else:
+        er_dur = lines[173] # This is updated by FIX if the ESPs usage is activated in FIX. Otherwise this is 0.
+        er_dur = float(er_dur.split('\n')[0])
     if er_dur > run_duration or er_dur == 0:
         er_dur = run_duration
     tgsd = 'user_defined'
@@ -321,14 +345,14 @@ def run_refir():
         shutil.copy(os.path.join(REFIR_CONFIG_OPERATIONAL,file),REFIR_CONFIG)
     return er_dur, summit, volc_lat, volc_lon, tgsd
 
-def run_models(short_simulation):
+def run_models(short_simulation, eruption_dur):
     def read_refir_outputs(short_simulation):
         files = os.listdir(REFIR)
         paths = []
-        tavg_mer_file = ''
-        tavg_plh_file = ''
         mer_file = ''
         plh_file = ''
+        tavg_plh_file = ''
+        tavg_mer_file = ''
         refir_run_name = ''
         for file in files:
             file_path = os.path.join(REFIR,file)
@@ -339,16 +363,16 @@ def run_models(short_simulation):
         files = os.listdir(refir_run)
         for file in files:
             if file.endswith('_STATUS_REPORT.txt'):
-                refir_run_name = file.split('_')[0] #Get REFIR run name
+                refir_run_name = file.split('_')[0]  # Get REFIR run name
         for file in files:
             if file.endswith('tavg_FMER.txt'):
-                tavg_mer_file = os.path.join(refir_run,file)
+                tavg_mer_file = os.path.join(refir_run, file)
             elif file.endswith('tavg_PLH.txt'):
-                tavg_plh_file = os.path.join(refir_run,file)
+                tavg_plh_file = os.path.join(refir_run, file)
             elif mode == 'manual' and file == refir_run_name + '_FMER.txt':
-                mer_file = os.path.join(refir_run,file)
+                mer_file = os.path.join(refir_run, file)
             elif mode == 'manual' and file == refir_run_name + '_PLH.txt':
-                plh_file = os.path.join(refir_run,file)
+                plh_file = os.path.join(refir_run, file)
             elif mode == 'operational' and file == 'operational_FMER.txt':
                 mer_file = os.path.join(refir_run, file)
             elif mode == 'operational' and file == 'operational_PLH.txt':
@@ -359,8 +383,9 @@ def run_models(short_simulation):
                 for line in mer_file_r:
                     lines += 1
             if lines == 2:
-                short_simulation = True # always convert to a short simulation if REFIR has been run manually for one time step only
+                short_simulation = True  # always convert to a short simulation if REFIR has been run manually for one time step only
             mer_file_r.close()
+        new_er_dur = 0
         if short_simulation:
             with open(mer_file, 'r', encoding="utf-8", errors="surrogateescape") as mer_file_r:
                 mer_min = ''
@@ -395,26 +420,22 @@ def run_models(short_simulation):
                     except:
                         continue
         else:
-            try:
-                mer_file = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
-                for line in mer_file:
-                    minute_dummy = int(line.split('\t')[1])
-            except:
-                mer_file = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
-            try:
-                plh_file = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
-                for line in mer_file:
-                    minute_dummy = int(line.split('\t')[1])
-            except:
-                plh_file = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
-
+            lines = 0
+            with open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape") as mer_file_r:
+                for line in mer_file_r:
+                    lines += 1
             mer_min = ''
             mer_avg = ''
             mer_max = ''
-            for line in mer_file:
+            if lines == 1:
+                mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+            else:
+                mer_file_r = open(tavg_mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+            for line in mer_file_r:
                 try:
                     minute = int(line.split('\t')[1])
-                    if minute % 60 == 0:
+                    new_er_dur = minute
+                    if minute % source_resolution == 0 or minute - 1 % source_resolution == 0 or minute + 1 % source_resolution == 0:
                         mer_min_tmp = line.split('\t')[2]
                         mer_min_tmp = mer_min_tmp.split('.')[0]
                         mer_min += ' ' + mer_min_tmp
@@ -426,13 +447,22 @@ def run_models(short_simulation):
                         mer_max += ' ' + mer_max_tmp
                 except:
                     continue
+            mer_file_r.close()
+            lines = 0
+            with open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape") as plh_file_r:
+                for line in plh_file_r:
+                    lines += 1
             plh_min = ''
             plh_avg = ''
             plh_max = ''
-            for line in plh_file:
+            if lines == 1:
+                plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            else:
+                plh_file_r = open(tavg_plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+            for line in plh_file_r:
                 try:
                     minute = int(line.split('\t')[1])
-                    if minute % 60 == 0:
+                    if minute % source_resolution == 0 or minute - 1 % source_resolution == 0 or minute + 1 % source_resolution == 0:
                         plh_min_tmp = line.split('\t')[2]
                         plh_min_tmp = plh_min_tmp.split('.')[0]
                         plh_min += ' ' + plh_min_tmp
@@ -444,7 +474,73 @@ def run_models(short_simulation):
                         plh_max += ' ' + plh_max_tmp
                 except:
                     continue
-        return mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation
+            plh_file_r.close()
+            if 0 < new_er_dur < source_resolution:
+                mer_min_new = 0
+                mer_avg_new = 0
+                mer_max_new = 0
+                plh_min_new = 0
+                plh_avg_new = 0
+                plh_max_new = 0
+                plh_min = ''
+                plh_avg = ''
+                plh_max = ''
+                mer_min = ''
+                mer_avg = ''
+                mer_max = ''
+                mer_file_r = open(mer_file, 'r', encoding="utf-8", errors="surrogateescape")
+                minute_old = 0
+                for line in mer_file_r:
+                    try:
+                        minute = int(line.split('\t')[1])
+                        delta_min = minute - minute_old
+                        mer_min_tmp = line.split('\t')[2]
+                        mer_min_tmp = mer_min_tmp.split('.')[0]
+                        mer_min_new += float(mer_min_tmp) * delta_min
+                        mer_avg_tmp = line.split('\t')[3]
+                        mer_avg_tmp = mer_avg_tmp.split('.')[0]
+                        mer_avg_new += float(mer_avg_tmp) * delta_min
+                        mer_max_tmp = line.split('\t')[4]
+                        mer_max_tmp = mer_max_tmp.split('.')[0]
+                        mer_max_new += float(mer_max_tmp) * delta_min
+                        minute_old = minute
+                    except:
+                        continue
+                mer_min_new = mer_min_new / new_er_dur
+                mer_min += ' ' + '{:.0f}'.format(mer_min_new)
+                mer_avg_new = mer_avg_new / new_er_dur
+                mer_avg += ' ' + '{:.0f}'.format(mer_avg_new)
+                mer_max_new = mer_max_new / new_er_dur
+                mer_max += ' ' + '{:.0f}'.format(mer_max_new)
+                mer_file_r.close()
+                plh_file_r = open(plh_file, 'r', encoding="utf-8", errors="surrogateescape")
+                minute_old = 0
+                for line in plh_file_r:
+                    try:
+                        minute = int(line.split('\t')[1])
+                        delta_min = minute - minute_old
+                        plh_min_tmp = line.split('\t')[2]
+                        plh_min_tmp = plh_min_tmp.split('.')[0]
+                        plh_min_new += float(plh_min_tmp) * delta_min
+                        plh_avg_tmp = line.split('\t')[3]
+                        plh_avg_tmp = plh_avg_tmp.split('.')[0]
+                        plh_avg_new += float(plh_avg_tmp) * delta_min
+                        plh_max_tmp = line.split('\t')[4]
+                        plh_max_tmp = plh_max_tmp.split('.')[0]
+                        plh_max_new += float(plh_max_tmp) * delta_min
+                        minute_old = minute
+                    except:
+                        continue
+                plh_min_new = plh_min_new / new_er_dur
+                plh_min += ' ' + '{:.0f}'.format(plh_min_new)
+                plh_avg_new = plh_avg_new / new_er_dur
+                plh_avg += ' ' + '{:.0f}'.format(plh_avg_new)
+                plh_max_new = plh_max_new / new_er_dur
+                plh_max += ' ' + '{:.0f}'.format(plh_max_new)
+                plh_file_r.close()
+            else:
+                new_er_dur = 0
+        return mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur
 
     def controller(program):
         def run_fall3d():
@@ -488,6 +584,12 @@ def run_models(short_simulation):
                     np = npx * npy * npz
                     return np, npx, npy, npz
 
+                def convert_to_decimal(time_input):
+                    hours = float(datetime.datetime.strftime(time_input, "%H"))
+                    minutes = int(datetime.datetime.strftime(time_input, "%M"))
+                    decimal_time = hours + minutes / 60
+                    return decimal_time
+
                 RUN = os.path.join(RUNS_TIME,solution)
                 try:
                     os.mkdir(RUN)
@@ -521,33 +623,37 @@ def run_models(short_simulation):
                 max_altitude = round(max_altitude, -3)
                 dz = 1000
                 n_levels = int(max_altitude / dz + 1)
-                shr_er_end = float(shr) + eruption_dur
                 source_start_string = ''
                 source_end_string = ''
-                max_altitude = round(max_altitude, -3)
-                dz = 1000
-                n_levels = int(max_altitude / dz + 1)
                 levels = '0'
                 altitude = 0
                 while altitude < max_altitude:
                     altitude += dz
                     levels += ' ' + str(int(altitude))
+                time_emission = time_now
                 if not short_simulation:
-                    time = 0
-                    time_emission = time_now
-                    time_end_emission = time_emission + datetime.timedelta(hours=1)
-                    source_start_string += datetime.datetime.strftime(time_emission, "%H") + ' '
-                    source_end_string += datetime.datetime.strftime(time_end_emission, "%H") + ' '
-                    time += 1
-                    while time <= int(eruption_dur) - 1:
-                        time_emission += datetime.timedelta(hours=1)
-                        time_end_emission = time_emission + datetime.timedelta(hours=1)
-                        source_start_string += datetime.datetime.strftime(time_emission, "%H") + ' '
-                        source_end_string += datetime.datetime.strftime(time_end_emission, "%H") + ' '
-                        time += 1
+                    effective_time_end_emission = time_emission + datetime.timedelta(hours=eruption_dur)
+                    time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
+                    decimal_time_start = convert_to_decimal(time_emission)
+                    decimal_time_end = decimal_time_start + source_resolution / 60
+                    while True:
+                        if time_end_emission >= effective_time_end_emission:
+                            delta_time = (time_end_emission - effective_time_end_emission).seconds
+                            decimal_time_end -= delta_time / 3600
+                            source_start_string += '{:.1f}'.format(decimal_time_start) + ' '
+                            source_end_string += '{:.1f}'.format(decimal_time_end) + ' '
+                            break
+                        else:
+                            source_start_string += '{:.1f}'.format(decimal_time_start) + ' '
+                            source_end_string += '{:.1f}'.format(decimal_time_end) + ' '
+                            decimal_time_start += source_resolution / 60
+                            decimal_time_end += source_resolution / 60
+                            time_end_emission += datetime.timedelta(minutes=source_resolution)
                 else:
-                    source_start_string = shr
-                    source_end_string = '{:.0f}'.format(shr_er_end)
+                    decimal_time_start = convert_to_decimal(time_emission)
+                    source_start_string += '{:.1f}'.format(decimal_time_start)
+                    decimal_time_end = decimal_time_start + eruption_dur
+                    source_end_string += '{:.1f}'.format(decimal_time_end)
                 np, npx, npy, npz = distribute_processes(n_processes)
                 lines = []
                 with open(INPUT,'r',encoding="utf-8", errors="surrogateescape") as fall3d_input:
@@ -755,6 +861,7 @@ def run_models(short_simulation):
                     for i in range(0, len(wt_fraction)):
                         em_rates.append(0.0)  # Here divide per the number of processes
                         em_rates_strings.append('em_rate[' + str(i + 1) + ']')
+                    em_duration = '0.0'
                 else:
                     plh = float(plh_vector[0])
                     mer = float(mer) * 3600.0 * 1000 #Convert in g/h for HYSPLIT
@@ -763,6 +870,7 @@ def run_models(short_simulation):
                     for i in range(0, len(wt_fraction)):
                         em_rates.append(mer * float(wt_fraction[i]) / float(n_processes))  # Here divide per the number of processes
                         em_rates_strings.append('em_rate[' + str(i+1) + ']')
+                    em_duration = str(eruption_dur)
                 n_source_locations = 2 * len(plh_vector)
                 max_altitude = round(max_altitude, -3)
                 dz = 1000
@@ -782,7 +890,7 @@ def run_models(short_simulation):
                         for j in range(0, len(plh_vector)):
                             control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' + '{:.2f}'.format(float(volc_lon)) + ' ' + str(summit) + '\n')
                             control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' + '{:.2f}'.format(float(volc_lon)) + ' ' + '{:.2f}'.format(float(plh_vector[j])) + '\n')
-                        control_file.write('96\n')
+                        control_file.write(str(run_duration) + '\n')
                         control_file.write('0\n')
                         control_file.write(str(max_altitude) + '\n')
                         control_file.write('2\n')
@@ -793,7 +901,7 @@ def run_models(short_simulation):
                         control_file.write('1\n')
                         control_file.write(pollutants[i-1] + '\n')
                         control_file.write('{:.1f}'.format(em_rates[i-1]) + '\n')
-                        control_file.write(str(eruption_dur) + '\n')
+                        control_file.write(em_duration + '\n')
                         control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + ' 00\n')
                         control_file.write('1\n')
                         control_file.write('{:.1f}'.format(grid_centre_lat) + ' ' + '{:.1f}'.format(grid_centre_lon) + '\n')
@@ -837,29 +945,60 @@ def run_models(short_simulation):
                 mer_vector = mer_vector[1:]
                 plh_vector = plh.split(' ')
                 plh_vector = plh_vector[1:]
-                n_records = int(eruption_dur * 2)
+                n_records = 0
                 time = 0
                 em_file_records = []
                 em_file_records.append('YYYY MM DD HH DURATION(hhhh) #RECORDS\n')
                 em_file_records.append('YYYY MM DD HH MM DURATION(hhmm) LAT LON HGT(m) RATE(/h) AREA(m2) HEAT(w)\n')
                 start_time_short = datetime.datetime.strftime(time_now, "%Y %m %d %H")
                 time_emission = time_now
-                time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
-                if eruption_dur < 10:
-                    eruption_dur_s = '000' + str(int(eruption_dur))
-                else:
-                    eruption_dur_s = '00' + str(int(eruption_dur))
+                eruption_dur_s = '{:03d}'.format(int(round(eruption_dur + 0.49)))
                 em_file_records.append(start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n')
-                while time <= eruption_dur - 1:
-                    mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt) / float(n_processes)
-                    em_file_records.append(time_emission_s + ' 0100 ' + volc_lat + ' ' + volc_lon + ' ' + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
-                    em_file_records.append(time_emission_s + ' 0100 ' + volc_lat + ' ' + volc_lon + ' ' + plh_vector[time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
-                    time += 1
-                    time_emission += datetime.timedelta(hours=1)
-                    time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
+                effective_time_end_emission = time_emission + datetime.timedelta(hours=eruption_dur)
+                while True:
+                    time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
+                    if time_end_emission >= effective_time_end_emission:
+                        time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
+                        time_difference = time_end_emission - effective_time_end_emission
+                        time_end_emission -= time_difference
+                        time_step_s = ' '
+                        time_step_minutes = source_resolution
+                        time_step_hours = int(time_step_minutes / 60)
+                        if time_step_hours >= 1:
+                            remainder = time_step_minutes % 60
+                        else:
+                            remainder = time_step_minutes
+                        time_step_s += '{:02d}'.format(time_step_hours)
+                        time_step_s += '{:02d}'.format(remainder) + ' '
+                        mer_bin = float(mer_vector[time]) * 3600 * 1000
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        em_file_records.append(
+                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + plh_vector[time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        n_records += 2
+                        break
+                    else:
+                        time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
+                        time_step_s = ' '
+                        time_step_minutes = source_resolution
+                        time_step_hours = int(time_step_minutes / 60)
+                        if time_step_hours >= 1:
+                            remainder = time_step_minutes % 60
+                        else:
+                            remainder = time_step_minutes
+                        time_step_s += '{:02d}'.format(time_step_hours)
+                        time_step_s += '{:02d}'.format(remainder) + ' '
+                        mer_bin = float(mer_vector[time]) * 3600 * 1000
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + plh_vector[time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        time += 1
+                        n_records += 2
+                        time_emission += datetime.timedelta(minutes=source_resolution)
+                        time_end_emission += datetime.timedelta(minutes=source_resolution)
+                em_file_records[2] = start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n'  # Overwrite with the correct number of records
                 with open(emission_file, 'w', encoding="utf-8", errors="surrogateescape") as em_file:
                     for record in em_file_records:
                         em_file.write(record)
+
             try:
                 n_bins, diam, rho, shape, wt_fraction, pollutants, diam_strings, rho_strings, shape_strings, wt_fraction_strings, pollutants_strings = read_tgsd_file(tgsd)
             except:
@@ -928,17 +1067,13 @@ def run_models(short_simulation):
         elif program == 'hysplit':
             run_hysplit()
 
-    mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation = read_refir_outputs(short_simulation)
+    mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur = read_refir_outputs(short_simulation)
+    if new_er_dur != 0:
+        eruption_dur = new_er_dur / 60
     programs = ['fall3d','hysplit']
     pool_programs = ThreadingPool(2)
     pool_programs.map(controller, programs)
     pool_programs.join()
-
-if start_time != '999' and mode == 'manual':
-    time_now = start_time_datetime
-else:
-    time_now = datetime.datetime.utcnow()
-syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
 
 if settings_file:
     with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
@@ -970,17 +1105,23 @@ if settings_file:
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
 else:
-    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration)
+    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution)
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy
 grid_centre_lon = lon_min + dx
 
+if start_time != '999' and mode == 'manual':
+    time_now = start_time_datetime
+else:
+    time_now = datetime.datetime.utcnow()
+syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
+
 if mode == 'operational':
     eruption_dur, eruption_plh, summit, volc_lat, volc_lon, tgsd = run_foxi()
 else:
     eruption_dur, summit, volc_lat, volc_lon, tgsd = run_refir()
-    os.chdir(ROOT)
+os.chdir(ROOT)
 # Check the tgsd file is available in TGSDs
 tgsd_file = os.path.join(TGSDS,tgsd)
 if not os.path.exists(tgsd_file):
@@ -1017,6 +1158,6 @@ else:
     except FileExistsError:
         print('Folder ' + RUNS + ' exists')
 
-run_models(short_simulation)
+run_models(short_simulation, eruption_dur)
 clean_folders()
 
