@@ -853,22 +853,20 @@ def run_models(short_simulation, eruption_dur):
                 else:
                     plh_vector = []
                     plh_vector.append(plh)
+                for i in range(0, len(plh_vector)):
+                    plh_vector[i] = float(plh_vector[i]) + summit  # Currently HYSPLIT is setup to use heights asl (see SETUP.CFG) but this can be changed back to above ground
+                max_altitude = max(plh_vector) + 8000
                 if short_simulation == False: # HYSPLIT will use EMITIMES
-                    for i in range(0, len(plh_vector)):
-                        plh_vector[i] = float(plh_vector[i]) + summit   #Currently HYSPLIT is setup to use heights asl (see SETUP.CFG) but this can be changed back to above ground
-                    max_altitude = max(plh_vector) + 8000
                     efile = 'EMITIMES'
                     for i in range(0, len(wt_fraction)):
                         em_rates.append(0.0)  # Here divide per the number of processes
                         em_rates_strings.append('em_rate[' + str(i + 1) + ']')
                     em_duration = '0.0'
                 else:
-                    plh = float(plh_vector[0]) + summit #Currently HYSPLIT is setup to use heights asl (see SETUP.CFG) but this can be changed back to above ground
                     mer = float(mer) * 3600.0 * 1000 #Convert in g/h for HYSPLIT
-                    max_altitude = plh + 8000
                     efile = ''
                     for i in range(0, len(wt_fraction)):
-                        em_rates.append(mer * float(wt_fraction[i]) / float(n_processes))  # Here divide per the number of processes
+                        em_rates.append(mer * float(wt_fraction[i]) / float(n_bins))  # Here divide per the number of bins
                         em_rates_strings.append('em_rate[' + str(i+1) + ']')
                     em_duration = str(eruption_dur)
                 n_source_locations = 2 * len(plh_vector)
