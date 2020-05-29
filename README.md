@@ -193,7 +193,7 @@ Executable of the ash-model-plotting package (https://github.com/BritishGeologic
 
 
 Improvements for the future:
-- specification of the eruption duration
+- check what control.py actually does when FOXI runs for 1 time step in manual mode and with ED specified and short simulation set to True
 - add flexible control for the TGSD (e.g. specify the TGSD name in input)
 - selection of one dispersion model only
 - implementation of NAME (reanalysis mode only unless usage of GFS data is implemented)

@@ -616,8 +616,8 @@ def run_models(short_simulation, eruption_dur):
                 for i in range(0,len(plh_vector)):
                     if float(plh_vector[i]) > max_altitude:
                         max_altitude = float(plh_vector[i])
-                    plh_abv_vector.append(float(plh_vector[i]) - summit)
-                    plh_abv += str(float(plh_vector[i]) - summit) + ' '
+                    plh_abv_vector.append(float(plh_vector[i]))    # FALL3D wants height above vent, which is what REFIR produces
+                    plh_abv += str(float(plh_vector[i])) + ' '
                     mer_string += mer_vector[i] + ' '
                 max_altitude += 8000
                 max_altitude = round(max_altitude, -3)
@@ -855,7 +855,7 @@ def run_models(short_simulation, eruption_dur):
                     plh_vector.append(plh)
                 if short_simulation == False: # HYSPLIT will use EMITIMES
                     for i in range(0, len(plh_vector)):
-                        plh_vector[i] = float(plh_vector[i])
+                        plh_vector[i] = float(plh_vector[i]) + summit   #Currently HYSPLIT is setup to use heights asl (see SETUP.CFG) but this can be changed back to above ground
                     max_altitude = max(plh_vector) + 8000
                     efile = 'EMITIMES'
                     for i in range(0, len(wt_fraction)):
@@ -863,7 +863,7 @@ def run_models(short_simulation, eruption_dur):
                         em_rates_strings.append('em_rate[' + str(i + 1) + ']')
                     em_duration = '0.0'
                 else:
-                    plh = float(plh_vector[0])
+                    plh = float(plh_vector[0]) + summit #Currently HYSPLIT is setup to use heights asl (see SETUP.CFG) but this can be changed back to above ground
                     mer = float(mer) * 3600.0 * 1000 #Convert in g/h for HYSPLIT
                     max_altitude = plh + 8000
                     efile = ''
@@ -970,10 +970,11 @@ def run_models(short_simulation, eruption_dur):
                             remainder = time_step_minutes
                         time_step_s += '{:02d}'.format(time_step_hours)
                         time_step_s += '{:02d}'.format(remainder) + ' '
-                        mer_bin = float(mer_vector[time]) * 3600 * 1000
+                        mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt)
+                        plh = float(plh_vector[time]) + summit
                         em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
                         em_file_records.append(
-                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + plh_vector[time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + '{:.1f}'.format(plh) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
                         n_records += 2
                         break
                     else:
@@ -987,9 +988,10 @@ def run_models(short_simulation, eruption_dur):
                             remainder = time_step_minutes
                         time_step_s += '{:02d}'.format(time_step_hours)
                         time_step_s += '{:02d}'.format(remainder) + ' '
-                        mer_bin = float(mer_vector[time]) * 3600 * 1000
+                        mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt)
+                        plh = float(plh_vector[time]) + summit
                         em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
-                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + plh_vector[time] + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + '{:.1f}'.format(plh) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
                         time += 1
                         n_records += 2
                         time_emission += datetime.timedelta(minutes=source_resolution)
