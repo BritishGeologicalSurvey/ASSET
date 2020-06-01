@@ -877,7 +877,7 @@ def run_models(short_simulation, eruption_dur):
                     altitude += dz
                     levels += ' ' + str(int(altitude))
                 for i in range(1,int(n_bins)+1):
-                    particle_rate_bin = tot_particle_rate / float((wt_fraction[i-1]))
+                    particle_rate_bin = tot_particle_rate * float((wt_fraction[i-1]))
                     tot_particles = particle_rate_bin * eruption_dur
                     os.chdir(os.path.join(RUN,'poll'+str(i),'run'))
                     with open('CONTROL', 'w', encoding="utf-8", errors="surrogateescape") as control_file:
