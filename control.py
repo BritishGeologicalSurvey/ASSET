@@ -840,8 +840,6 @@ def run_models(short_simulation, eruption_dur):
                 os.chdir(RUN)
                 syr_2ch = syr[0:2]
                 tot_particle_rate = 1000000
-                particle_rate_proc = tot_particle_rate / float(n_bins)
-                tot_particles = particle_rate_proc * eruption_dur
                 ncpu_per_pollutant = n_processes / int(n_bins)
                 if ncpu_per_pollutant > 10:
                     ncpu_per_pollutant = 10
@@ -866,7 +864,7 @@ def run_models(short_simulation, eruption_dur):
                     mer = float(mer) * 3600.0 * 1000 #Convert in g/h for HYSPLIT
                     efile = ''
                     for i in range(0, len(wt_fraction)):
-                        em_rates.append(mer * float(wt_fraction[i]) / float(n_bins))  # Here divide per the number of bins
+                        em_rates.append(mer * float(wt_fraction[i])) # / float(n_bins))  # Here divide per the number of bins NOT NEEDED!
                         em_rates_strings.append('em_rate[' + str(i+1) + ']')
                     em_duration = str(eruption_dur)
                 n_source_locations = 2 * len(plh_vector)
@@ -879,6 +877,8 @@ def run_models(short_simulation, eruption_dur):
                     altitude += dz
                     levels += ' ' + str(int(altitude))
                 for i in range(1,int(n_bins)+1):
+                    particle_rate_bin = tot_particle_rate / float((wt_fraction[i-1]))
+                    tot_particles = particle_rate_bin * eruption_dur
                     os.chdir(os.path.join(RUN,'poll'+str(i),'run'))
                     with open('CONTROL', 'w', encoding="utf-8", errors="surrogateescape") as control_file:
                         diam_micron = float(diam[i-1]) * 1000.0
@@ -924,7 +924,7 @@ def run_models(short_simulation, eruption_dur):
                         for line in setup_file:
                             record = line.split(' = ')
                             if record[0] == ' numpar':
-                                line = record[0] + ' = ' + str(int(particle_rate_proc)) + ',\n'
+                                line = record[0] + ' = ' + str(int(particle_rate_bin)) + ',\n'
                             elif record[0] == ' maxpar':
                                 line = record[0] + ' = ' + str(int(tot_particles)) + ',\n'
                             elif record[0] == ' efile':
