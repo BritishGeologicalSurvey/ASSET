@@ -27,6 +27,7 @@ parser.add_argument('-D','--dur',default=96,help='Ash dispersion simulation dura
 parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
 parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours)')
 parser.add_argument('-SR','--source_resolution',default=60,help='Time resolution of the source (minutes)')
+parser.add_argument('-PER', '--per', default=1000000,help='Total lagrangian particles emission rate (particle/hour)')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -42,6 +43,7 @@ run_duration = args.dur
 start_time = args.start_time
 er_duration_input = args.er_duration
 source_resolution = args.source_resolution
+per = args.per
 if settings_file == 'True':
     settings_file = True
 elif settings_file == 'False':
@@ -66,7 +68,7 @@ if start_time != '999':
         exit()
 er_duration_input = float(er_duration_input)
 
-def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution):
+def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per):
     lon_max = float(lon_max)
     lon_min = float(lon_min)
     lat_max = float(lat_max)
@@ -140,8 +142,12 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
         exit()
     base = 5
     source_resolution = base * round(source_resolution / base) #Ensure the source resolution is always a multiple of 5
-
-    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution
+    try:
+        tot_particle_rate = int(per)
+    except:
+        print('Please provide a valid number for the Total particle emission rate')
+        exit()
+    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate
 
 def get_times(time):
     twodaysago_t = time - datetime.timedelta(days=2)
@@ -839,7 +845,6 @@ def run_models(short_simulation, eruption_dur):
                     os.chdir(RUN)
                 os.chdir(RUN)
                 syr_2ch = syr[0:2]
-                tot_particle_rate = 1000000
                 ncpu_per_pollutant = n_processes / int(n_bins)
                 if ncpu_per_pollutant > 10:
                     ncpu_per_pollutant = 10
@@ -1105,7 +1110,7 @@ if settings_file:
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
 else:
-    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution)
+    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per)
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy
