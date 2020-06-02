@@ -83,6 +83,12 @@ usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I]
   -START START_TIME, --start_time START_TIME
                         Starting date and time of the simulation in UTC
                         (DD/MM/YYYY-HH:MM). Option valid only in manual mode
+  -ED ER_DURATION, --er_duration ER_DURATION
+                        Eruption duration (hours)
+  -SR SOURCE_RESOLUTION, --source_resolution SOURCE_RESOLUTION
+                        Time resolution of the source (minutes)
+  -PER PER, --per PER   Total lagrangian particles emission rate
+                        (particle/hour)
 
 - post_processing.py
 Python script that automatically produce contour plots of the simulation outputs by using the ash-model-plotting package (see Dependencies).
@@ -193,7 +199,6 @@ Executable of the ash-model-plotting package (https://github.com/BritishGeologic
 
 
 Improvements for the future:
-- check the modification I have made in HYSPLIT (n_bins instead of n_processes) are correct. Additionally, perhaps change the way the Lagrangian particles are distributed among the bins (proportional?).
 - check what control.py actually does when FOXI runs for 1 time step in manual mode and with ED specified and short simulation set to True
 - add flexible control for the TGSD (e.g. specify the TGSD name in input)
 - selection of one dispersion model only
