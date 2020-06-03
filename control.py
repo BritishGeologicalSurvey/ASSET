@@ -28,6 +28,7 @@ parser.add_argument('-START','--start_time',default='999',help='Starting date an
 parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours)')
 parser.add_argument('-SR','--source_resolution',default=60,help='Time resolution of the source (minutes)')
 parser.add_argument('-PER', '--per', default=1000000,help='Total lagrangian particles emission rate (particle/hour)')
+parser.add_argument('-OI','--output_interval',default=1, help='Output time interval in hours')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -43,6 +44,7 @@ run_duration = args.dur
 start_time = args.start_time
 er_duration_input = args.er_duration
 source_resolution = args.source_resolution
+output_interval = args.output_interval
 per = args.per
 if settings_file == 'True':
     settings_file = True
@@ -68,7 +70,7 @@ if start_time != '999':
         exit()
 er_duration_input = float(er_duration_input)
 
-def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per):
+def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval):
     lon_max = float(lon_max)
     lon_min = float(lon_min)
     lat_max = float(lat_max)
@@ -147,7 +149,12 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     except:
         print('Please provide a valid number for the Total particle emission rate')
         exit()
-    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate
+    try:
+        int(output_interval)
+    except:
+        print('Please provide a valid number for the output interval in hours')
+        exit()
+    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval
 
 def get_times(time):
     twodaysago_t = time - datetime.timedelta(days=2)
@@ -710,6 +717,8 @@ def run_models(short_simulation, eruption_dur):
                                 line = record[0] + ' = ' + mer_string + '\n'
                             elif record[0] == '      THICKNESS_(M)':
                                 line = record[0] + ' = ' + plh_abv + '\n'
+                            elif record[0] == '   OUTPUT_TIME_INTERVAL_(HOURS) ':
+                                line = record[0] + ' = ' + output_interval + '\n'
                             try:
                                 record = line.split('VALUES')
                                 if record[0] == '      Z-':
@@ -916,7 +925,8 @@ def run_models(short_simulation, eruption_dur):
                         control_file.write(levels + '\n')
                         control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + ' 00\n')
                         control_file.write('99 12 31 24 60\n')
-                        control_file.write('00 01 00\n')
+                        #control_file.write('00 01 00\n')
+                        control_file.write('1 ' + output_interval + ' 00\n')
                         control_file.write('1\n')
                         control_file.write('{:.2f}'.format(diam_micron) + ' ' + '{:.1f}'.format(rho_gcc) + ' ' + shape[i-1] + '\n')
                         control_file.write('0.0 0.0 0.0 0.0 0.0\n')
@@ -1130,7 +1140,7 @@ if settings_file:
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
 else:
-    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per)
+    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval)
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy

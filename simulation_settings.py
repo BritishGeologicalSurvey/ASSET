@@ -26,9 +26,10 @@ def get_input_data():
     Label(get_inputs, text="Eruption duration (hrs): ", font="Helvetica 10").grid(row=15, column=0, sticky=W)
     Label(get_inputs, text="Source resolution (mins): ", font="Helvetica 10").grid(row=16, column=0, sticky=W)
     Label(get_inputs, text="Particles emission rate (p/hr): ", font="Helvetica 10").grid(row=17, column=0, sticky=W)
-    Label(get_inputs, text="REFIR Short", font="Helvetica 10").grid(row=18, column=0, sticky=W)
-    Radiobutton(get_inputs, text="True", variable=short_simulation, value=True).grid(row=18, column=1)
-    Radiobutton(get_inputs, text="False", variable=short_simulation, value=False).grid(row=18, column=2)
+    Label(get_inputs, text="Output interval (hrs): ", font="Helvetica 10").grid(row=18, column=0, sticky=W)
+    Label(get_inputs, text="REFIR Short", font="Helvetica 10").grid(row=19, column=0, sticky=W)
+    Radiobutton(get_inputs, text="True", variable=short_simulation, value=True).grid(row=19, column=1)
+    Radiobutton(get_inputs, text="False", variable=short_simulation, value=False).grid(row=19, column=2)
     lat_min_in = Entry(get_inputs, width=8)
     lat_min_in.grid(row=6, column=0, sticky=E)
     lat_max_in = Entry(get_inputs, width=8)
@@ -49,9 +50,11 @@ def get_input_data():
     source_resolution_in.grid(row=16, column=1, sticky=W)
     per_in = Entry(get_inputs, width=10)
     per_in.grid(row=17, column=1, sticky=W)
+    output_interval_in = Entry(get_inputs, width=4)
+    output_interval_in.grid(row=18, column=1, sticky=W)
 
     def on_button():
-        global lat_max, lat_min, lon_max, lon_min, volcano_ID, np, duration, short_simulation_s, lat_grid_centre, lon_grid_centre, er_duration, source_resolution, per
+        global lat_max, lat_min, lon_max, lon_min, volcano_ID, np, duration, short_simulation_s, lat_grid_centre, lon_grid_centre, er_duration, source_resolution, per, output_interval
         lat_max = str(lat_max_in.get())
         lat_min = str(lat_min_in.get())
         lon_max = str(lon_max_in.get())
@@ -63,11 +66,12 @@ def get_input_data():
         source_resolution = str(source_resolution_in.get())
         per = str(per_in.get())
         short_simulation_s = str(short_simulation.get())
+        output_interval = str(output_interval_in.get())
         lat_grid_centre = float(lat_min) + (float(lat_max) - float(lat_min)) / 2
         lon_grid_centre = float(lon_min) + (float(lon_max) - float(lon_min)) / 2
 
     Button(get_inputs, text="Confirm inputs", font="Helvetica 11", fg="yellow", bg="red", \
-           width=24, height=2, command=on_button).grid(row=19, column=0, columnspan=5)
+           width=24, height=2, command=on_button).grid(row=20, column=0, columnspan=5)
 
     get_inputs.mainloop()
 
@@ -84,5 +88,6 @@ with open('operational_settings.txt','w',encoding="utf-8", errors="surrogateesca
     settings_file.write('SHORT_SIMULATION=' + short_simulation_s + '\n')
     settings_file.write('ERUPTION_DURATION_[hours]=' + er_duration + '\n')
     settings_file.write('SOURCE_RESOLUTION_[hours]=' + source_resolution + '\n')
-    settings_file.write('PARTICLE_EMISSION_RATE_[p/hr]=' + per)
+    settings_file.write('PARTICLE_EMISSION_RATE_[p/hr]=' + per + '\n')
+    settings_file.write('OUTPUT_INTERVAL_[hr]=' + output_interval)
 

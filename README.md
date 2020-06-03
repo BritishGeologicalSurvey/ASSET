@@ -57,6 +57,8 @@ Python script that controls all the models execution. It takes the following arg
 usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I]
                   [-LATMIN LATMIN] [-LATMAX LATMAX] [-LONMIN LONMIN]
                   [-LONMAX LONMAX] [-D DUR] [-START START_TIME]
+                  [-ED ER_DURATION] [-SR SOURCE_RESOLUTION] [-PER PER]
+                  [-OI OUTPUT_INTERVAL]
   -h, --help            show this help message and exit
   -M MODE, --mode MODE  operational: routine simulation mode controlled via
                         operational_settings.txt manual: run with user
@@ -89,7 +91,8 @@ usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I]
                         Time resolution of the source (minutes)
   -PER PER, --per PER   Total lagrangian particles emission rate
                         (particle/hour)
-
+  -OI OUTPUT_INTERVAL, --output_interval OUTPUT_INTERVAL
+                        Output time interval in hours
 - post_processing.py
 Python script that automatically produce contour plots of the simulation outputs by using the ash-model-plotting package (see Dependencies).
 usage: post_processing.py [-h] [-M MODE] [-SET SET] [-LATMIN LATMIN]
