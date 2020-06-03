@@ -1140,6 +1140,7 @@ if settings_file:
             elif line.split('=')[0] == 'OUTPUT_INTERVAL_[hr]':
                 try:
                     output_interval = line.split('=')[1]
+                    output_interval = output_interval.split('\n')[0]
                     int(output_interval)
                 except:
                     output_interval = '1'
