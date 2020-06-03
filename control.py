@@ -27,6 +27,7 @@ parser.add_argument('-D','--dur',default=96,help='Ash dispersion simulation dura
 parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
 parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours)')
 parser.add_argument('-SR','--source_resolution',default=60,help='Time resolution of the source (minutes)')
+parser.add_argument('-PER', '--per', default=1000000,help='Total lagrangian particles emission rate (particle/hour)')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -42,6 +43,7 @@ run_duration = args.dur
 start_time = args.start_time
 er_duration_input = args.er_duration
 source_resolution = args.source_resolution
+per = args.per
 if settings_file == 'True':
     settings_file = True
 elif settings_file == 'False':
@@ -66,7 +68,7 @@ if start_time != '999':
         exit()
 er_duration_input = float(er_duration_input)
 
-def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution):
+def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per):
     lon_max = float(lon_max)
     lon_min = float(lon_min)
     lat_max = float(lat_max)
@@ -140,8 +142,12 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
         exit()
     base = 5
     source_resolution = base * round(source_resolution / base) #Ensure the source resolution is always a multiple of 5
-
-    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution
+    try:
+        tot_particle_rate = int(per)
+    except:
+        print('Please provide a valid number for the Total particle emission rate')
+        exit()
+    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate
 
 def get_times(time):
     twodaysago_t = time - datetime.timedelta(days=2)
@@ -839,9 +845,6 @@ def run_models(short_simulation, eruption_dur):
                     os.chdir(RUN)
                 os.chdir(RUN)
                 syr_2ch = syr[0:2]
-                tot_particle_rate = 1000000
-                particle_rate_proc = tot_particle_rate / float(n_bins)
-                tot_particles = particle_rate_proc * eruption_dur
                 ncpu_per_pollutant = n_processes / int(n_bins)
                 if ncpu_per_pollutant > 10:
                     ncpu_per_pollutant = 10
@@ -866,7 +869,7 @@ def run_models(short_simulation, eruption_dur):
                     mer = float(mer) * 3600.0 * 1000 #Convert in g/h for HYSPLIT
                     efile = ''
                     for i in range(0, len(wt_fraction)):
-                        em_rates.append(mer * float(wt_fraction[i]) / float(n_bins))  # Here divide per the number of bins
+                        em_rates.append(mer * float(wt_fraction[i])) # / float(n_bins))  # Here divide per the number of bins NOT NEEDED!
                         em_rates_strings.append('em_rate[' + str(i+1) + ']')
                     em_duration = str(eruption_dur)
                 n_source_locations = 2 * len(plh_vector)
@@ -879,6 +882,8 @@ def run_models(short_simulation, eruption_dur):
                     altitude += dz
                     levels += ' ' + str(int(altitude))
                 for i in range(1,int(n_bins)+1):
+                    particle_rate_bin = tot_particle_rate * float((wt_fraction[i-1]))
+                    tot_particles = particle_rate_bin * eruption_dur
                     os.chdir(os.path.join(RUN,'poll'+str(i),'run'))
                     with open('CONTROL', 'w', encoding="utf-8", errors="surrogateescape") as control_file:
                         diam_micron = float(diam[i-1]) * 1000.0
@@ -924,7 +929,7 @@ def run_models(short_simulation, eruption_dur):
                         for line in setup_file:
                             record = line.split(' = ')
                             if record[0] == ' numpar':
-                                line = record[0] + ' = ' + str(int(particle_rate_proc)) + ',\n'
+                                line = record[0] + ' = ' + str(int(particle_rate_bin)) + ',\n'
                             elif record[0] == ' maxpar':
                                 line = record[0] + ' = ' + str(int(tot_particles)) + ',\n'
                             elif record[0] == ' efile':
@@ -1102,10 +1107,30 @@ if settings_file:
                     short_simulation = True
                 elif short_simulation == 'False':
                     short_simulation = False
+            elif line.split('=')[0] == 'ERUPTION_DURATION_[hours]':
+                try:
+                    er_duration_input = line.split('=')[1]
+                    er_duration_input = float(er_duration_input)
+                except:
+                    er_duration_input = 999
+            elif line.split('=')[0] == 'SOURCE_RESOLUTION_[hours]':
+                try:
+                    source_resolution = line.split('=')[1]
+                    source_resolution = int(source_resolution)
+                    base = 5
+                    source_resolution = base * round(source_resolution / base)  # Ensure the source resolution is always a multiple of 5
+                except:
+                    source_resolution = 60
+            elif line.split('=')[0] == 'PARTICLE_EMISSION_RATE_[p/hr]':
+                try:
+                    tot_particle_rate = line.split('=')[1]
+                    tot_particle_rate = int(tot_particle_rate)
+                except:
+                    tot_particle_rate = 1000000
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
 else:
-    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution)
+    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per)
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy
