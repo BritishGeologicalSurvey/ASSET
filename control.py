@@ -1137,6 +1137,12 @@ if settings_file:
                     tot_particle_rate = int(tot_particle_rate)
                 except:
                     tot_particle_rate = 1000000
+            elif line.split('=')[0] == 'OUTPUT_INTERVAL_[hr]':
+                try:
+                    output_interval = line.split('=')[1]
+                    int(output_interval)
+                except:
+                    output_interval = '1'
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
 else:
