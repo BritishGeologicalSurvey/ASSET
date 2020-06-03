@@ -1110,13 +1110,13 @@ if settings_file:
             elif line.split('=')[0] == 'ERUPTION_DURATION_[hours]':
                 try:
                     er_duration_input = line.split('=')[1]
-                    er_duration_input = float(er_duration_input.split('=')[1])
+                    er_duration_input = float(er_duration_input)
                 except:
                     er_duration_input = 999
             elif line.split('=')[0] == 'SOURCE_RESOLUTION_[hours]':
                 try:
                     source_resolution = line.split('=')[1]
-                    source_resolution = int(source_resolution.split('=')[1])
+                    source_resolution = int(source_resolution)
                     base = 5
                     source_resolution = base * round(source_resolution / base)  # Ensure the source resolution is always a multiple of 5
                 except:
@@ -1124,7 +1124,7 @@ if settings_file:
             elif line.split('=')[0] == 'PARTICLE_EMISSION_RATE_[p/hr]':
                 try:
                     tot_particle_rate = line.split('=')[1]
-                    tot_particle_rate = int(tot_particle_rate.split('=')[1])
+                    tot_particle_rate = int(tot_particle_rate)
                 except:
                     tot_particle_rate = 1000000
     tot_dx = lon_max - lon_min
