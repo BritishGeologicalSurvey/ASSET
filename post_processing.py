@@ -66,7 +66,7 @@ else:
         lat_min = args.latmin
         lat_max = args.latmax
 if models_in == 'all':
-    models = ['HYSPLIT', 'FALL3D']
+    models = ['FALL3D', 'HYSPLIT']
 elif models_in == 'hysplit':
     models = ['HYSPLIT']
 elif models_in == 'fall3d':
@@ -113,37 +113,75 @@ def post_process_model():
             solution_folders.append(os.path.join(latest_run_time, 'max', 'output'))
             solution_folders.append(os.path.join(latest_run_time, 'min', 'output'))
     folders_to_remove = []
-    for folder in solution_folders[0:3]:
-        model_type.append('fall3d')
-        files = os.listdir(folder)
-        file_check = False
-        for file in files:
-            if file.endswith('.res.nc'):
-                solution_files.append(os.path.join(folder, file))
-                file_check = True
-                try:
-                    temp_cdo_file = file + '_cdo'
-                    os.system('srun -J CDO cdo -selyear,2020/2999 ' + os.path.join(folder,file) + ' ' + os.path.join(folder,temp_cdo_file) + ' &> cdo.txt')
-                    os.rename(os.path.join(folder,temp_cdo_file), os.path.join(folder,file))
-                except:
-                    file_check = False
-                    print('Unable to process ' + solution_files[-1] + ' with CDO')
-        if file_check == False:
-            folders_to_remove.append(folder)
-            del model_type[-1]
-    for folder in solution_folders[3:6]:
-        model_type.append('hysplit')
-        files = os.listdir(folder)
-        file_check = False  # If no res.nc file found, it remains False
-        for file in files:
-            if file.endswith('.nc'):
-                file_check = True
-                solution_files.append(os.path.join(folder, file))
-        if file_check == False:
-            folders_to_remove.append(folder)
-            del model_type[-1]
-    s = set(folders_to_remove)
-    solution_folders = [x for x in solution_folders if x not in s]
+    if len(models) == 2:
+        for folder in solution_folders[0:3]:
+            model_type.append('fall3d')
+            files = os.listdir(folder)
+            file_check = False
+            for file in files:
+                if file.endswith('.res.nc'):
+                    solution_files.append(os.path.join(folder, file))
+                    file_check = True
+                    try:
+                        temp_cdo_file = file + '_cdo'
+                        os.system('srun -J CDO cdo -selyear,2020/2999 ' + os.path.join(folder,file) + ' ' + os.path.join(folder,temp_cdo_file) + ' &> cdo.txt')
+                        os.rename(os.path.join(folder,temp_cdo_file), os.path.join(folder,file))
+                    except:
+                        file_check = False
+                        print('Unable to process ' + solution_files[-1] + ' with CDO')
+            if file_check == False:
+                folders_to_remove.append(folder)
+                del model_type[-1]
+        for folder in solution_folders[3:6]:
+            model_type.append('hysplit')
+            files = os.listdir(folder)
+            file_check = False  # If no res.nc file found, it remains False
+            for file in files:
+                if file.endswith('.nc'):
+                    file_check = True
+                    solution_files.append(os.path.join(folder, file))
+            if file_check == False:
+                folders_to_remove.append(folder)
+                del model_type[-1]
+        s = set(folders_to_remove)
+        solution_folders = [x for x in solution_folders if x not in s]
+    else:
+        if models[0] == 'FALL3D':
+            for folder in solution_folders:
+                model_type.append('fall3d')
+                files = os.listdir(folder)
+                file_check = False
+                for file in files:
+                    if file.endswith('.res.nc'):
+                        solution_files.append(os.path.join(folder, file))
+                        file_check = True
+                        try:
+                            temp_cdo_file = file + '_cdo'
+                            os.system(
+                                'srun -J CDO cdo -selyear,2020/2999 ' + os.path.join(folder, file) + ' ' + os.path.join(
+                                    folder, temp_cdo_file) + ' &> cdo.txt')
+                            os.rename(os.path.join(folder, temp_cdo_file), os.path.join(folder, file))
+                        except:
+                            file_check = False
+                            print('Unable to process ' + solution_files[-1] + ' with CDO')
+                if file_check == False:
+                    folders_to_remove.append(folder)
+                    del model_type[-1]
+        else:
+            for folder in solution_folders:
+                model_type.append('hysplit')
+                files = os.listdir(folder)
+                file_check = False  # If no res.nc file found, it remains False
+                for file in files:
+                    if file.endswith('.nc'):
+                        file_check = True
+                        solution_files.append(os.path.join(folder, file))
+                if file_check == False:
+                    folders_to_remove.append(folder)
+                    del model_type[-1]
+        s = set(folders_to_remove)
+        solution_folders = [x for x in solution_folders if x not in s]
+
     try:
         pool_solution_post = ThreadingPool(len(solution_folders))
         pool_solution_post.map(post_process_solution, solution_folders, solution_files, model_type)
