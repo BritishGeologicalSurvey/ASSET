@@ -29,12 +29,13 @@ def get_input_data():
     Label(get_inputs, text="Source resolution (mins): ", font="Helvetica 10").grid(row=16, column=0, sticky=W)
     Label(get_inputs, text="Particles emission rate (p/hr): ", font="Helvetica 10").grid(row=17, column=0, sticky=W)
     Label(get_inputs, text="Output interval (hrs): ", font="Helvetica 10").grid(row=18, column=0, sticky=W)
-    Label(get_inputs, text="Model selection", font="Helvetica 10").grid(row=19, column=0, sticky=W)
-    Checkbutton(get_inputs, text='FALL3D', variable=fall3d_on, onvalue=1, offvalue=0).grid(row=19, column=1)
-    Checkbutton(get_inputs, text='HYSPLIT', variable=hysplit_on, onvalue=1, offvalue=0).grid(row=19, column=2)
-    Label(get_inputs, text="REFIR Short", font="Helvetica 10").grid(row=20, column=0, sticky=W)
-    Radiobutton(get_inputs, text="True", variable=short_simulation, value=True).grid(row=20, column=1)
-    Radiobutton(get_inputs, text="False", variable=short_simulation, value=False).grid(row=20, column=2)
+    Label(get_inputs, text="TGSD: ", font="Helvetica 10").grid(row=19, column=0, sticky=W)
+    Label(get_inputs, text="Model selection", font="Helvetica 10").grid(row=20, column=0, sticky=W)
+    Checkbutton(get_inputs, text='FALL3D', variable=fall3d_on, onvalue=1, offvalue=0).grid(row=20, column=1)
+    Checkbutton(get_inputs, text='HYSPLIT', variable=hysplit_on, onvalue=1, offvalue=0).grid(row=20, column=2)
+    Label(get_inputs, text="REFIR Short", font="Helvetica 10").grid(row=21, column=0, sticky=W)
+    Radiobutton(get_inputs, text="True", variable=short_simulation, value=True).grid(row=21, column=1)
+    Radiobutton(get_inputs, text="False", variable=short_simulation, value=False).grid(row=21, column=2)
     lat_min_in = Entry(get_inputs, width=8)
     lat_min_in.grid(row=6, column=0, sticky=E)
     lat_max_in = Entry(get_inputs, width=8)
@@ -57,9 +58,11 @@ def get_input_data():
     per_in.grid(row=17, column=1, sticky=W)
     output_interval_in = Entry(get_inputs, width=4)
     output_interval_in.grid(row=18, column=1, sticky=W)
+    tgsd_in = Entry(get_inputs, width=10)
+    tgsd_in.grid(row=19, column=1, sticky=W)
 
     def on_button():
-        global lat_max, lat_min, lon_max, lon_min, volcano_ID, np, duration, short_simulation_s, lat_grid_centre, lon_grid_centre, er_duration, source_resolution, per, output_interval, models
+        global lat_max, lat_min, lon_max, lon_min, volcano_ID, np, duration, short_simulation_s, lat_grid_centre, lon_grid_centre, er_duration, source_resolution, per, output_interval, models, tgsd
         lat_max = str(lat_max_in.get())
         lat_min = str(lat_min_in.get())
         lon_max = str(lon_max_in.get())
@@ -72,6 +75,7 @@ def get_input_data():
         per = str(per_in.get())
         short_simulation_s = str(short_simulation.get())
         output_interval = str(output_interval_in.get())
+        tgsd = tgsd_in.get()
         lat_grid_centre = float(lat_min) + (float(lat_max) - float(lat_min)) / 2
         lon_grid_centre = float(lon_min) + (float(lon_max) - float(lon_min)) / 2
         if fall3d_on.get() == 1:
@@ -83,7 +87,7 @@ def get_input_data():
             models = 'hysplit'
 
     Button(get_inputs, text="Confirm inputs", font="Helvetica 11", fg="yellow", bg="red", \
-           width=24, height=2, command=on_button).grid(row=21, column=0, columnspan=5)
+           width=24, height=2, command=on_button).grid(row=22, column=0, columnspan=5)
 
     get_inputs.mainloop()
 
@@ -102,5 +106,6 @@ with open('operational_settings.txt','w',encoding="utf-8", errors="surrogateesca
     settings_file.write('SOURCE_RESOLUTION_[minutes]=' + source_resolution + '\n')
     settings_file.write('PARTICLE_EMISSION_RATE_[p/hr]=' + per + '\n')
     settings_file.write('OUTPUT_INTERVAL_[hr]=' + output_interval + '\n')
+    settings_file.write('TGSD=' + tgsd + '\n')
     settings_file.write('MODELS=' + models)
 

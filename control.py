@@ -1143,6 +1143,9 @@ if settings_file:
                     int(output_interval)
                 except:
                     output_interval = '1'
+            elif line.split('=')[0] == 'TGSD':
+                tgsd = line.split('=')[1]
+                tgsd = tgsd.split('\n')[0]
             elif line.split('=')[0] == 'MODELS':
                 try:
                     models_in = line.split('=')[1]
