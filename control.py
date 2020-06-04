@@ -29,6 +29,8 @@ parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (h
 parser.add_argument('-SR','--source_resolution',default=60,help='Time resolution of the source (minutes)')
 parser.add_argument('-PER', '--per', default=1000000,help='Total lagrangian particles emission rate (particle/hour)')
 parser.add_argument('-OI','--output_interval',default=1, help='Output time interval in hours')
+parser.add_argument('-TGSD','--tgsd',default='undefined',help='Total Grain Size Distribution file name')
+parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -45,7 +47,9 @@ start_time = args.start_time
 er_duration_input = args.er_duration
 source_resolution = args.source_resolution
 output_interval = args.output_interval
+tgsd = args.tgsd
 per = args.per
+models_in = args.model
 if settings_file == 'True':
     settings_file = True
 elif settings_file == 'False':
@@ -70,7 +74,7 @@ if start_time != '999':
         exit()
 er_duration_input = float(er_duration_input)
 
-def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval):
+def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in):
     lon_max = float(lon_max)
     lon_min = float(lon_min)
     lat_max = float(lat_max)
@@ -154,7 +158,16 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     except:
         print('Please provide a valid number for the output interval in hours')
         exit()
-    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval
+    if models_in == 'all':
+        models = ['hysplit', 'fall3d']
+    elif models_in == 'hysplit':
+        models = ['hysplit']
+    elif models_in == 'fall3d':
+        models = ['fall3d']
+    else:
+        print('Wrong model selection')
+        exit()
+    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models
 
 def get_times(time):
     twodaysago_t = time - datetime.timedelta(days=2)
@@ -237,33 +250,22 @@ def run_foxi():
     if Iceland_scenario:
         if volc_id == 372020:
             volc_number = 0
-            tgsd = 'eyja'
         elif volc_id == 372030:
             volc_number = 1
-            tgsd = 'katla'
         elif volc_id == 372070:
             volc_number = 2
-            tgsd = 'hekla_2000'
         elif volc_id == 373010:
             volc_number = 3
-            tgsd = 'grimsvotn'
         elif volc_id == 372010:
             volc_number = 4
-            tgsd = 'heimeay'
         elif volc_id == 373050:
             volc_number = 7
-            tgsd = 'askja_8km'
         elif volc_id == 374010:
             volc_number = 8
-            tgsd = 'askja_8km'
         elif volc_id == 371020:
             volc_number = 9
-            tgsd = 'reykjanes'
-        else:
-            tgsd = 'user_defined'
     else:
         volc_number = 0
-        tgsd = 'user_defined'
     if source_resolution == 15:
         refir_PM_TAV = 1
     elif source_resolution == 30:
@@ -305,7 +307,7 @@ def run_foxi():
     foxi_command = 'python FOXI.py -M background -N operational'
     os.system(foxi_command)
     os.chdir(ROOT)
-    return esps_dur, esps_plh, summit, volc_lat, volc_lon, tgsd
+    return esps_dur, esps_plh, summit, volc_lat, volc_lon
 
 def run_refir():
     REFIR_CONFIG = os.path.join(REFIR,'refir_config')
@@ -351,12 +353,11 @@ def run_refir():
         er_dur = float(er_dur.split('\n')[0])
     if er_dur > run_duration or er_dur == 0:
         er_dur = run_duration
-    tgsd = 'user_defined'
     print('Restoring pre-existing coniguration files in ' + REFIR_CONFIG)
     original_config_files = os.listdir(REFIR_CONFIG_OPERATIONAL)
     for file in original_config_files:
         shutil.copy(os.path.join(REFIR_CONFIG_OPERATIONAL,file),REFIR_CONFIG)
-    return er_dur, summit, volc_lat, volc_lon, tgsd
+    return er_dur, summit, volc_lat, volc_lon
 
 def run_models(short_simulation, eruption_dur):
     def read_refir_outputs(short_simulation):
@@ -555,7 +556,7 @@ def run_models(short_simulation, eruption_dur):
                 new_er_dur = 0
         return mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur
 
-    def controller(program):
+    def controller(model):
         def run_fall3d():
             GFSGRIB = os.path.join(ROOT, 'weather', 'data', mode)
             FALL3D = '/home/vulcanomod/FALL3D/fall3d-8.0.1/bin/Fall3d.r8.x'
@@ -855,8 +856,8 @@ def run_models(short_simulation, eruption_dur):
                 os.chdir(RUN)
                 syr_2ch = syr[0:2]
                 ncpu_per_pollutant = n_processes / int(n_bins)
-                if ncpu_per_pollutant > 10:
-                    ncpu_per_pollutant = 10
+                if ncpu_per_pollutant > 16:
+                    ncpu_per_pollutant = 16
                 em_rates = []
                 em_rates_strings = []
                 if not short_simulation:
@@ -1076,17 +1077,16 @@ def run_models(short_simulation, eruption_dur):
             except:
                 print('Error processing HYSPLIT outputs in parallel')
 
-        if program == 'fall3d':
+        if model == 'fall3d':
             run_fall3d()
-        elif program == 'hysplit':
+        elif model == 'hysplit':
             run_hysplit()
 
     mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur = read_refir_outputs(short_simulation)
     if new_er_dur != 0:
         eruption_dur = new_er_dur / 60
-    programs = ['fall3d','hysplit']
     pool_programs = ThreadingPool(2)
-    pool_programs.map(controller, programs)
+    pool_programs.map(controller, models)
     pool_programs.join()
 
 if settings_file:
@@ -1143,26 +1143,28 @@ if settings_file:
                     int(output_interval)
                 except:
                     output_interval = '1'
+            elif line.split('=')[0] == 'MODELS':
+                try:
+                    models_in = line.split('=')[1]
+                except:
+                    models_in = 'all'
+                if models_in == 'all':
+                    models = ['hysplit', 'fall3d']
+                elif models_in == 'hysplit':
+                    models = ['hysplit']
+                elif models_in == 'fall3d':
+                    models = ['fall3d']
+                else:
+                    print('Wrong model selection')
+                    exit()
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
 else:
-    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval)
+    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in)
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy
 grid_centre_lon = lon_min + dx
-
-if start_time != '999' and mode == 'manual':
-    time_now = start_time_datetime
-else:
-    time_now = datetime.datetime.utcnow()
-syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
-
-if mode == 'operational':
-    eruption_dur, eruption_plh, summit, volc_lat, volc_lon, tgsd = run_foxi()
-else:
-    eruption_dur, summit, volc_lat, volc_lon, tgsd = run_refir()
-os.chdir(ROOT)
 # Check the tgsd file is available in TGSDs
 tgsd_file = os.path.join(TGSDS,tgsd)
 if not os.path.exists(tgsd_file):
@@ -1172,6 +1174,17 @@ if not os.path.exists(tgsd_file):
     if s_input != '':
         print('Wrong input. Simulation aborting')
         exit()
+if start_time != '999' and mode == 'manual':
+    time_now = start_time_datetime
+else:
+    time_now = datetime.datetime.utcnow()
+syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
+
+if mode == 'operational':
+    eruption_dur, eruption_plh, summit, volc_lat, volc_lon = run_foxi()
+else:
+    eruption_dur, summit, volc_lat, volc_lon = run_refir()
+os.chdir(ROOT)
 
 def clean_folders():
     for file in os.listdir(REFIR):

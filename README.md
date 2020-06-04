@@ -58,7 +58,7 @@ usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I]
                   [-LATMIN LATMIN] [-LATMAX LATMAX] [-LONMIN LONMIN]
                   [-LONMAX LONMAX] [-D DUR] [-START START_TIME]
                   [-ED ER_DURATION] [-SR SOURCE_RESOLUTION] [-PER PER]
-                  [-OI OUTPUT_INTERVAL]
+                  [-OI OUTPUT_INTERVAL] [-TGSD TGSD] [-MOD MODEL]
   -h, --help            show this help message and exit
   -M MODE, --mode MODE  operational: routine simulation mode controlled via
                         operational_settings.txt manual: run with user
@@ -93,6 +93,11 @@ usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I]
                         (particle/hour)
   -OI OUTPUT_INTERVAL, --output_interval OUTPUT_INTERVAL
                         Output time interval in hours
+  -TGSD TGSD, --tgsd TGSD
+                        Total Grain Size Distribution file name
+  -MOD MODEL, --model MODEL
+                        Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)
+
 - post_processing.py
 Python script that automatically produce contour plots of the simulation outputs by using the ash-model-plotting package (see Dependencies).
 usage: post_processing.py [-h] [-M MODE] [-SET SET] [-LATMIN LATMIN]
@@ -177,7 +182,6 @@ Folder that contains scripts that are used to retrieve and process weather data 
 		+ manual: folder storing the weather data used by the simulation in manual mode
 		+ operational: folder storing the weather data used by the simulation in operational mode
 
-
 - log
 Folder that stores all the log files produced by the scripts above.
 
@@ -200,11 +204,7 @@ The system assumes the executable is in the system PATH
 Executable of the ash-model-plotting package (https://github.com/BritishGeologicalSurvey/ash-model-plotting) that must be installed in the system. This program is called from post_processing.py, which in turn needs to be run after the ash-model-plotting Conda environment has been activated (see ash-model-plotting instructions)
 
 
-
 Improvements for the future:
-- check what control.py actually does when FOXI runs for 1 time step in manual mode and with ED specified and short simulation set to True
-- add flexible control for the TGSD (e.g. specify the TGSD name in input)
-- selection of one dispersion model only
 - implementation of NAME (reanalysis mode only unless usage of GFS data is implemented)
 - possibility to bypass REFIR and use all data from ESPs database and/or specify plume height and MER in input
 - reanalysis mode with ERA5 data
