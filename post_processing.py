@@ -66,11 +66,11 @@ else:
         lat_min = args.latmin
         lat_max = args.latmax
 if models_in == 'all':
-    models = ['hysplit', 'fall3d']
+    models = ['HYSPLIT', 'FALL3D']
 elif models_in == 'hysplit':
-    models = ['hysplit']
+    models = ['HYSPLIT']
 elif models_in == 'fall3d':
-    models = ['fall3d']
+    models = ['FALL3D']
 else:
     print('Wrong model selection')
     exit()
