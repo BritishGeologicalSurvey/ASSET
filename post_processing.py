@@ -13,8 +13,10 @@ parser.add_argument('-LATMIN','--latmin',default=999,help='Domain minimum latitu
 parser.add_argument('-LATMAX','--latmax',default=999,help='Domain maximum latitude')
 parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longitude')
 parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
+parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
 args = parser.parse_args()
 mode = args.mode
+models_in = args.model
 if mode != 'manual' and mode != 'operational':
     print('Wrong value for variable --mode')
     print('Execution stopped')
@@ -47,6 +49,12 @@ if settings_file:
             elif line.split('=')[0] == 'LON_MAX_[deg]':
                 lon_max = line.split('=')[1]
                 lon_max = lon_max.split('\n')[0]
+            elif line.split('=')[0] == 'MODELS':
+                try:
+                    models_in = line.split('=')[1]
+                    models_in = models_in.split('\n')[0]
+                except:
+                    models_in = 'all'
 else:
     if args.latmin == 999 or args.latmax == 999 or args.lonmin == 999 or args.lonmax == 999:
         print('Error. Wrong coordinate specification')
@@ -57,6 +65,15 @@ else:
         lon_max = args.lonmax
         lat_min = args.latmin
         lat_max = args.latmax
+if models_in == 'all':
+    models = ['hysplit', 'fall3d']
+elif models_in == 'hysplit':
+    models = ['hysplit']
+elif models_in == 'fall3d':
+    models = ['fall3d']
+else:
+    print('Wrong model selection')
+    exit()
 
 def post_process_model():
     def post_process_solution(output_folder, output_file, model_in):
@@ -70,7 +87,6 @@ def post_process_model():
         except:
             print('Unable to process ' + output_file)
 
-    models = ['FALL3D', 'HYSPLIT']
     model_type = []
     solution_folders = []
     solution_files = []

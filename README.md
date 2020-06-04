@@ -101,7 +101,7 @@ usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I]
 - post_processing.py
 Python script that automatically produce contour plots of the simulation outputs by using the ash-model-plotting package (see Dependencies).
 usage: post_processing.py [-h] [-M MODE] [-SET SET] [-LATMIN LATMIN]
-                          [-LATMAX LATMAX] [-LONMIN LONMIN] [-LONMAX LONMAX]
+                          [-LATMAX LATMAX] [-LONMIN LONMIN] [-LONMAX LONMAX] [-MOD MODEL] 
   -h, --help            show this help message and exit
   -M MODE, --mode MODE  operational: routine simulation mode controlled via
                         operational_settings.txt manual: run with user
@@ -116,6 +116,8 @@ usage: post_processing.py [-h] [-M MODE] [-SET SET] [-LATMIN LATMIN]
                         Domain minimum longitude
   -LONMAX LONMAX, --lonmax LONMAX
                         Domain maximum longitude
+  -MOD MODEL, --model MODEL
+                        Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)
 
 - fix_config.txt
 Text file that is used by REFIR (in particular FOXI.py) to run the simulation. This file is edited is some of its entries by control.py depending on the User input and is then transferred to the REFIR simulation folder. Note that some configurations listed in this files may need to be changed via FIX.py of REFIR package. 
