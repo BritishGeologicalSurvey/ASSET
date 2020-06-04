@@ -1122,7 +1122,7 @@ if settings_file:
                     er_duration_input = float(er_duration_input)
                 except:
                     er_duration_input = 999
-            elif line.split('=')[0] == 'SOURCE_RESOLUTION_[hours]':
+            elif line.split('=')[0] == 'SOURCE_RESOLUTION_[minutes]':
                 try:
                     source_resolution = line.split('=')[1]
                     source_resolution = int(source_resolution)

@@ -99,7 +99,7 @@ with open('operational_settings.txt','w',encoding="utf-8", errors="surrogateesca
     settings_file.write('DURATION_[hours]=' + duration + '\n')
     settings_file.write('SHORT_SIMULATION=' + short_simulation_s + '\n')
     settings_file.write('ERUPTION_DURATION_[hours]=' + er_duration + '\n')
-    settings_file.write('SOURCE_RESOLUTION_[hours]=' + source_resolution + '\n')
+    settings_file.write('SOURCE_RESOLUTION_[minutes]=' + source_resolution + '\n')
     settings_file.write('PARTICLE_EMISSION_RATE_[p/hr]=' + per + '\n')
     settings_file.write('OUTPUT_INTERVAL_[hr]=' + output_interval + '\n')
     settings_file.write('MODELS=' + models)
