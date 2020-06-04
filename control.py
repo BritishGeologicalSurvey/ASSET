@@ -1149,6 +1149,7 @@ if settings_file:
             elif line.split('=')[0] == 'MODELS':
                 try:
                     models_in = line.split('=')[1]
+                    models_in = models_in.split('\n')[0]
                 except:
                     models_in = 'all'
                 if models_in == 'all':
