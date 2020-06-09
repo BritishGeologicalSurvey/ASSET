@@ -926,7 +926,7 @@ def run_models(short_simulation, eruption_dur):
                         control_file.write(levels + '\n')
                         control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + ' 00\n')
                         control_file.write('99 12 31 24 60\n')
-                        control_file.write('0 ' + output_interval + ' 00\n')
+                        control_file.write('00 ' + output_interval + ' 00\n')
                         control_file.write('1\n')
                         control_file.write('{:.2f}'.format(diam_micron) + ' ' + '{:.1f}'.format(rho_gcc) + ' ' + shape[i-1] + '\n')
                         control_file.write('0.0 0.0 0.0 0.0 0.0\n')
