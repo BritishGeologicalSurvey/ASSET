@@ -153,11 +153,11 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     except:
         print('Please provide a valid number for the Total particle emission rate')
         exit()
-    try:
-        int(output_interval)
-    except:
+    if output_interval <= 0:
         print('Please provide a valid number for the output interval in hours')
         exit()
+    else:
+        output_interval = str(output_interval)
     if models_in == 'all':
         models = ['hysplit', 'fall3d']
     elif models_in == 'hysplit':
