@@ -30,7 +30,7 @@ Text file that is used to store simulation settings. This is particularly useful
 Python script that downloads, processes and stores the weather data necessary to run the dispersion models. It takes the following arguments.
 usage: weather.py [-h] [-SET SET] [-M MODE] [-LATMIN LATMIN] [-LATMAX LATMAX]
                   [-LONMIN LONMIN] [-LONMAX LONMAX] [-D DUR] [-V VOLC]
-                  [-START START_TIME]
+                  [-START START_TIME] [-RUN RUN_NAME]
   -h, --help            show this help message and exit
   -SET SET, --set SET   True or False. True: Read simulation parameters from
                         operational_settings.txt. False: simulation parameters
@@ -51,6 +51,9 @@ usage: weather.py [-h] [-SET SET] [-M MODE] [-LATMIN LATMIN] [-LATMAX LATMAX]
   -START START_TIME, --start_time START_TIME
                         Starting date and time of the simulation in UTC
                         (DD/MM/YYYY-HH:MM). Option valid only in manual mode
+  -RUN RUN_NAME, --run_name RUN_NAME
+                        Run name. If not specified, the run name will be the
+                        starting time with format HH
 
 - control.py.
 Python script that controls all the models execution. It takes the following arguments:
@@ -59,6 +62,7 @@ usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I]
                   [-LONMAX LONMAX] [-D DUR] [-START START_TIME]
                   [-ED ER_DURATION] [-SR SOURCE_RESOLUTION] [-PER PER]
                   [-OI OUTPUT_INTERVAL] [-TGSD TGSD] [-MOD MODEL]
+                  [-RUN RUN_NAME]
   -h, --help            show this help message and exit
   -M MODE, --mode MODE  operational: routine simulation mode controlled via
                         operational_settings.txt manual: run with user
@@ -97,7 +101,9 @@ usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I]
                         Total Grain Size Distribution file name
   -MOD MODEL, --model MODEL
                         Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)
-
+  -RUN RUN_NAME, --run_name RUN_NAME
+                        Run name. If not specified, the run name will be the
+                        starting time with format HH
 - post_processing.py
 Python script that automatically produce contour plots of the simulation outputs by using the ash-model-plotting package (see Dependencies).
 usage: post_processing.py [-h] [-M MODE] [-SET SET] [-LATMIN LATMIN]
