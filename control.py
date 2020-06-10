@@ -1089,7 +1089,7 @@ def run_models(short_simulation, eruption_dur):
         eruption_dur = new_er_dur / 60
     pool_programs = ThreadingPool(2)
     pool_programs.map(controller, models)
-    pool_programs.join()
+    #pool_programs.join()
 
 if settings_file:
     with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
