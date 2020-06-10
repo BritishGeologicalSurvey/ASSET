@@ -15,10 +15,12 @@ parser.add_argument('-LONMAX','--lonmax',default='999',help='Domain maximum long
 parser.add_argument('-D','--dur',default='96',help='Ash dispersion simulation duration')
 parser.add_argument('-V','--volc',default='999',help='Smithsonian Institude volcano ID')
 parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
+parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be the starting time with format HH')
 args = parser.parse_args()
 settings_file = args.set
 mode = args.mode
 start_time = args.start_time
+run_name = args.run_name
 
 if mode != 'manual' and mode != 'operational':
     print('Wrong value for variable --mode')
@@ -266,7 +268,11 @@ if mode == 'operational':
 else:
     data_dir = os.path.join(root, 'weather', 'data', 'manual')
 data_today_dir = os.path.join(data_dir,today)
-data_run_dir = os.path.join(data_today_dir,shr_wt_st)
+if run_name == 'default':
+    run_folder = shr_wt_st
+else:
+    run_folder = str(run_name)
+data_run_dir = os.path.join(data_today_dir,run_folder)
 data_twodaysago_dir = os.path.join(data_dir,twodaysago)
 #refir_dir = os.path.join(cwd,'REFIR')
 refir_dir = ('/home/vulcanomod/REFIR')

@@ -31,6 +31,7 @@ parser.add_argument('-PER', '--per', default=1000000,help='Total lagrangian part
 parser.add_argument('-OI','--output_interval',default=1, help='Output time interval in hours')
 parser.add_argument('-TGSD','--tgsd',default='undefined',help='Total Grain Size Distribution file name')
 parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
+parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be the starting time with format HH')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -50,6 +51,7 @@ output_interval = args.output_interval
 tgsd = args.tgsd
 per = args.per
 models_in = args.model
+run_name_in = args.run_name
 if settings_file == 'True':
     settings_file = True
 elif settings_file == 'False':
@@ -74,7 +76,7 @@ if start_time != '999':
         exit()
 er_duration_input = float(er_duration_input)
 
-def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in):
+def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in, run_name_in):
     lon_max = float(lon_max)
     lon_min = float(lon_min)
     lat_max = float(lat_max)
@@ -167,7 +169,8 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     else:
         print('Wrong model selection')
         exit()
-    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models
+    run_name = str(run_name_in)
+    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name
 
 def get_times(time):
     twodaysago_t = time - datetime.timedelta(days=2)
@@ -182,7 +185,6 @@ def get_times(time):
     shr_wt_st = '{:01d}'.format(int(shr))
     shr_wt_end = str(int(shr_wt_st) + int(run_duration))
     return syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago
-
 
 def read_esps_database():
     import pandas as pd
@@ -565,13 +567,13 @@ def run_models(short_simulation, eruption_dur):
                 os.mkdir(FALL3D_RUNS)
             except FileExistsError:
                 print('Folder ' + FALL3D_RUNS + ' exists')
-            WTDATA = os.path.join(GFSGRIB, syr + smo + sda, shr_wt_st, mode + '.nc')
+            WTDATA = os.path.join(GFSGRIB, syr + smo + sda, run_folder, mode + '.nc')
             RUNS_DAY = os.path.join(FALL3D_RUNS, syr + smo + sda)
             try:
                 os.mkdir(RUNS_DAY)
             except FileExistsError:
                 print('Folder ' + RUNS_DAY + ' exists')
-            RUNS_TIME = os.path.join(RUNS_DAY,shr_wt_st)
+            RUNS_TIME = os.path.join(RUNS_DAY,run_folder)
             try:
                 os.mkdir(RUNS_TIME)
             except FileExistsError:
@@ -764,8 +766,8 @@ def run_models(short_simulation, eruption_dur):
                 print('Folder ' + HYSPLIT_RUNS + ' exists')
             ASCDATA = os.path.join(HYSPLIT_RUNS, 'ASCDATA.CFG')
             SETUP = os.path.join(HYSPLIT_RUNS, 'SETUP.CFG')
-            WTDATA = os.path.join(ARL, syr + smo + sda, shr_wt_st)
-            SIM = os.path.join(HYSPLIT_RUNS, syr + smo + sda, shr_wt_st)
+            WTDATA = os.path.join(ARL, syr + smo + sda, run_folder)
+            SIM = os.path.join(HYSPLIT_RUNS, syr + smo + sda, run_folder)
 
             def read_tgsd_file(tgsd_in):
                 # Read grainsize distribution
@@ -1146,6 +1148,9 @@ if settings_file:
             elif line.split('=')[0] == 'TGSD':
                 tgsd = line.split('=')[1]
                 tgsd = tgsd.split('\n')[0]
+            elif line.split('=')[0] == 'RUN_NAME':
+                run_name = line.split('=')[1]
+                run_name = run_name.split('\n')[0]
             elif line.split('=')[0] == 'MODELS':
                 try:
                     models_in = line.split('=')[1]
@@ -1164,7 +1169,7 @@ if settings_file:
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
 else:
-    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in)
+    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in, run_name_in)
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy
@@ -1183,6 +1188,11 @@ if start_time != '999' and mode == 'manual':
 else:
     time_now = datetime.datetime.utcnow()
 syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
+
+if run_name == 'default':
+    run_folder = shr_wt_st
+else:
+    run_folder = str(run_name)
 
 if mode == 'operational':
     eruption_dur, eruption_plh, summit, volc_lat, volc_lon = run_foxi()
