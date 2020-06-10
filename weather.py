@@ -49,6 +49,9 @@ if settings_file == 'True':
             elif line.split('=')[0] == 'DURATION_[hours]':
                 duration = line.split('=')[1]
                 duration = int(duration.split('\n')[0])
+            elif line.split('=')[0] == 'RUN_NAME':
+                run_name = line.split('=')[1]
+                run_name = run_name.split('\n')[0]
 elif settings_file == 'False':
     settings_file = False
     lat_min = args.latmin
