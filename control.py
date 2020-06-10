@@ -451,7 +451,7 @@ def run_models(short_simulation, eruption_dur):
                 try:
                     minute = int(line.split('\t')[1])
                     new_er_dur = minute
-                    if minute % source_resolution == 0 or minute - 1 % source_resolution == 0 or minute + 1 % source_resolution == 0:
+                    if minute % source_resolution == 0 or (minute - 1) % source_resolution == 0 or (minute + 1) % source_resolution == 0:
                         mer_min_tmp = line.split('\t')[2]
                         mer_min_tmp = mer_min_tmp.split('.')[0]
                         mer_min += ' ' + mer_min_tmp
@@ -478,7 +478,7 @@ def run_models(short_simulation, eruption_dur):
             for line in plh_file_r:
                 try:
                     minute = int(line.split('\t')[1])
-                    if minute % source_resolution == 0 or minute - 1 % source_resolution == 0 or minute + 1 % source_resolution == 0:
+                    if minute % source_resolution == 0 or (minute - 1) % source_resolution == 0 or (minute + 1) % source_resolution == 0:
                         plh_min_tmp = line.split('\t')[2]
                         plh_min_tmp = plh_min_tmp.split('.')[0]
                         plh_min += ' ' + plh_min_tmp
@@ -554,8 +554,8 @@ def run_models(short_simulation, eruption_dur):
                 plh_max_new = plh_max_new / new_er_dur
                 plh_max += ' ' + '{:.0f}'.format(plh_max_new)
                 plh_file_r.close()
-            else:
-                new_er_dur = 0
+#            else:
+#                new_er_dur = 0
         return mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur
 
     def controller(model):
