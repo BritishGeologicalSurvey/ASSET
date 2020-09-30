@@ -216,3 +216,5 @@ Improvements for the future:
 - implementation of NAME (reanalysis mode only unless usage of GFS data is implemented)
 - possibility to bypass REFIR and use all data from ESPs database and/or specify plume height and MER in input
 - reanalysis mode with ERA5 data
+- possibility to use FPLUME for initializing the plume in dispersion simulations. This is straightforward for FALL3D, it requires some extra
+pre-processing for HYSPLIT

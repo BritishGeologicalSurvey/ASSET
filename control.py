@@ -189,10 +189,10 @@ def get_times(time):
 def read_esps_database():
     import pandas as pd
     try:
-        database = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
+        database = pd.read_excel('https://webapps.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
                                  sheetname='volcanoes')
     except:
-        database = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
+        database = pd.read_excel('https://webapps.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
                                      sheet_name='volcanoes')
     nrows = database.shape[0]
     row = 0
