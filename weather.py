@@ -150,7 +150,12 @@ def get_times(time):
 
 def get_volc_location():
     try:
-        df = pd.read_excel('http://www.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx', sheet_name='volcanoes')
+        try:
+            df = pd.read_excel('https://webapps.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
+                                     sheetname='volcanoes')
+        except:
+            df = pd.read_excel('https://webapps.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
+                                     sheet_name='volcanoes')
         nrows = df.shape[0]
         row = 0
         while True:
