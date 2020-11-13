@@ -400,6 +400,8 @@ def run_models(short_simulation, eruption_dur):
                     lines += 1
             if lines == 2:
                 short_simulation = True  # always convert to a short simulation if REFIR has been run manually for one time step only
+            else:
+                short_simulation = False
             mer_file_r.close()
         new_er_dur = 0
         if short_simulation:
