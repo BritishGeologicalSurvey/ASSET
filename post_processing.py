@@ -83,7 +83,7 @@ def post_process_model():
                 os.mkdir(output_dir)
             except:
                 print('Folder ' + output_dir + ' already exists')
-            os.system('srun -J plot_ADM plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir + ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' + model_in)
+            os.system('salloc -n 16 plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir + ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' + model_in)
         except:
             print('Unable to process ' + output_file)
 
@@ -181,7 +181,6 @@ def post_process_model():
                     del model_type[-1]
         s = set(folders_to_remove)
         solution_folders = [x for x in solution_folders if x not in s]
-
     try:
         pool_solution_post = ThreadingPool(len(solution_folders))
         pool_solution_post.map(post_process_solution, solution_folders, solution_files, model_type)
