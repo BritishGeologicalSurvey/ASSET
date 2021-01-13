@@ -858,7 +858,7 @@ def run_models(short_simulation, eruption_dur):
                         print('Folder run exists in ' + os.path.join(RUN, 'poll' + str(i)))
                     os.chdir(RUN)
                 os.chdir(RUN)
-                syr_2ch = syr[0:2]
+                syr_2ch = syr[2:4]
                 ncpu_per_pollutant = n_processes / int(n_bins)
                 if ncpu_per_pollutant > 16:
                     ncpu_per_pollutant = 16
