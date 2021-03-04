@@ -286,6 +286,8 @@ def run_foxi():
         for i in range(0, len(fix_config_records)):
             if i == 0:
                 fix_config.write(str(volc_number) + '\n')
+            elif i == 36:
+                fix_config.write(str(summit) + '\n')
             elif i == 163:
                 fix_config.write('2\n')
             elif i == 164:
