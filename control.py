@@ -266,6 +266,8 @@ def run_foxi():
             volc_number = 8
         elif volc_id == 371020:
             volc_number = 9
+        elif volc_id == 371030:
+            volc_number = 10
     else:
         volc_number = 0
     if source_resolution == 15:
