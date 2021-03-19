@@ -32,6 +32,7 @@ parser.add_argument('-OI','--output_interval',default=1, help='Output time inter
 parser.add_argument('-TGSD','--tgsd',default='undefined',help='Total Grain Size Distribution file name')
 parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
 parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be the starting time with format HH')
+parser.add_argument('-NRP', '--no_refir_plots',default='False',help='True: avoid saving and updating plots during the REFIR run. This overcomes any related setting in fix_config.txt. \n False: keep the fix_config.txt plot settings')
 args = parser.parse_args()
 mode = args.mode
 settings_file = args.set
@@ -52,6 +53,7 @@ tgsd = args.tgsd
 per = args.per
 models_in = args.model
 run_name_in = args.run_name
+no_refir_plots = args.no_refir_plots
 if settings_file == 'True':
     settings_file = True
 elif settings_file == 'False':
@@ -75,6 +77,13 @@ if start_time != '999':
         print('Unable to read starting time. Please check the format')
         exit()
 er_duration_input = float(er_duration_input)
+if no_refir_plots.lower() == 'true':
+    no_refir_plots = True
+elif no_refir_plots.lower() == 'false':
+    no_refir_plots = False
+else:
+    print('WARNING. Wrong input for argument -NP --no_plot. Keeping the plotting settings in fix_config.txt')
+    no_refir_plots = False
 
 def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in, run_name_in):
     lon_max = float(lon_max)
@@ -310,7 +319,10 @@ def run_foxi():
                 fix_config.write(fix_config_records[i] + '\n')
 
     os.chdir(REFIR)
-    foxi_command = 'python FOXI.py -M background -N operational'
+    if no_refir_plots:
+        foxi_command = 'python FOXI.py -M background -N operational -NP True'
+    else:
+        foxi_command = 'python FOXI.py -M background -N operational'
     os.system(foxi_command)
     os.chdir(ROOT)
     return esps_dur, esps_plh, summit, volc_lat, volc_lon
