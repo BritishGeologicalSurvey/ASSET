@@ -259,7 +259,7 @@ def extract_data_gfs(wtfile, wtfile_int, profile_grb, profile):
     wt_output.write('  HGT[m]         P[Pa]       T[K]       T[C]     U[m/s]     V[m/s]  WIND[m/s]\n')
 
     for i in range(0, len(u)):
-        wt_output.write('%8.2f %13.2f %10.2f %10.2f %10.2f %10.2f %10.2f\n' % (
+        wt_output.write('%8.2f\t%9.2f\t%6.2f\t%6.2f\t%7.2f\t%7.2f\t%7.2f\n' % (
         hgt[i], p[i], tmp_k[i], tmp_c[i], u[i], v[i], wind[i]))
     wt_output.close()
 
