@@ -1130,7 +1130,10 @@ def run_models(short_simulation, eruption_dur):
         mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur = read_refir_outputs(short_simulation)
         if new_er_dur != 0:
             eruption_dur = new_er_dur / 60
-
+    else:
+        # To improve this and generalize for max and min
+        mer_avg = eruption_mer
+        plh_avg = eruption_plh
     pool_programs = ThreadingPool(2)
     pool_programs.map(controller, models)
     #pool_programs.join()

@@ -353,7 +353,7 @@ if not no_refir:
         #os.mkdir(refir_weather_today_dir)
 
 for file in os.listdir(weather_scripts_dir):
-    if file.startswith('weather_data'):
+    if file.startswith('weather_data') and not no_refir:
         try:
             shutil.move(file,refir_weather_today_dir)
         except:
