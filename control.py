@@ -1158,10 +1158,20 @@ def read_operational_settings_file():
                     short_simulation = short_simulation.split('\n')[0]
                 except:
                     None
-                if short_simulation == 'True':
+                if short_simulation.lower() == 'true':
                     short_simulation = True
-                elif short_simulation == 'False':
+                elif short_simulation.lower() == 'false':
                     short_simulation = False
+            elif line.split('=')[0] == 'NO_REFIR':
+                no_refir = line.split('=')[1]
+                try:
+                    no_refir = no_refir.split('\n')[0]
+                except:
+                    None
+                if no_refir.lower() == 'true':
+                    no_refir = True
+                elif no_refir.lower() == 'false':
+                    no_refir = False
             elif line.split('=')[0] == 'ERUPTION_DURATION_[hours]':
                 try:
                     er_duration_input = line.split('=')[1]
@@ -1224,10 +1234,10 @@ def read_operational_settings_file():
                     exit()
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
-    return lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models
+    return lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models
 
 if settings_file:
-    lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models = read_operational_settings_file()
+    lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models = read_operational_settings_file()
 else:
     volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in, run_name_in)
 dx = tot_dx / 2

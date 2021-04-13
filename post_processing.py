@@ -49,6 +49,15 @@ if settings_file:
             elif line.split('=')[0] == 'LON_MAX_[deg]':
                 lon_max = line.split('=')[1]
                 lon_max = lon_max.split('\n')[0]
+            elif line.split('=')[0] == 'NO_REFIR':
+                no_refir = line.split('=')[1]
+                no_refir = no_refir.split('\n')[0]
+                if no_refir.lower() == 'true':
+                    no_refir = True
+                elif no_refir.lower() == 'false':
+                    no_refir = False
+                else:
+                    no_refir = False
             elif line.split('=')[0] == 'MODELS':
                 try:
                     models_in = line.split('=')[1]
@@ -106,12 +115,14 @@ def post_process_model():
         latest_run_time = os.path.join(latest_run_day,latest_path)
         if model == 'FALL3D':
             solution_folders.append(os.path.join(latest_run_time, 'avg'))
-            solution_folders.append(os.path.join(latest_run_time, 'max'))
-            solution_folders.append(os.path.join(latest_run_time, 'min'))
+            if not no_refir:
+                solution_folders.append(os.path.join(latest_run_time, 'max'))
+                solution_folders.append(os.path.join(latest_run_time, 'min'))
         else:
             solution_folders.append(os.path.join(latest_run_time, 'avg', 'output'))
-            solution_folders.append(os.path.join(latest_run_time, 'max', 'output'))
-            solution_folders.append(os.path.join(latest_run_time, 'min', 'output'))
+            if not no_refir:
+                solution_folders.append(os.path.join(latest_run_time, 'max', 'output'))
+                solution_folders.append(os.path.join(latest_run_time, 'min', 'output'))
     folders_to_remove = []
     if len(models) == 2:
         for folder in solution_folders[0:3]:
