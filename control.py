@@ -25,13 +25,16 @@ parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longit
 parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
 parser.add_argument('-D','--dur',default=96,help='Ash dispersion simulation duration (hours)')
 parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
-parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours)')
 parser.add_argument('-SR','--source_resolution',default=60,help='Time resolution of the source (minutes)')
 parser.add_argument('-PER', '--per', default=1000000,help='Total lagrangian particles emission rate (particle/hour)')
 parser.add_argument('-OI','--output_interval',default=1, help='Output time interval in hours')
 parser.add_argument('-TGSD','--tgsd',default='undefined',help='Total Grain Size Distribution file name')
 parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
 parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be the starting time with format HH')
+parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
+parser.add_argument('-MER', '--mer', default=999, help='Mass Eruption Rate (kg/s). Used if -NR True. If -NR True and it is not specified, the ESPs database is used')
+parser.add_argument('-PH', '--plh', default=999, help='Plume height above vent (m). Used if -NR True. If -NR True and it is not specified, the ESPs database is used')
+parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours). If specified, it overcomes the ESPs database duration (if used by REFIR)')
 parser.add_argument('-NRP', '--no_refir_plots',default='False',help='True: avoid saving and updating plots during the REFIR run. This overcomes any related setting in fix_config.txt. \n False: keep the fix_config.txt plot settings')
 args = parser.parse_args()
 mode = args.mode
@@ -46,23 +49,26 @@ lat_min = args.latmin
 lat_max = args.latmax
 run_duration = args.dur
 start_time = args.start_time
-er_duration_input = args.er_duration
 source_resolution = args.source_resolution
 output_interval = args.output_interval
 tgsd = args.tgsd
 per = args.per
 models_in = args.model
+mer_input = args.mer
+plh_input = args.plh
+er_duration_input = args.er_duration
 run_name_in = args.run_name
+no_refir = args.no_refir
 no_refir_plots = args.no_refir_plots
-if settings_file == 'True':
+if settings_file.lower() == 'true':
     settings_file = True
-elif settings_file == 'False':
+elif settings_file.lower() == 'false':
     settings_file = False
 else:
     print('Wrong value for variable --set')
-if short_simulation == 'True':
+if short_simulation.lower() == 'true':
     short_simulation = True
-elif short_simulation == 'False':
+elif short_simulation.lower() == 'false':
     short_simulation = False
 else:
     print('Wrong value for variable --s')
@@ -76,13 +82,24 @@ if start_time != '999':
     except:
         print('Unable to read starting time. Please check the format')
         exit()
+if no_refir.lower() == 'true':
+    no_refir = True
+elif no_refir.lower() == 'false':
+    no_refir = False
+else:
+    print('WARNING. Wrong input for argument -NR --no_refir')
+    no_refir_plots = False
 er_duration_input = float(er_duration_input)
+mer_input = float(mer_input)
+plh_input = float(plh_input)
+if no_refir and (er_duration_input == 999 or mer_input == 999 or plh_input == 999):
+    print('Warning. REFIR deactivated and not all ESPs specified. The ESPs database is going to be used')
 if no_refir_plots.lower() == 'true':
     no_refir_plots = True
 elif no_refir_plots.lower() == 'false':
     no_refir_plots = False
 else:
-    print('WARNING. Wrong input for argument -NP --no_plot. Keeping the plotting settings in fix_config.txt')
+    print('WARNING. Wrong input for argument -NRP --no_refir_plot. Keeping the plotting settings in fix_config.txt')
     no_refir_plots = False
 
 def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in, run_name_in):
@@ -145,9 +162,9 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     except:
         print('Please provide a valid duration')
         exit()
-    if Iceland_scenario == 'True':
+    if Iceland_scenario.lower() == 'true':
         Iceland_scenario = True
-    elif Iceland_scenario == 'False':
+    elif Iceland_scenario.lower() == 'false':
         Iceland_scenario = False
     else:
         print('Wrong value for variable --i')

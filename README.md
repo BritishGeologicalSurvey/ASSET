@@ -212,6 +212,9 @@ The system assumes the executable is in the system PATH
 Executable of the ash-model-plotting package (https://github.com/BritishGeologicalSurvey/ash-model-plotting) that must be installed in the system. This program is called from post_processing.py, which in turn needs to be run after the ash-model-plotting Conda environment has been activated (see ash-model-plotting instructions)
 
 IMPORTANT: I have modified grib_filter.py in /home/vulcanomod/anaconda3/envs/ash_dispersion_modelling/lib/python3.7/site-packages/fall3dutil to have the right new GFS URL format
+
+Working on bypassing REFIR option. For the moment, the input flags have been implmented.
+
 Improvements for the future:
 - implementation of NAME (reanalysis mode only unless usage of GFS data is implemented)
 - possibility to bypass REFIR and use all data from ESPs database and/or specify plume height and MER in input
