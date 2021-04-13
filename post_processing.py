@@ -14,9 +14,11 @@ parser.add_argument('-LATMAX','--latmax',default=999,help='Domain maximum latitu
 parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longitude')
 parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
 parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
+parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
 args = parser.parse_args()
 mode = args.mode
 models_in = args.model
+no_refir = args.no_refir
 if mode != 'manual' and mode != 'operational':
     print('Wrong value for variable --mode')
     print('Execution stopped')
@@ -29,7 +31,13 @@ else:
     print('Wrong value for variable --set')
     print('Execution stopped')
     exit()
-
+if no_refir.lower() == 'true':
+    no_refir = True
+elif no_refir.lower() == 'false':
+    no_refir = False
+else:
+    print('WARNING. Wrong input for argument -NR --no_refir')
+    no_refir = False
 RUNS = os.path.join(RUNS,mode)
 FALL3D_RUNS = os.path.join(RUNS, 'FALL3D')
 HYSPLIT_RUNS = os.path.join(RUNS, 'HYSPLIT')

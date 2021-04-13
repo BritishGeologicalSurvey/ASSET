@@ -88,7 +88,7 @@ elif no_refir.lower() == 'false':
     no_refir = False
 else:
     print('WARNING. Wrong input for argument -NR --no_refir')
-    no_refir_plots = False
+    no_refir = False
 er_duration_input = float(er_duration_input)
 mer_input = float(mer_input)
 plh_input = float(plh_input)
