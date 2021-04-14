@@ -134,8 +134,10 @@ def post_process_model():
     folders_to_remove = []
     if len(models) == 2:
         if len(solution_folders) == 2: #case with only average solution considered
-            i_fall3d_min = i_fall3d_max = 0
-            i_hysplit_min = i_hysplit_max = 1
+            i_fall3d_min = 0
+            i_fall3d_max = 1
+            i_hysplit_min = 1
+            i_hysplit_max = 2
         else:
             i_fall3d_min = 0
             i_fall3d_max = 3
