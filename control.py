@@ -667,7 +667,10 @@ def run_models(short_simulation, eruption_dur):
                 for i in range(0,len(plh_vector)):
                     if float(plh_vector[i]) > max_altitude:
                         max_altitude = float(plh_vector[i])
-                    plh_abv_vector.append(float(plh_vector[i]))    # FALL3D wants height above vent, which is what REFIR produces
+                    if no_refir:
+                        plh_abv_vector.append(float(plh_vector[i]) - summit)
+                    else:
+                        plh_abv_vector.append(float(plh_vector[i]))    # FALL3D wants height above vent, which is what REFIR produces
                     plh_abv += str(float(plh_vector[i])) + ' '
                     mer_string += mer_vector[i] + ' '
                 max_altitude += 8000
@@ -909,7 +912,10 @@ def run_models(short_simulation, eruption_dur):
                     plh_vector = []
                     plh_vector.append(plh)
                 for i in range(0, len(plh_vector)):
-                    plh_vector[i] = float(plh_vector[i]) + summit  # Currently HYSPLIT is setup to use heights asl (see SETUP.CFG) but this can be changed back to above ground
+                    if no_refir:
+                        plh_vector[i] = float(plh_vector[i])
+                    else:
+                        plh_vector[i] = float(plh_vector[i]) + summit  # Currently HYSPLIT is setup to use heights asl (see SETUP.CFG) but this can be changed back to above ground
                 max_altitude = max(plh_vector) + 8000
                 if short_simulation == False: # HYSPLIT will use EMITIMES
                     efile = 'EMITIMES'
