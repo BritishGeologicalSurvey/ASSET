@@ -661,17 +661,15 @@ def run_models(short_simulation, eruption_dur):
                     plh_vector = []
                     plh_vector.append(plh)
                 mer_string = ''
-                plh_abv_vector = []
                 plh_abv = ''
                 max_altitude = 0
                 for i in range(0,len(plh_vector)):
                     if float(plh_vector[i]) > max_altitude:
                         max_altitude = float(plh_vector[i])
                     if no_refir:
-                        plh_abv_vector.append(float(plh_vector[i]) - summit)
+                        plh_abv += str(float(plh_vector[i]) - summit)
                     else:
-                        plh_abv_vector.append(float(plh_vector[i]))    # FALL3D wants height above vent, which is what REFIR produces
-                    plh_abv += str(float(plh_vector[i])) + ' '
+                        plh_abv += str(float(plh_vector[i]))    # FALL3D wants height above vent, which is what REFIR produces
                     mer_string += mer_vector[i] + ' '
                 max_altitude += 8000
                 max_altitude = round(max_altitude, -3)
