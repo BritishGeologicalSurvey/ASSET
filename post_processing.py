@@ -133,7 +133,15 @@ def post_process_model():
                 solution_folders.append(os.path.join(latest_run_time, 'min', 'output'))
     folders_to_remove = []
     if len(models) == 2:
-        for folder in solution_folders[0:3]:
+        if len(solution_folders) == 2: #case with only average solution considered
+            i_fall3d_min = i_fall3d_max = 0
+            i_hysplit_min = i_hysplit_max = 1
+        else:
+            i_fall3d_min = 0
+            i_fall3d_max = 3
+            i_hysplit_min = 3
+            i_hysplit_max = 6
+        for folder in solution_folders[i_fall3d_min:i_fall3d_max_max]:
             model_type.append('fall3d')
             files = os.listdir(folder)
             file_check = False
@@ -151,7 +159,7 @@ def post_process_model():
             if file_check == False:
                 folders_to_remove.append(folder)
                 del model_type[-1]
-        for folder in solution_folders[3:6]:
+        for folder in solution_folders[i_hysplit_min:i_hysplit_max]:
             model_type.append('hysplit')
             files = os.listdir(folder)
             file_check = False  # If no res.nc file found, it remains False
