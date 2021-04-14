@@ -4,6 +4,7 @@ get_inputs = Tk()
 out = StringVar()
 short_simulation = BooleanVar()
 no_refir = BooleanVar()
+iceland_scenario = BooleanVar()
 fall3d_on = IntVar()
 hysplit_on = IntVar()
 
@@ -43,6 +44,9 @@ def get_input_data():
     Label(get_inputs, text="REFIR Short", font="Helvetica 10").grid(row=25, column=0, sticky=W)
     Radiobutton(get_inputs, text="True", variable=short_simulation, value=True).grid(row=25, column=1)
     Radiobutton(get_inputs, text="False", variable=short_simulation, value=False).grid(row=25, column=2)
+    Label(get_inputs, text="Iceland scenario", font="Helvetica 10").grid(row=26, column=0, sticky=W)
+    Radiobutton(get_inputs, text="True", variable=iceland_scenario, value=True).grid(row=26, column=1)
+    Radiobutton(get_inputs, text="False", variable=iceland_scenario, value=False).grid(row=26, column=2)
     lat_min_in = Entry(get_inputs, width=8)
     lat_min_in.grid(row=6, column=0, sticky=E)
     lat_max_in = Entry(get_inputs, width=8)
@@ -75,7 +79,7 @@ def get_input_data():
     run_name_in.grid(row=22, column=1, sticky=W)
 
     def on_button():
-        global lat_max, lat_min, lon_max, lon_min, volcano_ID, np, duration, plh, mer, short_simulation_s, no_refir_s, lat_grid_centre, lon_grid_centre, er_duration, source_resolution, per, output_interval, models, tgsd, run_name
+        global lat_max, lat_min, lon_max, lon_min, volcano_ID, np, duration, plh, mer, short_simulation_s, no_refir_s, iceland_scenario_s, lat_grid_centre, lon_grid_centre, er_duration, source_resolution, per, output_interval, models, tgsd, run_name
         lat_max = str(lat_max_in.get())
         lat_min = str(lat_min_in.get())
         lon_max = str(lon_max_in.get())
@@ -90,6 +94,7 @@ def get_input_data():
         per = str(per_in.get())
         no_refir_s = str(no_refir.get())
         short_simulation_s = str(short_simulation.get())
+        iceland_scenario_s = str(iceland_scenario.get())
         if no_refir_s == 'True':
             short_simulation_s = 'True'
         output_interval = str(output_interval_in.get())
@@ -108,7 +113,7 @@ def get_input_data():
             run_name = 'default'
 
     Button(get_inputs, text="Confirm inputs", font="Helvetica 11", fg="yellow", bg="red", \
-           width=24, height=2, command=on_button).grid(row=26, column=0, columnspan=5)
+           width=24, height=2, command=on_button).grid(row=27, column=0, columnspan=5)
 
     get_inputs.mainloop()
 
@@ -120,6 +125,7 @@ with open('operational_settings.txt','w',encoding="utf-8", errors="surrogateesca
     settings_file.write('LON_MIN_[deg]=' + lon_min + '\n')
     settings_file.write('LON_MAX_[deg]=' + lon_max + '\n')
     settings_file.write('VOLCANO_ID=' + volcano_ID + '\n')
+    settings_file.write('ICELAND_SCENARIO=' + iceland_scenario_s + '\n')
     settings_file.write('NP=' + np + '\n')
     settings_file.write('DURATION_[hours]=' + duration + '\n')
     settings_file.write('NO_REFIR=' + no_refir_s + '\n')

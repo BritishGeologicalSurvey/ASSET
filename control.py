@@ -1169,6 +1169,16 @@ def read_operational_settings_file():
                     short_simulation = True
                 elif short_simulation.lower() == 'false':
                     short_simulation = False
+            elif line.split('=')[0] == 'ICELAND_SCENARIO':
+                Iceland_scenario = line.split('=')[1]
+                try:
+                    Iceland_scenario = Iceland_scenario.split('\n')[0]
+                except:
+                    None
+                if Iceland_scenario.lower() == 'true':
+                    Iceland_scenario = True
+                elif Iceland_scenario.lower() == 'false':
+                    Iceland_scenario = False
             elif line.split('=')[0] == 'NO_REFIR':
                 no_refir = line.split('=')[1]
                 try:
@@ -1241,10 +1251,10 @@ def read_operational_settings_file():
                     exit()
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
-    return lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models
+    return lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, Iceland_scenario, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models
 
 if settings_file:
-    lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models = read_operational_settings_file()
+    lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, Iceland_scenario, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models = read_operational_settings_file()
 else:
     volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in, run_name_in)
 dx = tot_dx / 2
