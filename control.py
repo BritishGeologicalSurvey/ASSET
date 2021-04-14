@@ -1275,6 +1275,10 @@ if mode == 'operational':
             eruption_dur = dummy1
             eruption_plh = dummy2
             eruption_mer = dummy3
+        else:
+            eruption_dur = er_duration_input
+            eruption_plh = plh_input
+            eruption_mer = mer_input
     else:
         eruption_dur, eruption_plh, summit, volc_lat, volc_lon = run_foxi()
 else:
@@ -1285,6 +1289,10 @@ else:
             eruption_dur = dummy1
             eruption_plh = dummy2
             eruption_mer = dummy3
+        else:
+            eruption_dur = er_duration_input
+            eruption_plh = plh_input
+            eruption_mer = mer_input
     else:
         eruption_dur, summit, volc_lat, volc_lon = run_refir()
 os.chdir(ROOT)
