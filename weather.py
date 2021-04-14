@@ -16,16 +16,25 @@ parser.add_argument('-D','--dur',default='96',help='Ash dispersion simulation du
 parser.add_argument('-V','--volc',default='999',help='Smithsonian Institude volcano ID')
 parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
 parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be the starting time with format HH')
+parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
 args = parser.parse_args()
 settings_file = args.set
 mode = args.mode
 start_time = args.start_time
 run_name = args.run_name
+no_refir = args.no_refir
 
 if mode != 'manual' and mode != 'operational':
     print('Wrong value for variable --mode')
     print('Execution stopped')
     exit()
+if no_refir.lower() == 'true':
+    no_refir = True
+elif no_refir.lower() == 'false':
+    no_refir = False
+else:
+    print('WARNING. Wrong input for argument -NR --no_refir')
+    no_refir = False
 
 if settings_file == 'True':
     settings_file = True
@@ -52,6 +61,15 @@ if settings_file == 'True':
             elif line.split('=')[0] == 'RUN_NAME':
                 run_name = line.split('=')[1]
                 run_name = run_name.split('\n')[0]
+            elif line.split('=')[0] == 'NO_REFIR':
+                no_refir = line.split('=')[1]
+                no_refir = no_refir.split('\n')[0]
+                if no_refir.lower() == 'true':
+                    no_refir = True
+                elif no_refir.lower() == 'false':
+                    no_refir = False
+                else:
+                    no_refir = False
 elif settings_file == 'False':
     settings_file = False
     lat_min = args.latmin
@@ -282,20 +300,21 @@ else:
     run_folder = str(run_name)
 data_run_dir = os.path.join(data_today_dir,run_folder)
 data_twodaysago_dir = os.path.join(data_dir,twodaysago)
-#refir_dir = os.path.join(cwd,'REFIR')
-refir_dir = ('/home/vulcanomod/REFIR')
-refir_weather_today_dir = os.path.join(refir_dir,'raw_forecast_weather_data_' + today)
-refir_weather_twodaysago_dir = os.path.join(refir_dir,'raw_forecast_weather_data_' + twodaysago)
 
-# Check if the weather data are in the run folder of REFIR, and if yes move it one level up
-os.chdir(refir_dir)
-refir_files_list = os.listdir(refir_dir)
-for file in refir_files_list:
-    if file.startswith('run_' + today):
-        try:
-            shutil.move(os.path.join(refir_dir,file,'raw_forecast_weather_data_' + today),refir_dir)
-        except:
-            print('Folder ' + refir_weather_today_dir + ' not present in ' + os.path.join(refir_dir,file))
+if not no_refir:
+    # refir_dir = os.path.join(cwd,'REFIR')
+    refir_dir = ('/home/vulcanomod/REFIR')
+    refir_weather_today_dir = os.path.join(refir_dir, 'raw_forecast_weather_data_' + today)
+    refir_weather_twodaysago_dir = os.path.join(refir_dir, 'raw_forecast_weather_data_' + twodaysago)
+    # Check if the weather data are in the run folder of REFIR, and if yes move it one level up
+    os.chdir(refir_dir)
+    refir_files_list = os.listdir(refir_dir)
+    for file in refir_files_list:
+        if file.startswith('run_' + today):
+            try:
+                shutil.move(os.path.join(refir_dir,file,'raw_forecast_weather_data_' + today),refir_dir)
+            except:
+                print('Folder ' + refir_weather_today_dir + ' not present in ' + os.path.join(refir_dir,file))
 try:
     os.mkdir(data_dir)
 except:
@@ -321,18 +340,20 @@ os.system('srun -J grib2nc sh grib2nc.sh ' + time_diff_hours)
 if mode == 'manual':
     os.rename('operational.nc',mode + '.nc')
 os.system('cat *.arl > ' + mode + '.arl')
-try:
-    shutil.rmtree(refir_weather_twodaysago_dir)
-except:
-    print('Folder ' + refir_weather_twodaysago_dir + ' not present')
-try:
-    os.mkdir(refir_weather_today_dir)
-except:
-    print('Folder ' + refir_weather_today_dir + ' already exists')
-    #shutil.rmtree(refir_weather_today_dir)
-    #os.mkdir(refir_weather_today_dir)
+if not no_refir:
+    try:
+        shutil.rmtree(refir_weather_twodaysago_dir)
+    except:
+        print('Folder ' + refir_weather_twodaysago_dir + ' not present')
+    try:
+        os.mkdir(refir_weather_today_dir)
+    except:
+        print('Folder ' + refir_weather_today_dir + ' already exists')
+        #shutil.rmtree(refir_weather_today_dir)
+        #os.mkdir(refir_weather_today_dir)
+
 for file in os.listdir(weather_scripts_dir):
-    if file.startswith('weather_data'):
+    if file.startswith('weather_data') and not no_refir:
         try:
             shutil.move(file,refir_weather_today_dir)
         except:
@@ -344,7 +365,7 @@ for file in os.listdir(weather_scripts_dir):
     elif file.startswith(mode):
         shutil.move(file, data_run_dir)
 
-if mode == 'operational':
+if mode == 'operational' and not no_refir:
     # Create profile files readable by REFIR
     lat_source, lon_source = get_volc_location()
     profiles = []

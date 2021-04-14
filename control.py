@@ -25,13 +25,16 @@ parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longit
 parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
 parser.add_argument('-D','--dur',default=96,help='Ash dispersion simulation duration (hours)')
 parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
-parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours)')
 parser.add_argument('-SR','--source_resolution',default=60,help='Time resolution of the source (minutes)')
 parser.add_argument('-PER', '--per', default=1000000,help='Total lagrangian particles emission rate (particle/hour)')
 parser.add_argument('-OI','--output_interval',default=1, help='Output time interval in hours')
 parser.add_argument('-TGSD','--tgsd',default='undefined',help='Total Grain Size Distribution file name')
 parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
 parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be the starting time with format HH')
+parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
+parser.add_argument('-MER', '--mer', default=999, help='Mass Eruption Rate (kg/s). Used if -NR True. If -NR True and it is not specified, the ESPs database is used')
+parser.add_argument('-PH', '--plh', default=999, help='Plume top height a.s.l. (m). Used if -NR True. If -NR True and it is not specified, the ESPs database is used')
+parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours). If specified, it overcomes the ESPs database duration (if used by REFIR)')
 parser.add_argument('-NRP', '--no_refir_plots',default='False',help='True: avoid saving and updating plots during the REFIR run. This overcomes any related setting in fix_config.txt. \n False: keep the fix_config.txt plot settings')
 args = parser.parse_args()
 mode = args.mode
@@ -46,23 +49,26 @@ lat_min = args.latmin
 lat_max = args.latmax
 run_duration = args.dur
 start_time = args.start_time
-er_duration_input = args.er_duration
 source_resolution = args.source_resolution
 output_interval = args.output_interval
 tgsd = args.tgsd
 per = args.per
 models_in = args.model
+mer_input = args.mer
+plh_input = args.plh
+er_duration_input = args.er_duration
 run_name_in = args.run_name
+no_refir = args.no_refir
 no_refir_plots = args.no_refir_plots
-if settings_file == 'True':
+if settings_file.lower() == 'true':
     settings_file = True
-elif settings_file == 'False':
+elif settings_file.lower() == 'false':
     settings_file = False
 else:
     print('Wrong value for variable --set')
-if short_simulation == 'True':
+if short_simulation.lower() == 'true':
     short_simulation = True
-elif short_simulation == 'False':
+elif short_simulation.lower() == 'false':
     short_simulation = False
 else:
     print('Wrong value for variable --s')
@@ -76,13 +82,24 @@ if start_time != '999':
     except:
         print('Unable to read starting time. Please check the format')
         exit()
+if no_refir.lower() == 'true':
+    no_refir = True
+elif no_refir.lower() == 'false':
+    no_refir = False
+else:
+    print('WARNING. Wrong input for argument -NR --no_refir')
+    no_refir = False
 er_duration_input = float(er_duration_input)
+mer_input = float(mer_input)
+plh_input = float(plh_input)
+if no_refir and (er_duration_input == 999 or mer_input == 999 or plh_input == 999):
+    print('Warning. REFIR deactivated and not all ESPs specified. The ESPs database is going to be used')
 if no_refir_plots.lower() == 'true':
     no_refir_plots = True
 elif no_refir_plots.lower() == 'false':
     no_refir_plots = False
 else:
-    print('WARNING. Wrong input for argument -NP --no_plot. Keeping the plotting settings in fix_config.txt')
+    print('WARNING. Wrong input for argument -NRP --no_refir_plot. Keeping the plotting settings in fix_config.txt')
     no_refir_plots = False
 
 def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in, run_name_in):
@@ -145,9 +162,9 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
     except:
         print('Please provide a valid duration')
         exit()
-    if Iceland_scenario == 'True':
+    if Iceland_scenario.lower() == 'true':
         Iceland_scenario = True
-    elif Iceland_scenario == 'False':
+    elif Iceland_scenario.lower() == 'false':
         Iceland_scenario = False
     else:
         print('Wrong value for variable --i')
@@ -644,14 +661,15 @@ def run_models(short_simulation, eruption_dur):
                     plh_vector = []
                     plh_vector.append(plh)
                 mer_string = ''
-                plh_abv_vector = []
                 plh_abv = ''
                 max_altitude = 0
                 for i in range(0,len(plh_vector)):
                     if float(plh_vector[i]) > max_altitude:
                         max_altitude = float(plh_vector[i])
-                    plh_abv_vector.append(float(plh_vector[i]))    # FALL3D wants height above vent, which is what REFIR produces
-                    plh_abv += str(float(plh_vector[i])) + ' '
+                    if no_refir:
+                        plh_abv += str(float(plh_vector[i]) - summit)
+                    else:
+                        plh_abv += str(float(plh_vector[i]))    # FALL3D wants height above vent, which is what REFIR produces
                     mer_string += mer_vector[i] + ' '
                 max_altitude += 8000
                 max_altitude = round(max_altitude, -3)
@@ -754,8 +772,9 @@ def run_models(short_simulation, eruption_dur):
                 return np, npx, npy, npz
 
             np, npx, npy, npz = update_input_files(mer_avg, plh_avg, 'avg')
-            np, npx, npy, npz = update_input_files(mer_max, plh_max, 'max')
-            np, npx, npy, npz = update_input_files(mer_min, plh_min, 'min')
+            if not no_refir:
+                np, npx, npy, npz = update_input_files(mer_max, plh_max, 'max')
+                np, npx, npy, npz = update_input_files(mer_min, plh_min, 'min')
 
             def run_scripts(solution):
                 RUN = os.path.join(RUNS_TIME, solution)
@@ -766,9 +785,13 @@ def run_models(short_simulation, eruption_dur):
                 os.system(command_setdbs)
                 os.system(command_setsrc)
                 os.system(command_fall3d)
+
+            if no_refir: #To be changed if uncertainty is read from the ESPs database (e.g. IVESPA in the future) or input (to be arranged)
+                solutions = ['avg']
+            else:
+                solutions = ['avg', 'max', 'min']
             try:
-                solutions = ['avg','max','min']
-                pool_fall3d = ThreadingPool(3)
+                pool_fall3d = ThreadingPool(len(solutions))
                 pool_fall3d.map(run_scripts,solutions)
                 #pool_fall3d.join()
             except:
@@ -887,7 +910,10 @@ def run_models(short_simulation, eruption_dur):
                     plh_vector = []
                     plh_vector.append(plh)
                 for i in range(0, len(plh_vector)):
-                    plh_vector[i] = float(plh_vector[i]) + summit  # Currently HYSPLIT is setup to use heights asl (see SETUP.CFG) but this can be changed back to above ground
+                    if no_refir:
+                        plh_vector[i] = float(plh_vector[i])
+                    else:
+                        plh_vector[i] = float(plh_vector[i]) + summit  # Currently HYSPLIT is setup to use heights asl (see SETUP.CFG) but this can be changed back to above ground
                 max_altitude = max(plh_vector) + 8000
                 if short_simulation == False: # HYSPLIT will use EMITIMES
                     efile = 'EMITIMES'
@@ -1045,8 +1071,9 @@ def run_models(short_simulation, eruption_dur):
                     create_emission_file(mer_max, plh_max, wt_fraction[i], 'EMITIMES_MAX_poll' + str(i+1))
                     create_emission_file(mer_min, plh_min, wt_fraction[i], 'EMITIMES_MIN_poll' + str(i+1))
             ncpu_per_pollutant = update_control_files(mer_avg, plh_avg,'avg')
-            ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
-            ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
+            if not no_refir:
+                ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
+                ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
 
             def run_hysplit_mpi(solution):
                 import subprocess
@@ -1086,13 +1113,14 @@ def run_models(short_simulation, eruption_dur):
                         os.remove(os.path.join(OUT, 'cdump' + str(i)))
                     except:
                         print('File ' + os.path.join(OUT, 'cdump' + str(i)) + ' not found')
-
-            solutions = ['avg', 'max', 'min']
+            if no_refir:
+                solutions = ['avg']
+            else:
+                solutions = ['avg', 'max', 'min']
             for solution in solutions:
                 run_hysplit_mpi(solution)
-
             try:
-                pool_hysplit_post = ThreadingPool(3)
+                pool_hysplit_post = ThreadingPool(len(solutions))
                 pool_hysplit_post.map(post_processing_hysplit, solutions)
             except:
                 print('Error processing HYSPLIT outputs in parallel')
@@ -1102,14 +1130,19 @@ def run_models(short_simulation, eruption_dur):
         elif model == 'hysplit':
             run_hysplit()
 
-    mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur = read_refir_outputs(short_simulation)
-    if new_er_dur != 0:
-        eruption_dur = new_er_dur / 60
+    if not no_refir:
+        mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur = read_refir_outputs(short_simulation)
+        if new_er_dur != 0:
+            eruption_dur = new_er_dur / 60
+    else:
+        # To improve this and generalize for max and min
+        mer_avg = str(eruption_mer)
+        plh_avg = str(eruption_plh)
     pool_programs = ThreadingPool(2)
     pool_programs.map(controller, models)
     #pool_programs.join()
 
-if settings_file:
+def read_operational_settings_file():
     with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
         for line in settings:
             if line.split('=')[0] == 'LAT_MIN_[deg]':
@@ -1132,16 +1165,38 @@ if settings_file:
                     short_simulation = short_simulation.split('\n')[0]
                 except:
                     None
-                if short_simulation == 'True':
+                if short_simulation.lower() == 'true':
                     short_simulation = True
-                elif short_simulation == 'False':
+                elif short_simulation.lower() == 'false':
                     short_simulation = False
+            elif line.split('=')[0] == 'NO_REFIR':
+                no_refir = line.split('=')[1]
+                try:
+                    no_refir = no_refir.split('\n')[0]
+                except:
+                    None
+                if no_refir.lower() == 'true':
+                    no_refir = True
+                elif no_refir.lower() == 'false':
+                    no_refir = False
             elif line.split('=')[0] == 'ERUPTION_DURATION_[hours]':
                 try:
                     er_duration_input = line.split('=')[1]
                     er_duration_input = float(er_duration_input)
                 except:
                     er_duration_input = 999
+            elif line.split('=')[0] == 'ERUPTION_PLH_[m_asl]':
+                try:
+                    plh_input = line.split('=')[1]
+                    plh_input = float(plh_input)
+                except:
+                    plh_input = 999
+            elif line.split('=')[0] == 'ERUPTION_MER_[kg/s]':
+                try:
+                    mer_input = line.split('=')[1]
+                    mer_input = float(mer_input)
+                except:
+                    mer_input = 999
             elif line.split('=')[0] == 'SOURCE_RESOLUTION_[minutes]':
                 try:
                     source_resolution = line.split('=')[1]
@@ -1186,6 +1241,10 @@ if settings_file:
                     exit()
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
+    return lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models
+
+if settings_file:
+    lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models = read_operational_settings_file()
 else:
     volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in, run_name_in)
 dx = tot_dx / 2
@@ -1213,9 +1272,33 @@ else:
     run_folder = str(run_name)
 
 if mode == 'operational':
-    eruption_dur, eruption_plh, summit, volc_lat, volc_lon = run_foxi()
+    if no_refir:
+        short_simulation = True
+        dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
+        if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
+            eruption_dur = dummy1
+            eruption_plh = dummy2
+            eruption_mer = dummy3
+        else:
+            eruption_dur = er_duration_input
+            eruption_plh = plh_input
+            eruption_mer = mer_input
+    else:
+        eruption_dur, eruption_plh, summit, volc_lat, volc_lon = run_foxi()
 else:
-    eruption_dur, summit, volc_lat, volc_lon = run_refir()
+    if no_refir:
+        short_simulation = True
+        dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
+        if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
+            eruption_dur = dummy1
+            eruption_plh = dummy2
+            eruption_mer = dummy3
+        else:
+            eruption_dur = er_duration_input
+            eruption_plh = plh_input
+            eruption_mer = mer_input
+    else:
+        eruption_dur, summit, volc_lat, volc_lon = run_refir()
 os.chdir(ROOT)
 
 def clean_folders():

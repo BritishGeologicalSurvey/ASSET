@@ -14,9 +14,11 @@ parser.add_argument('-LATMAX','--latmax',default=999,help='Domain maximum latitu
 parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longitude')
 parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
 parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
+parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
 args = parser.parse_args()
 mode = args.mode
 models_in = args.model
+no_refir = args.no_refir
 if mode != 'manual' and mode != 'operational':
     print('Wrong value for variable --mode')
     print('Execution stopped')
@@ -29,7 +31,13 @@ else:
     print('Wrong value for variable --set')
     print('Execution stopped')
     exit()
-
+if no_refir.lower() == 'true':
+    no_refir = True
+elif no_refir.lower() == 'false':
+    no_refir = False
+else:
+    print('WARNING. Wrong input for argument -NR --no_refir')
+    no_refir = False
 RUNS = os.path.join(RUNS,mode)
 FALL3D_RUNS = os.path.join(RUNS, 'FALL3D')
 HYSPLIT_RUNS = os.path.join(RUNS, 'HYSPLIT')
@@ -49,6 +57,15 @@ if settings_file:
             elif line.split('=')[0] == 'LON_MAX_[deg]':
                 lon_max = line.split('=')[1]
                 lon_max = lon_max.split('\n')[0]
+            elif line.split('=')[0] == 'NO_REFIR':
+                no_refir = line.split('=')[1]
+                no_refir = no_refir.split('\n')[0]
+                if no_refir.lower() == 'true':
+                    no_refir = True
+                elif no_refir.lower() == 'false':
+                    no_refir = False
+                else:
+                    no_refir = False
             elif line.split('=')[0] == 'MODELS':
                 try:
                     models_in = line.split('=')[1]
@@ -106,15 +123,27 @@ def post_process_model():
         latest_run_time = os.path.join(latest_run_day,latest_path)
         if model == 'FALL3D':
             solution_folders.append(os.path.join(latest_run_time, 'avg'))
-            solution_folders.append(os.path.join(latest_run_time, 'max'))
-            solution_folders.append(os.path.join(latest_run_time, 'min'))
+            if not no_refir:
+                solution_folders.append(os.path.join(latest_run_time, 'max'))
+                solution_folders.append(os.path.join(latest_run_time, 'min'))
         else:
             solution_folders.append(os.path.join(latest_run_time, 'avg', 'output'))
-            solution_folders.append(os.path.join(latest_run_time, 'max', 'output'))
-            solution_folders.append(os.path.join(latest_run_time, 'min', 'output'))
+            if not no_refir:
+                solution_folders.append(os.path.join(latest_run_time, 'max', 'output'))
+                solution_folders.append(os.path.join(latest_run_time, 'min', 'output'))
     folders_to_remove = []
     if len(models) == 2:
-        for folder in solution_folders[0:3]:
+        if len(solution_folders) == 2: #case with only average solution considered
+            i_fall3d_min = 0
+            i_fall3d_max = 1
+            i_hysplit_min = 1
+            i_hysplit_max = 2
+        else:
+            i_fall3d_min = 0
+            i_fall3d_max = 3
+            i_hysplit_min = 3
+            i_hysplit_max = 6
+        for folder in solution_folders[i_fall3d_min:i_fall3d_max]:
             model_type.append('fall3d')
             files = os.listdir(folder)
             file_check = False
@@ -132,7 +161,7 @@ def post_process_model():
             if file_check == False:
                 folders_to_remove.append(folder)
                 del model_type[-1]
-        for folder in solution_folders[3:6]:
+        for folder in solution_folders[i_hysplit_min:i_hysplit_max]:
             model_type.append('hysplit')
             files = os.listdir(folder)
             file_check = False  # If no res.nc file found, it remains False
