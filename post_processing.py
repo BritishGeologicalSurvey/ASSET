@@ -141,7 +141,7 @@ def post_process_model():
             i_fall3d_max = 3
             i_hysplit_min = 3
             i_hysplit_max = 6
-        for folder in solution_folders[i_fall3d_min:i_fall3d_max_max]:
+        for folder in solution_folders[i_fall3d_min:i_fall3d_max]:
             model_type.append('fall3d')
             files = os.listdir(folder)
             file_check = False
