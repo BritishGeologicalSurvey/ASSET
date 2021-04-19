@@ -61,12 +61,24 @@ def get_input_data():
     np_in.grid(row=13, column=1, sticky=W)
     duration_in = Entry(get_inputs, width=4)
     duration_in.grid(row=14, column=1, sticky=W)
-    er_duration_in = Entry(get_inputs, width=4)
-    er_duration_in.grid(row=15, column=1, sticky=W)
-    er_plh_in = Entry(get_inputs, width=6)
-    er_plh_in.grid(row=16, column=1, sticky=W)
-    er_mer_in = Entry(get_inputs, width=10)
-    er_mer_in.grid(row=17, column=1, sticky=W)
+    er_duration_1_in = Entry(get_inputs, width=4)
+    er_duration_1_in.grid(row=15, column=1, sticky=W)
+    er_duration_2_in = Entry(get_inputs, width=4)
+    er_duration_2_in.grid(row=15, column=2, sticky=W)
+    er_duration_3_in = Entry(get_inputs, width=4)
+    er_duration_3_in.grid(row=15, column=3, sticky=W)
+    er_plh_1_in = Entry(get_inputs, width=6)
+    er_plh_1_in.grid(row=16, column=1, sticky=W)
+    er_plh_2_in = Entry(get_inputs, width=6)
+    er_plh_2_in.grid(row=16, column=2, sticky=W)
+    er_plh_3_in = Entry(get_inputs, width=6)
+    er_plh_3_in.grid(row=16, column=3, sticky=W)
+    er_mer_1_in = Entry(get_inputs, width=10)
+    er_mer_1_in.grid(row=17, column=1, sticky=W)
+    er_mer_2_in = Entry(get_inputs, width=10)
+    er_mer_2_in.grid(row=17, column=2, sticky=W)
+    er_mer_3_in = Entry(get_inputs, width=10)
+    er_mer_3_in.grid(row=17, column=3, sticky=W)
     source_resolution_in = Entry(get_inputs, width=4)
     source_resolution_in.grid(row=18, column=1, sticky=W)
     per_in = Entry(get_inputs, width=10)
@@ -79,7 +91,7 @@ def get_input_data():
     run_name_in.grid(row=22, column=1, sticky=W)
 
     def on_button():
-        global lat_max, lat_min, lon_max, lon_min, volcano_ID, np, duration, plh, mer, short_simulation_s, no_refir_s, iceland_scenario_s, lat_grid_centre, lon_grid_centre, er_duration, source_resolution, per, output_interval, models, tgsd, run_name
+        global lat_max, lat_min, lon_max, lon_min, volcano_ID, np, duration, plh_s, mer_s, short_simulation_s, no_refir_s, iceland_scenario_s, lat_grid_centre, lon_grid_centre, er_duration_s, source_resolution, per, output_interval, models, tgsd, run_name
         lat_max = str(lat_max_in.get())
         lat_min = str(lat_min_in.get())
         lon_max = str(lon_max_in.get())
@@ -87,9 +99,30 @@ def get_input_data():
         volcano_ID = str(volcano_ID_in.get())
         np = str(np_in.get())
         duration = str(duration_in.get())
-        er_duration = str(er_duration_in.get())
-        plh = str(er_plh_in.get())
-        mer = str(er_mer_in.get())
+        er_duration_s = ''
+        er_duration_1 = er_duration_1_in.get()
+        er_duration_2 = er_duration_2_in.get()
+        er_duration_3 = er_duration_3_in.get()
+        er_durations = [er_duration_1, er_duration_2, er_duration_3]
+        er_durations_sorted = sorted(er_durations)
+        for er_duration in er_durations_sorted:
+            er_duration_s += '\t' + str(er_duration)
+        plh_s = ''
+        plh_1 = er_plh_1_in.get()
+        plh_2 = er_plh_2_in.get()
+        plh_3 = er_plh_3_in.get()
+        plh = [plh_1, plh_2, plh_3]
+        plh_sorted = sorted(plh)
+        for plh in plh_sorted:
+            plh_s += '\t' + str(plh)
+        mer_s = ''
+        mer_1 = er_mer_1_in.get()
+        mer_2 = er_mer_2_in.get()
+        mer_3 = er_mer_3_in.get()
+        mer = [mer_1, mer_2, mer_3]
+        mer_sorted = sorted(mer)
+        for mer in mer_sorted:
+            mer_s += '\t' + str(mer)
         source_resolution = str(source_resolution_in.get())
         per = str(per_in.get())
         no_refir_s = str(no_refir.get())
@@ -130,9 +163,9 @@ with open('operational_settings.txt','w',encoding="utf-8", errors="surrogateesca
     settings_file.write('DURATION_[hours]=' + duration + '\n')
     settings_file.write('NO_REFIR=' + no_refir_s + '\n')
     settings_file.write('SHORT_SIMULATION=' + short_simulation_s + '\n')
-    settings_file.write('ERUPTION_DURATION_[hours]=' + er_duration + '\n')
-    settings_file.write('ERUPTION_PLH_[m_asl]=' + plh + '\n')
-    settings_file.write('ERUPTION_MER_[kg/s]=' + mer + '\n')
+    settings_file.write('ERUPTION_DURATION_[hours]=' + er_duration_s + '\n')
+    settings_file.write('ERUPTION_PLH_[m_asl]=' + plh_s + '\n')
+    settings_file.write('ERUPTION_MER_[kg/s]=' + mer_s + '\n')
     settings_file.write('SOURCE_RESOLUTION_[minutes]=' + source_resolution + '\n')
     settings_file.write('PARTICLE_EMISSION_RATE_[p/hr]=' + per + '\n')
     settings_file.write('OUTPUT_INTERVAL_[hr]=' + output_interval + '\n')
