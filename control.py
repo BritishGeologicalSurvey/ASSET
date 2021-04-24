@@ -11,98 +11,145 @@ REFIR = '/home/vulcanomod/REFIR'
 RUNS = os.path.join(ROOT,'Runs')
 TGSDS = os.path.join(ROOT,'TGSDs')
 
-# Parse input arguments
-parser = argparse.ArgumentParser(description='Input data for the control script')
-parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
-parser.add_argument('-SET','--set',default='True',help='True: Read simulation parameters from operational_settings.txt. False: simulation parameters are read from the other arguments')
-parser.add_argument('-V','--volc',default=999,help='This is the volcano ID based on the Smithsonian Institute IDs')
-parser.add_argument('-NP','--np',default=0,help='Number of processes for parallel processing')
-parser.add_argument('-S','--s',default='True',help='True or False. True: run REFIR for 5 minutes; False: run REFIR for the duration set by the ESPs database')
-parser.add_argument('-I','--i',default='True',help='True or False. True: Icelandic volcanoes scenarios; False: other volcanoes')
-parser.add_argument('-LATMIN','--latmin',default=999,help='Domain minimum latitude')
-parser.add_argument('-LATMAX','--latmax',default=999,help='Domain maximum latitude')
-parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longitude')
-parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
-parser.add_argument('-D','--dur',default=96,help='Ash dispersion simulation duration (hours)')
-parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
-parser.add_argument('-SR','--source_resolution',default=60,help='Time resolution of the source (minutes)')
-parser.add_argument('-PER', '--per', default=1000000,help='Total lagrangian particles emission rate (particle/hour)')
-parser.add_argument('-OI','--output_interval',default=1, help='Output time interval in hours')
-parser.add_argument('-TGSD','--tgsd',default='undefined',help='Total Grain Size Distribution file name')
-parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
-parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be the starting time with format HH')
-parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
-parser.add_argument('-MER', '--mer', default=999, help='Mass Eruption Rate (kg/s). Used if -NR True. If -NR True and it is not specified, the ESPs database is used')
-parser.add_argument('-PH', '--plh', default=999, help='Plume top height a.s.l. (m). Used if -NR True. If -NR True and it is not specified, the ESPs database is used')
-parser.add_argument('-ED','--er_duration',default=999,help='Eruption duration (hours). If specified, it overcomes the ESPs database duration (if used by REFIR)')
-parser.add_argument('-NRP', '--no_refir_plots',default='False',help='True: avoid saving and updating plots during the REFIR run. This overcomes any related setting in fix_config.txt. \n False: keep the fix_config.txt plot settings')
-args = parser.parse_args()
-mode = args.mode
-settings_file = args.set
-volc_id = args.volc
-n_processes = args.np
-short_simulation = args.s
-Iceland_scenario = args.i
-lon_min = args.lonmin
-lon_max = args.lonmax
-lat_min = args.latmin
-lat_max = args.latmax
-run_duration = args.dur
-start_time = args.start_time
-source_resolution = args.source_resolution
-output_interval = args.output_interval
-tgsd = args.tgsd
-per = args.per
-models_in = args.model
-mer_input = args.mer
-plh_input = args.plh
-er_duration_input = args.er_duration
-run_name_in = args.run_name
-no_refir = args.no_refir
-no_refir_plots = args.no_refir_plots
-if settings_file.lower() == 'true':
-    settings_file = True
-elif settings_file.lower() == 'false':
-    settings_file = False
-else:
-    print('Wrong value for variable --set')
-if short_simulation.lower() == 'true':
-    short_simulation = True
-elif short_simulation.lower() == 'false':
-    short_simulation = False
-else:
-    print('Wrong value for variable --s')
-if mode != 'manual' and mode != 'operational':
-    print('Wrong value for variable --mode')
-    print('Execution stopped')
-    exit()
-if start_time != '999':
-    try:
-        start_time_datetime = datetime.datetime.strptime(start_time, format('%d/%m/%Y-%H:%M'))
-    except:
-        print('Unable to read starting time. Please check the format')
+def read_args():
+    parser = argparse.ArgumentParser(description='Input data for the control script')
+    parser.add_argument('-M', '--mode', default='operational',
+                        help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
+    parser.add_argument('-SET', '--set', default='True',
+                        help='True: Read simulation parameters from operational_settings.txt. False: simulation parameters are read from the other arguments')
+    parser.add_argument('-V', '--volc', default=999,
+                        help='This is the volcano ID based on the Smithsonian Institute IDs')
+    parser.add_argument('-NP', '--np', default=0, help='Number of processes for parallel processing')
+    parser.add_argument('-S', '--s', default='True',
+                        help='True or False. True: run REFIR for 5 minutes; False: run REFIR for the duration set by the ESPs database')
+    parser.add_argument('-I', '--i', default='True',
+                        help='True or False. True: Icelandic volcanoes scenarios; False: other volcanoes')
+    parser.add_argument('-LATMIN', '--latmin', default=999, help='Domain minimum latitude')
+    parser.add_argument('-LATMAX', '--latmax', default=999, help='Domain maximum latitude')
+    parser.add_argument('-LONMIN', '--lonmin', default=999, help='Domain minimum longitude')
+    parser.add_argument('-LONMAX', '--lonmax', default=999, help='Domain maximum longitude')
+    parser.add_argument('-D', '--dur', default=96, help='Ash dispersion simulation duration (hours)')
+    parser.add_argument('-START', '--start_time', default='999',
+                        help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
+    parser.add_argument('-SR', '--source_resolution', default=60, help='Time resolution of the source (minutes)')
+    parser.add_argument('-PER', '--per', default=1000000,
+                        help='Total lagrangian particles emission rate (particle/hour)')
+    parser.add_argument('-OI', '--output_interval', default=1, help='Output time interval in hours')
+    parser.add_argument('-TGSD', '--tgsd', default='undefined', help='Total Grain Size Distribution file name')
+    parser.add_argument('-MOD', '--model', default='all',
+                        help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
+    parser.add_argument('-RUN', '--run_name', default='default',
+                        help='Run name. If not specified, the run name will be the starting time with format HH')
+    parser.add_argument('-NR', '--no_refir', default='False',
+                        help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
+    parser.add_argument('-MER', '--mer', nargs='+', default=[],
+                        help='Mass Eruption Rate (kg/s). Used if -NR True (up to three values). If -NR True and it is not specified, the ESPs database is used')
+    parser.add_argument('-PH', '--plh', nargs='+', default=[],
+                        help='Plume top height a.s.l. (m). Used if -NR True (up to three values). If -NR True and it is not specified, the ESPs database is used')
+    parser.add_argument('-ED', '--er_duration', nargs='+', default=[],
+                        help='Eruption duration (hours) (up to three values). If specified, it overcomes the ESPs database duration (if used by REFIR)')
+    parser.add_argument('-NRP', '--no_refir_plots', default='False',
+                        help='True: avoid saving and updating plots during the REFIR run. This overcomes any related setting in fix_config.txt. \n False: keep the fix_config.txt plot settings')
+    args = parser.parse_args()
+    mode = args.mode
+    settings_file = args.set
+    volc_id = args.volc
+    n_processes = args.np
+    short_simulation = args.s
+    Iceland_scenario = args.i
+    lon_min = args.lonmin
+    lon_max = args.lonmax
+    lat_min = args.latmin
+    lat_max = args.latmax
+    run_duration = args.dur
+    start_time = args.start_time
+    source_resolution = args.source_resolution
+    output_interval = args.output_interval
+    tgsd = args.tgsd
+    per = args.per
+    models_in = args.model
+    mer_input_s = args.mer
+    plh_input_s = args.plh
+    er_duration_input_s = args.er_duration
+    run_name_in = args.run_name
+    no_refir = args.no_refir
+    no_refir_plots = args.no_refir_plots
+    mer_input = []
+    plh_input = []
+    er_duration_input = []
+    if settings_file.lower() == 'true':
+        settings_file = True
+    elif settings_file.lower() == 'false':
+        settings_file = False
+    else:
+        print('Wrong value for variable --set')
+    if short_simulation.lower() == 'true':
+        short_simulation = True
+    elif short_simulation.lower() == 'false':
+        short_simulation = False
+    else:
+        print('Wrong value for variable --s')
+    if mode != 'manual' and mode != 'operational':
+        print('Wrong value for variable --mode')
+        print('Execution stopped')
         exit()
-if no_refir.lower() == 'true':
-    no_refir = True
-elif no_refir.lower() == 'false':
-    no_refir = False
-else:
-    print('WARNING. Wrong input for argument -NR --no_refir')
-    no_refir = False
-er_duration_input = float(er_duration_input)
-mer_input = float(mer_input)
-plh_input = float(plh_input)
-if no_refir and (er_duration_input == 999 or mer_input == 999 or plh_input == 999):
-    print('Warning. REFIR deactivated and not all ESPs specified. The ESPs database is going to be used')
-if no_refir_plots.lower() == 'true':
-    no_refir_plots = True
-elif no_refir_plots.lower() == 'false':
-    no_refir_plots = False
-else:
-    print('WARNING. Wrong input for argument -NRP --no_refir_plot. Keeping the plotting settings in fix_config.txt')
-    no_refir_plots = False
-
-def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in, run_name_in):
+    if start_time != '999':
+        try:
+            start_time_datetime = datetime.datetime.strptime(start_time, format('%d/%m/%Y-%H:%M'))
+        except:
+            print('Unable to read starting time. Please check the format')
+            exit()
+    if no_refir.lower() == 'true':
+        no_refir = True
+    elif no_refir.lower() == 'false':
+        no_refir = False
+    else:
+        print('WARNING. Wrong input for argument -NR --no_refir')
+        no_refir = False
+    if no_refir and (len(er_duration_input_s) == 0 or len(mer_input_s) == 0 or len(plh_input_s) == 0):
+        print('Warning. REFIR deactivated and not all ESPs specified. The ESPs database is going to be used')
+    if no_refir:
+        if len(er_duration_input_s) > 3:
+            print('WARNING. Maximum number of inputs of -ED --er_durations is 3. Taking the first three values into account')
+        if len(mer_input_s) > 3:
+            print('WARNING. Maximum number of inputs of -MER --mer is 3. Taking the first three values into account')
+        if len(plh_input_s) > 3:
+            print('WARNING. Maximum number of inputs of -PLH --plh is 3. Taking the first three values into account')
+        if len(er_duration_input_s) != len(mer_input_s) or len(er_duration_input_s) != len(plh_input_s) or len(
+                mer_input_s) != len(plh_input_s):
+            print('ERROR. Number of PLH, MER and ED scenarios are not consistent')
+            exit()
+        for i in range(0, len(mer_input_s)):
+            if float(mer_input_s[i]) <= 0:
+                print('ERROR. Negative value of MER provided')
+                exit()
+            mer_input.append(float(mer_input_s[i]))
+        for i in range(0, len(plh_input_s)):
+            if float(plh_input_s[i]) <= 0:
+                print('ERROR. Negative value of PLH provided')
+                exit()
+            plh_input.append(float(plh_input_s[i]))
+        for i in range(0, len(er_duration_input_s)):
+            if float(er_duration_input_s[i]) <= 0:
+                print('ERROR. Negative value of eruption duration provided')
+                exit()
+            er_duration_input.append(float(er_duration_input_s[i]))
+        if len(mer_input) == 2:
+            mer_input.append((mer_input[0] + mer_input[1]) / 2)
+        if len(plh_input) == 2:
+            plh_input.append((plh_input[0] + plh_input[1]) / 2)
+        if len(er_duration_input) == 2:
+            er_duration_input.append((er_duration_input[0] + er_duration_input[1]) / 2)
+        mer_input.sort()
+        plh_input.sort()
+        er_duration_input.sort()
+    if no_refir_plots.lower() == 'true':
+        no_refir_plots = True
+    elif no_refir_plots.lower() == 'false':
+        no_refir_plots = False
+    else:
+        print('WARNING. Wrong input for argument -NRP --no_refir_plot. Keeping the plotting settings in fix_config.txt')
+        no_refir_plots = False
     lon_max = float(lon_max)
     lon_min = float(lon_min)
     lat_max = float(lat_max)
@@ -196,7 +243,163 @@ def convert_args(volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_m
         print('Wrong model selection')
         exit()
     run_name = str(run_name_in)
-    return volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name
+    return settings_file, tgsd, short_simulation, start_time, start_time_datetime, no_refir_plots, mode, no_refir, plh_input, mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name
+
+def read_operational_settings_file():
+    with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
+        for line in settings:
+            if line.split('=')[0] == 'LAT_MIN_[deg]':
+                lat_min = float(line.split('=')[1])
+            elif line.split('=')[0] == 'LAT_MAX_[deg]':
+                lat_max = float(line.split('=')[1])
+            elif line.split('=')[0] == 'LON_MIN_[deg]':
+                lon_min = float(line.split('=')[1])
+            elif line.split('=')[0] == 'LON_MAX_[deg]':
+                lon_max = float(line.split('=')[1])
+            elif line.split('=')[0] == 'VOLCANO_ID':
+                volc_id = int(line.split('=')[1])
+            elif line.split('=')[0] == 'NP':
+                n_processes = int(line.split('=')[1])
+            elif line.split('=')[0] == 'DURATION_[hours]':
+                run_duration = int(line.split('=')[1])
+            elif line.split('=')[0] == 'SHORT_SIMULATION':
+                short_simulation = line.split('=')[1]
+                try:
+                    short_simulation = short_simulation.split('\n')[0]
+                except:
+                    None
+                if short_simulation.lower() == 'true':
+                    short_simulation = True
+                elif short_simulation.lower() == 'false':
+                    short_simulation = False
+            elif line.split('=')[0] == 'ICELAND_SCENARIO':
+                Iceland_scenario = line.split('=')[1]
+                try:
+                    Iceland_scenario = Iceland_scenario.split('\n')[0]
+                except:
+                    None
+                if Iceland_scenario.lower() == 'true':
+                    Iceland_scenario = True
+                elif Iceland_scenario.lower() == 'false':
+                    Iceland_scenario = False
+            elif line.split('=')[0] == 'NO_REFIR':
+                no_refir = line.split('=')[1]
+                try:
+                    no_refir = no_refir.split('\n')[0]
+                except:
+                    None
+                if no_refir.lower() == 'true':
+                    no_refir = True
+                elif no_refir.lower() == 'false':
+                    no_refir = False
+            elif line.split('=')[0] == 'ERUPTION_DURATION_[hours]':
+                er_duration_input_s = line.split('=')[1]
+                try:
+                    er_duration_input = float(er_duration_input_s)
+                    if er_duration_input <= 0:
+                        print('ERROR. Negative value of eruption duration provided.')
+                        exit()
+                except:
+                    try:
+                        er_duration_input = []
+                        er_duration_input_s = er_duration_input_s.split('\t')
+                        for i in range(1, len(er_duration_input_s)):
+                            if float(er_duration_input_s[i]) <= 0:
+                                print('ERROR. Negative value of eruption duration provided.')
+                                exit()
+                            er_duration_input.append(float(er_duration_input_s[i]))
+                        if len(er_duration_input) == 2:
+                            er_duration_input.append((er_duration_input[0] + er_duration_input[1]) / 2)
+                        er_duration_input.sort()
+                    except:
+                        er_duration_input = 999
+            elif line.split('=')[0] == 'ERUPTION_PLH_[m_asl]':
+                plh_input_s = line.split('=')[1]
+                try:
+                    plh_input = float(plh_input_s)
+                    if plh_input <= 0:
+                        print('ERROR. Negative value of PLH provided.')
+                        exit()
+                except:
+                    try:
+                        plh_input = []
+                        plh_input_s = plh_input_s.split('\t')
+                        for i in range(1, len(plh_input_s)):
+                            if float(plh_input_s[i]) <= 0:
+                                print('ERROR. Negative value of PLH provided.')
+                                exit()
+                            plh_input.append(float(plh_input_s[i]))
+                        if len(plh_input) == 2:
+                            plh_input.append((plh_input[0] + plh_input[1]) / 2)
+                        plh_input.sort()
+                    except:
+                        plh_input = 999
+            elif line.split('=')[0] == 'ERUPTION_MER_[kg/s]':
+                mer_input_s = line.split('=')[1]
+                try:
+                    mer_input = float(mer_input_s)
+                    if mer_input <= 0:
+                        print('ERROR. Negative value of MER provided.')
+                        exit()
+                except:
+                    try:
+                        mer_input = []
+                        mer_input_s = mer_input_s.split('\t')
+                        for i in range(1, len(mer_input_s)):
+                            if float(mer_input_s[i]) <= 0:
+                                print('ERROR. Negative value of MER provided.')
+                                exit()
+                            mer_input.append(float(mer_input_s[i]))
+                        if len(mer_input) == 2:
+                            mer_input.append((mer_input[0] + mer_input[1]) / 2)
+                        mer_input.sort()
+                    except:
+                        mer_input = 999
+            elif line.split('=')[0] == 'SOURCE_RESOLUTION_[minutes]':
+                try:
+                    source_resolution = line.split('=')[1]
+                    source_resolution = int(source_resolution)
+                    base = 5
+                    source_resolution = base * round(source_resolution / base)  # Ensure the source resolution is always a multiple of 5
+                except:
+                    source_resolution = 60
+            elif line.split('=')[0] == 'PARTICLE_EMISSION_RATE_[p/hr]':
+                try:
+                    tot_particle_rate = line.split('=')[1]
+                    tot_particle_rate = int(tot_particle_rate)
+                except:
+                    tot_particle_rate = 1000000
+            elif line.split('=')[0] == 'OUTPUT_INTERVAL_[hr]':
+                try:
+                    output_interval = line.split('=')[1]
+                    output_interval = output_interval.split('\n')[0]
+                    int(output_interval)
+                except:
+                    output_interval = '1'
+            elif line.split('=')[0] == 'TGSD':
+                tgsd = line.split('=')[1]
+                tgsd = tgsd.split('\n')[0]
+            elif line.split('=')[0] == 'RUN_NAME':
+                run_name = line.split('=')[1]
+                run_name = run_name.split('\n')[0]
+            elif line.split('=')[0] == 'MODELS':
+                try:
+                    models_in = line.split('=')[1]
+                    models_in = models_in.split('\n')[0]
+                except:
+                    models_in = 'all'
+                if models_in == 'all':
+                    models = ['hysplit', 'fall3d']
+                elif models_in == 'hysplit':
+                    models = ['hysplit']
+                elif models_in == 'fall3d':
+                    models = ['fall3d']
+                else:
+                    print('Wrong model selection')
+                    exit()
+    tot_dx = lon_max - lon_min
+    tot_dy = lat_max - lat_min
+    return lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, Iceland_scenario, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models
 
 def get_times(time):
     twodaysago_t = time - datetime.timedelta(days=2)
@@ -775,6 +978,10 @@ def run_models(short_simulation, eruption_dur):
             if not no_refir:
                 np, npx, npy, npz = update_input_files(mer_max, plh_max, 'max')
                 np, npx, npy, npz = update_input_files(mer_min, plh_min, 'min')
+            else:
+                if mer_max != '999' and mer_min != '999' and plh_max != '999' and plh_min != '999':
+                    np, npx, npy, npz = update_input_files(mer_max, plh_max, 'max')
+                    np, npx, npy, npz = update_input_files(mer_min, plh_min, 'min')
 
             def run_scripts(solution):
                 RUN = os.path.join(RUNS_TIME, solution)
@@ -1074,6 +1281,10 @@ def run_models(short_simulation, eruption_dur):
             if not no_refir:
                 ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
                 ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
+            else:
+                if mer_max != '999' and mer_min != '999' and plh_max != '999' and plh_min != '999':
+                    ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
+                    ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
 
             def run_hysplit_mpi(solution):
                 import subprocess
@@ -1135,128 +1346,24 @@ def run_models(short_simulation, eruption_dur):
         if new_er_dur != 0:
             eruption_dur = new_er_dur / 60
     else:
-        # To improve this and generalize for max and min
-        mer_avg = str(eruption_mer)
-        plh_avg = str(eruption_plh)
+        try:
+            mer_avg = str(eruption_mer[1])
+            mer_min = str(eruption_mer[0])
+            mer_max = str(eruption_mer[2])
+            plh_avg = str(eruption_plh[1])
+            plh_max = str(eruption_plh[2])
+            plh_min = str(eruption_plh[0])
+        except:
+            mer_avg = str(eruption_mer)
+            plh_avg = str(eruption_plh)
+            mer_max = mer_min = plh_max = plh_min = '999'
     pool_programs = ThreadingPool(2)
     pool_programs.map(controller, models)
     #pool_programs.join()
 
-def read_operational_settings_file():
-    with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
-        for line in settings:
-            if line.split('=')[0] == 'LAT_MIN_[deg]':
-                lat_min = float(line.split('=')[1])
-            elif line.split('=')[0] == 'LAT_MAX_[deg]':
-                lat_max = float(line.split('=')[1])
-            elif line.split('=')[0] == 'LON_MIN_[deg]':
-                lon_min = float(line.split('=')[1])
-            elif line.split('=')[0] == 'LON_MAX_[deg]':
-                lon_max = float(line.split('=')[1])
-            elif line.split('=')[0] == 'VOLCANO_ID':
-                volc_id = int(line.split('=')[1])
-            elif line.split('=')[0] == 'NP':
-                n_processes = int(line.split('=')[1])
-            elif line.split('=')[0] == 'DURATION_[hours]':
-                run_duration = int(line.split('=')[1])
-            elif line.split('=')[0] == 'SHORT_SIMULATION':
-                short_simulation = line.split('=')[1]
-                try:
-                    short_simulation = short_simulation.split('\n')[0]
-                except:
-                    None
-                if short_simulation.lower() == 'true':
-                    short_simulation = True
-                elif short_simulation.lower() == 'false':
-                    short_simulation = False
-            elif line.split('=')[0] == 'ICELAND_SCENARIO':
-                Iceland_scenario = line.split('=')[1]
-                try:
-                    Iceland_scenario = Iceland_scenario.split('\n')[0]
-                except:
-                    None
-                if Iceland_scenario.lower() == 'true':
-                    Iceland_scenario = True
-                elif Iceland_scenario.lower() == 'false':
-                    Iceland_scenario = False
-            elif line.split('=')[0] == 'NO_REFIR':
-                no_refir = line.split('=')[1]
-                try:
-                    no_refir = no_refir.split('\n')[0]
-                except:
-                    None
-                if no_refir.lower() == 'true':
-                    no_refir = True
-                elif no_refir.lower() == 'false':
-                    no_refir = False
-            elif line.split('=')[0] == 'ERUPTION_DURATION_[hours]':
-                try:
-                    er_duration_input = line.split('=')[1]
-                    er_duration_input = float(er_duration_input)
-                except:
-                    er_duration_input = 999
-            elif line.split('=')[0] == 'ERUPTION_PLH_[m_asl]':
-                try:
-                    plh_input = line.split('=')[1]
-                    plh_input = float(plh_input)
-                except:
-                    plh_input = 999
-            elif line.split('=')[0] == 'ERUPTION_MER_[kg/s]':
-                try:
-                    mer_input = line.split('=')[1]
-                    mer_input = float(mer_input)
-                except:
-                    mer_input = 999
-            elif line.split('=')[0] == 'SOURCE_RESOLUTION_[minutes]':
-                try:
-                    source_resolution = line.split('=')[1]
-                    source_resolution = int(source_resolution)
-                    base = 5
-                    source_resolution = base * round(source_resolution / base)  # Ensure the source resolution is always a multiple of 5
-                except:
-                    source_resolution = 60
-            elif line.split('=')[0] == 'PARTICLE_EMISSION_RATE_[p/hr]':
-                try:
-                    tot_particle_rate = line.split('=')[1]
-                    tot_particle_rate = int(tot_particle_rate)
-                except:
-                    tot_particle_rate = 1000000
-            elif line.split('=')[0] == 'OUTPUT_INTERVAL_[hr]':
-                try:
-                    output_interval = line.split('=')[1]
-                    output_interval = output_interval.split('\n')[0]
-                    int(output_interval)
-                except:
-                    output_interval = '1'
-            elif line.split('=')[0] == 'TGSD':
-                tgsd = line.split('=')[1]
-                tgsd = tgsd.split('\n')[0]
-            elif line.split('=')[0] == 'RUN_NAME':
-                run_name = line.split('=')[1]
-                run_name = run_name.split('\n')[0]
-            elif line.split('=')[0] == 'MODELS':
-                try:
-                    models_in = line.split('=')[1]
-                    models_in = models_in.split('\n')[0]
-                except:
-                    models_in = 'all'
-                if models_in == 'all':
-                    models = ['hysplit', 'fall3d']
-                elif models_in == 'hysplit':
-                    models = ['hysplit']
-                elif models_in == 'fall3d':
-                    models = ['fall3d']
-                else:
-                    print('Wrong model selection')
-                    exit()
-    tot_dx = lon_max - lon_min
-    tot_dy = lat_max - lat_min
-    return lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, Iceland_scenario, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models
-
+settings_file, tgsd, short_simulation, start_time, start_time_datetime, no_refir_plots, mode, no_refir, plh_input, mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name = read_args()
 if settings_file:
     lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, Iceland_scenario, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models = read_operational_settings_file()
-else:
-    volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name = convert_args(volc_id, n_processes,  Iceland_scenario, lon_min, lon_max, lat_min, lat_max, run_duration, source_resolution, per, output_interval, models_in, run_name_in)
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy
