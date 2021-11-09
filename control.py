@@ -819,7 +819,7 @@ def run_models(short_simulation, eruption_dur):
                 print('Folder ' + RUNS_TIME + ' exists')
             OP_INPUT = os.path.join(FALL3D_RUNS, mode + '_fall3d.inp')
 
-            def update_input_files(mer, plh, solution):
+            def update_input_files(mer, plh, er_dur, solution):
                 def distribute_processes(n):
                     npx = int(n ** (1 / 3))
                     npy = npx
@@ -888,7 +888,7 @@ def run_models(short_simulation, eruption_dur):
                     levels += ' ' + str(int(altitude))
                 time_emission = time_now
                 if not short_simulation:
-                    effective_time_end_emission = time_emission + datetime.timedelta(hours=eruption_dur)
+                    effective_time_end_emission = time_emission + datetime.timedelta(hours=er_dur)
                     time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
                     decimal_time_start = convert_to_decimal(time_emission)
                     decimal_time_end = decimal_time_start + source_resolution / 60
@@ -908,7 +908,7 @@ def run_models(short_simulation, eruption_dur):
                 else:
                     decimal_time_start = convert_to_decimal(time_emission)
                     source_start_string += '{:.1f}'.format(decimal_time_start)
-                    decimal_time_end = decimal_time_start + eruption_dur
+                    decimal_time_end = decimal_time_start + er_dur
                     source_end_string += '{:.1f}'.format(decimal_time_end)
                 np, npx, npy, npz = distribute_processes(n_processes)
                 lines = []
@@ -975,14 +975,17 @@ def run_models(short_simulation, eruption_dur):
                     fall3d_input.writelines(lines)
                 return np, npx, npy, npz
 
-            np, npx, npy, npz = update_input_files(mer_avg, plh_avg, 'avg')
+
             if not no_refir:
-                np, npx, npy, npz = update_input_files(mer_max, plh_max, 'max')
-                np, npx, npy, npz = update_input_files(mer_min, plh_min, 'min')
+                np, npx, npy, npz = update_input_files(mer_avg, plh_avg, eruption_dur, 'avg')
+                np, npx, npy, npz = update_input_files(mer_max, plh_max, eruption_dur, 'max')
+                np, npx, npy, npz = update_input_files(mer_min, plh_min, eruption_dur, 'min')
             else:
-                if mer_max != '999' and mer_min != '999' and plh_max != '999' and plh_min != '999':
-                    np, npx, npy, npz = update_input_files(mer_max, plh_max, 'max')
-                    np, npx, npy, npz = update_input_files(mer_min, plh_min, 'min')
+                for i in range(0, len(solutions)):
+                    np, npx, npy, npz = update_input_files(eruption_mer[i], eruption_plh[i], eruption_dur[i], solutions[i])
+                #if mer_max != '999' and mer_min != '999' and plh_max != '999' and plh_min != '999':
+                #    np, npx, npy, npz = update_input_files(mer_max, plh_max, 'max')
+                #    np, npx, npy, npz = update_input_files(mer_min, plh_min, 'min')
 
             def run_scripts(solution):
                 RUN = os.path.join(RUNS_TIME, solution)
@@ -1346,18 +1349,18 @@ def run_models(short_simulation, eruption_dur):
         mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur = read_refir_outputs(short_simulation)
         if new_er_dur != 0:
             eruption_dur = new_er_dur / 60
-    else:
-        try:
-            mer_avg = str(eruption_mer[1])
-            mer_min = str(eruption_mer[0])
-            mer_max = str(eruption_mer[2])
-            plh_avg = str(eruption_plh[1])
-            plh_max = str(eruption_plh[2])
-            plh_min = str(eruption_plh[0])
-        except:
-            mer_avg = str(eruption_mer)
-            plh_avg = str(eruption_plh)
-            mer_max = mer_min = plh_max = plh_min = '999'
+    # else:
+    #     try:
+    #         mer_avg = str(eruption_mer[1])
+    #         mer_min = str(eruption_mer[0])
+    #         mer_max = str(eruption_mer[2])
+    #         plh_avg = str(eruption_plh[1])
+    #         plh_max = str(eruption_plh[2])
+    #         plh_min = str(eruption_plh[0])
+    #     except:
+    #         mer_avg = str(eruption_mer)
+    #         plh_avg = str(eruption_plh)
+    #         mer_max = mer_min = plh_max = plh_min = '999'
     pool_programs = ThreadingPool(2)
     pool_programs.map(controller, models)
     #pool_programs.join()
@@ -1393,15 +1396,18 @@ if mode == 'operational':
     if no_refir:
         short_simulation = True
         dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
+        eruption_dur = []
+        eruption_plh = []
+        eruption_mer = []
         if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
-            eruption_dur = dummy1
-            eruption_plh = dummy2
-            eruption_mer = dummy3
+            eruption_dur.append(dummy1)
+            eruption_plh.append(dummy2)
+            eruption_mer.append(dummy3)
             solutions = ['avg']
         else:
-            eruption_dur = er_duration_input
-            eruption_plh = plh_input
-            eruption_mer = mer_input
+            eruption_dur.append(er_duration_input)
+            eruption_plh.append(plh_input)
+            eruption_mer.append(mer_input)
             solutions = []
             for i in range(0, len(eruption_dur)):
                 solutions.append('run_' + str(i + 1))
