@@ -85,6 +85,7 @@ def read_args():
         print('Wrong value for variable --set')
     if short_simulation.lower() == 'true':
         short_simulation = True
+        return settings_file, tgsd, short_simulation, start_time, 999, no_refir_plots, mode, no_refir, plh_input, mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, 999, 999, 999, source_resolution, 999, output_interval, 999, 999
     elif short_simulation.lower() == 'false':
         short_simulation = False
     else:
@@ -993,10 +994,10 @@ def run_models(short_simulation, eruption_dur):
                 os.system(command_setsrc)
                 os.system(command_fall3d)
 
-            if no_refir: #To be changed if uncertainty is read from the ESPs database (e.g. IVESPA in the future) or input (to be arranged)
-                solutions = ['avg']
-            else:
-                solutions = ['avg', 'max', 'min']
+            #if no_refir: #To be changed if uncertainty is read from the ESPs database (e.g. IVESPA in the future) or input (to be arranged)
+            #    solutions = ['avg']
+            #else:
+            #    solutions = ['avg', 'max', 'min']
             try:
                 pool_fall3d = ThreadingPool(len(solutions))
                 pool_fall3d.map(run_scripts,solutions)
@@ -1324,10 +1325,10 @@ def run_models(short_simulation, eruption_dur):
                         os.remove(os.path.join(OUT, 'cdump' + str(i)))
                     except:
                         print('File ' + os.path.join(OUT, 'cdump' + str(i)) + ' not found')
-            if no_refir:
-                solutions = ['avg']
-            else:
-                solutions = ['avg', 'max', 'min']
+            #if no_refir:
+            #    solutions = ['avg']
+            #else:
+            #    solutions = ['avg', 'max', 'min']
             for solution in solutions:
                 run_hysplit_mpi(solution)
             try:
@@ -1396,11 +1397,16 @@ if mode == 'operational':
             eruption_dur = dummy1
             eruption_plh = dummy2
             eruption_mer = dummy3
+            solutions = ['avg']
         else:
             eruption_dur = er_duration_input
             eruption_plh = plh_input
             eruption_mer = mer_input
+            solutions = []
+            for i in range(0, len(eruption_dur)):
+                solutions.append('run_' + str(i + 1))
     else:
+        solutions = ['avg', 'max', 'min']
         eruption_dur, eruption_plh, summit, volc_lat, volc_lon = run_foxi()
 else:
     if no_refir:
@@ -1410,11 +1416,16 @@ else:
             eruption_dur = dummy1
             eruption_plh = dummy2
             eruption_mer = dummy3
+            solutions = ['avg']
         else:
             eruption_dur = er_duration_input
             eruption_plh = plh_input
             eruption_mer = mer_input
+            solutions = []
+            for i in range(0, len(eruption_dur)):
+                solutions.append('run_' + str(i + 1))
     else:
+        solutions = ['avg', 'max', 'min']
         eruption_dur, summit, volc_lat, volc_lon = run_refir()
 os.chdir(ROOT)
 
