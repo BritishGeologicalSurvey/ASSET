@@ -982,7 +982,7 @@ def run_models(short_simulation, eruption_dur):
                 np, npx, npy, npz = update_input_files(mer_min, plh_min, eruption_dur, 'min')
             else:
                 for i in range(0, len(solutions)):
-                    np, npx, npy, npz = update_input_files(eruption_mer[i], eruption_plh[i], eruption_dur[i], solutions[i])
+                    np, npx, npy, npz = update_input_files(str(eruption_mer[i]), str(eruption_plh[i]), eruption_dur[i], solutions[i])
                 #if mer_max != '999' and mer_min != '999' and plh_max != '999' and plh_min != '999':
                 #    np, npx, npy, npz = update_input_files(mer_max, plh_max, 'max')
                 #    np, npx, npy, npz = update_input_files(mer_min, plh_min, 'min')
@@ -1003,7 +1003,7 @@ def run_models(short_simulation, eruption_dur):
             #    solutions = ['avg', 'max', 'min']
             try:
                 pool_fall3d = ThreadingPool(len(solutions))
-                pool_fall3d.map(run_scripts,solutions)
+                pool_fall3d.map(run_scripts, solutions)
                 #pool_fall3d.join()
             except:
                 print('Error processing FALL3D in parallel')
