@@ -1392,47 +1392,66 @@ if run_name == 'default':
 else:
     run_folder = str(run_name)
 
-if mode == 'operational':
-    if no_refir:
-        short_simulation = True
-        dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
-        eruption_dur = []
-        eruption_plh = []
-        eruption_mer = []
-        if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
-            eruption_dur.append(dummy1)
-            eruption_plh.append(dummy2)
-            eruption_mer.append(dummy3)
-            solutions = ['avg']
-        else:
-            eruption_dur.append(er_duration_input)
-            eruption_plh.append(plh_input)
-            eruption_mer.append(mer_input)
-            solutions = []
-            for i in range(0, len(eruption_dur)):
-                solutions.append('run_' + str(i + 1))
+if no_refir:
+    short_simulation = True
+    dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
+    if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
+        eruption_dur = dummy1
+        eruption_plh = dummy2
+        eruption_mer = dummy3
+        solutions = ['avg']
     else:
-        solutions = ['avg', 'max', 'min']
-        eruption_dur, eruption_plh, summit, volc_lat, volc_lon = run_foxi()
+        eruption_dur = er_duration_input
+        eruption_plh = plh_input
+        eruption_mer = mer_input
+        solutions = []
+        for i in range(0, len(eruption_dur)):
+            solutions.append('run_' + str(i + 1))
 else:
-    if no_refir:
-        short_simulation = True
-        dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
-        if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
-            eruption_dur = dummy1
-            eruption_plh = dummy2
-            eruption_mer = dummy3
-            solutions = ['avg']
-        else:
-            eruption_dur = er_duration_input
-            eruption_plh = plh_input
-            eruption_mer = mer_input
-            solutions = []
-            for i in range(0, len(eruption_dur)):
-                solutions.append('run_' + str(i + 1))
+    solutions = ['avg', 'max', 'min']
+    if mode == 'operational':
+        eruption_dur, eruption_plh, summit, volc_lat, volc_lon = run_foxi()
     else:
-        solutions = ['avg', 'max', 'min']
         eruption_dur, summit, volc_lat, volc_lon = run_refir()
+
+# if mode == 'operational':
+#     if no_refir:
+#         short_simulation = True
+#         dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
+#         if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
+#             eruption_dur = dummy1
+#             eruption_plh = dummy2
+#             eruption_mer = dummy3
+#             solutions = ['avg']
+#         else:
+#             eruption_dur = er_duration_input
+#             eruption_plh = plh_input
+#             eruption_mer = mer_input
+#             solutions = []
+#             for i in range(0, len(eruption_dur)):
+#                 solutions.append('run_' + str(i + 1))
+#     else:
+#         solutions = ['avg', 'max', 'min']
+#         eruption_dur, eruption_plh, summit, volc_lat, volc_lon = run_foxi()
+# else:
+#     if no_refir:
+#         short_simulation = True
+#         dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
+#         if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
+#             eruption_dur = dummy1
+#             eruption_plh = dummy2
+#             eruption_mer = dummy3
+#             solutions = ['avg']
+#         else:
+#             eruption_dur = er_duration_input
+#             eruption_plh = plh_input
+#             eruption_mer = mer_input
+#             solutions = []
+#             for i in range(0, len(eruption_dur)):
+#                 solutions.append('run_' + str(i + 1))
+#     else:
+#         solutions = ['avg', 'max', 'min']
+#         eruption_dur, summit, volc_lat, volc_lon = run_refir()
 os.chdir(ROOT)
 
 def clean_folders():
