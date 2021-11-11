@@ -1124,7 +1124,7 @@ def run_models(short_simulation, eruption_dur):
                     os.chdir(RUN)
                 os.chdir(RUN)
                 syr_2ch = syr[2:4]
-                ncpu_per_pollutant = n_processes / int(n_bins)
+                ncpu_per_pollutant = n_processes / len(solutions) / int(n_bins)
                 if ncpu_per_pollutant > 16:
                     ncpu_per_pollutant = 16
                 em_rates = []
@@ -1224,7 +1224,7 @@ def run_models(short_simulation, eruption_dur):
                     shutil.copyfile(ASCDATA,os.path.join(os.getcwd(),'ASCDATA.CFG'))
                 return ncpu_per_pollutant
 
-            def create_emission_file(mer,plh,wt,emfile_name):
+            def create_emission_file(mer, plh, wt, emfile_name):
                 emission_file = os.path.join(HYSPLIT_RUNS, emfile_name)
                 mer_vector = mer.split(' ')
                 mer_vector = mer_vector[1:]
@@ -1343,10 +1343,6 @@ def run_models(short_simulation, eruption_dur):
                         os.remove(os.path.join(OUT, 'cdump' + str(i)))
                     except:
                         print('File ' + os.path.join(OUT, 'cdump' + str(i)) + ' not found')
-            #if no_refir:
-            #    solutions = ['avg']
-            #else:
-            #    solutions = ['avg', 'max', 'min']
             for solution in solutions:
                 run_hysplit_mpi(solution)
             try:
