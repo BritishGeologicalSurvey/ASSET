@@ -1005,6 +1005,7 @@ def run_models(short_simulation, eruption_dur):
             except:
                 print('Error processing FALL3D in parallel')
 
+
         def run_hysplit():
             ARL = os.path.join(ROOT, 'weather', 'data', mode)
             HYSPLIT = '/home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec'
@@ -1059,7 +1060,7 @@ def run_models(short_simulation, eruption_dur):
 
                 return n_bins, diam, rho, shape, wt_fraction, pollutants, diam_strings, rho_strings, shape_strings, wt_fraction_strings, pollutants_strings
 
-            def update_control_files(mer, plh, solution):
+            def update_control_files(mer, plh, er_dur, solution):
                 EMFILE = os.path.join(HYSPLIT_RUNS, 'EMITIMES_' + solution.upper() + '_poll')
                 SIM_solution = os.path.join(SIM,solution)
                 met = mode + '.arl'
@@ -1135,7 +1136,7 @@ def run_models(short_simulation, eruption_dur):
                     for i in range(0, len(wt_fraction)):
                         em_rates.append(mer * float(wt_fraction[i])) # / float(n_bins))  # Here divide per the number of bins NOT NEEDED!
                         em_rates_strings.append('em_rate[' + str(i+1) + ']')
-                    em_duration = str(eruption_dur)
+                    em_duration = str(er_dur)
                 n_source_locations = 2 * len(plh_vector)
                 max_altitude = round(max_altitude, -3)
                 dz = 1000
@@ -1147,7 +1148,7 @@ def run_models(short_simulation, eruption_dur):
                     levels += ' ' + str(int(altitude))
                 for i in range(1,int(n_bins)+1):
                     particle_rate_bin = tot_particle_rate * float((wt_fraction[i-1]))
-                    tot_particles = particle_rate_bin * eruption_dur
+                    tot_particles = particle_rate_bin * er_dur
                     os.chdir(os.path.join(RUN,'poll'+str(i),'run'))
                     with open('CONTROL', 'w', encoding="utf-8", errors="surrogateescape") as control_file:
                         diam_micron = float(diam[i-1]) * 1000.0
@@ -1206,7 +1207,7 @@ def run_models(short_simulation, eruption_dur):
                     shutil.copyfile(ASCDATA,os.path.join(os.getcwd(),'ASCDATA.CFG'))
                 return ncpu_per_pollutant
 
-            def create_emission_file(mer, plh, wt, emfile_name):
+            def create_emission_file(mer, plh, er_dur, wt, emfile_name):
                 emission_file = os.path.join(HYSPLIT_RUNS, emfile_name)
                 mer_vector = mer.split(' ')
                 mer_vector = mer_vector[1:]
@@ -1219,9 +1220,9 @@ def run_models(short_simulation, eruption_dur):
                 em_file_records.append('YYYY MM DD HH MM DURATION(hhmm) LAT LON HGT(m) RATE(/h) AREA(m2) HEAT(w)\n')
                 start_time_short = datetime.datetime.strftime(time_now, "%Y %m %d %H")
                 time_emission = time_now
-                eruption_dur_s = '{:03d}'.format(int(round(eruption_dur + 0.49)))
+                eruption_dur_s = '{:03d}'.format(int(round(er_dur + 0.49)))
                 em_file_records.append(start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n')
-                effective_time_end_emission = time_emission + datetime.timedelta(hours=eruption_dur)
+                effective_time_end_emission = time_emission + datetime.timedelta(hours=er_dur)
                 while True:
                     time_end_emission = time_emission + datetime.timedelta(minutes=source_resolution)
                     if time_end_emission >= effective_time_end_emission:
@@ -1269,25 +1270,50 @@ def run_models(short_simulation, eruption_dur):
                         em_file.write(record)
 
             try:
-                n_bins, diam, rho, shape, wt_fraction, pollutants, diam_strings, rho_strings, shape_strings, wt_fraction_strings, pollutants_strings = read_tgsd_file(tgsd)
+                n_bins, diam, rho, shape, wt_fraction, pollutants, diam_strings, rho_strings, shape_strings, \
+                wt_fraction_strings, pollutants_strings = read_tgsd_file(tgsd)
             except:
                 print('Unable to process file ' + tgsd)
                 exit()
-            if short_simulation == False:
-                for i in range(0,len(wt_fraction)):
-                    create_emission_file(mer_avg, plh_avg, wt_fraction[i], 'EMITIMES_AVG_poll' + str(i+1))
-                    create_emission_file(mer_max, plh_max, wt_fraction[i], 'EMITIMES_MAX_poll' + str(i+1))
-                    create_emission_file(mer_min, plh_min, wt_fraction[i], 'EMITIMES_MIN_poll' + str(i+1))
-            ncpu_per_pollutant = update_control_files(mer_avg, plh_avg,'avg')
-            if not no_refir:
-                ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
-                ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
-            else:
-                if mer_max != '999' and mer_min != '999' and plh_max != '999' and plh_min != '999':
-                    ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
-                    ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
 
-            def run_hysplit_mpi(solution):
+
+            processes_distributions = []
+            if not no_refir:
+                if short_simulation == False:
+                    for i in range(0, len(wt_fraction)):
+                        create_emission_file(mer_avg, plh_avg, eruption_dur, wt_fraction[i], 'EMITIMES_AVG_poll'
+                                             + str(i + 1))
+                        create_emission_file(mer_max, plh_max, eruption_dur, wt_fraction[i], 'EMITIMES_MAX_poll'
+                                             + str(i + 1))
+                        create_emission_file(mer_min, plh_min, eruption_dur, wt_fraction[i], 'EMITIMES_MIN_poll'
+                                             + str(i + 1))
+                processes_distributions.append(update_control_files(mer_avg, plh_avg, eruption_dur, 'avg'))
+                processes_distributions.append(update_control_files(mer_max, plh_max, eruption_dur, 'max'))
+                processes_distributions.append(update_control_files(mer_min, plh_min, eruption_dur, 'min'))
+            else:
+                for i in range(0, len(solutions)):
+                    if short_simulation == False:
+                        for i in range(0, len(wt_fraction)):
+                            create_emission_file(str(eruption_mer[i]), str(eruption_plh[i]), eruption_dur[i],
+                                                 wt_fraction[i], 'EMITIMES' + solutions[i] + '_poll' + str(i + 1))
+                    processes_distributions.append(update_control_files(str(eruption_mer[i]), str(eruption_plh[i]),
+                                                                        eruption_dur[i], solutions[i]))
+
+            #if short_simulation == False:
+            #    for i in range(0,len(wt_fraction)):
+            #        create_emission_file(mer_avg, plh_avg, wt_fraction[i], 'EMITIMES_AVG_poll' + str(i+1))
+            #        create_emission_file(mer_max, plh_max, wt_fraction[i], 'EMITIMES_MAX_poll' + str(i+1))
+            #        create_emission_file(mer_min, plh_min, wt_fraction[i], 'EMITIMES_MIN_poll' + str(i+1))
+            #ncpu_per_pollutant = update_control_files(mer_avg, plh_avg,'avg')
+            #if not no_refir:
+            #    ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
+            #    ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
+            #else:
+            #    if mer_max != '999' and mer_min != '999' and plh_max != '999' and plh_min != '999':
+            #        ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
+            #        ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
+
+            def run_hysplit_mpi(solution, n):
                 import subprocess
                 SIM_solution = os.path.join(SIM, solution)
                 RUN = os.path.join(SIM_solution, 'runs')
@@ -1295,7 +1321,7 @@ def run_models(short_simulation, eruption_dur):
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
                     os.chdir(path)
-                    p = subprocess.Popen(['sh',os.path.join(HYSPLIT, 'run_mpi.sh'),'{:.0f}'.format(ncpu_per_pollutant), 'hycm_std'])
+                    p = subprocess.Popen(['sh',os.path.join(HYSPLIT, 'run_mpi.sh'),'{:.0f}'.format(n), 'hycm_std'])
                     ps.append(p)
                 for p in ps:
                     p.wait()
@@ -1325,8 +1351,12 @@ def run_models(short_simulation, eruption_dur):
                         os.remove(os.path.join(OUT, 'cdump' + str(i)))
                     except:
                         print('File ' + os.path.join(OUT, 'cdump' + str(i)) + ' not found')
-            for solution in solutions:
-                run_hysplit_mpi(solution)
+
+
+            for i in range(0, len(solutions)):
+                run_hysplit_mpi(solutions[i], processes_distributions[i])
+            #for solution in solutions:
+            #    run_hysplit_mpi(solution)
             try:
                 pool_hysplit_post = ThreadingPool(len(solutions))
                 pool_hysplit_post.map(post_processing_hysplit, solutions)
