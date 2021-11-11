@@ -100,7 +100,9 @@ def post_process_model():
                 os.mkdir(output_dir)
             except:
                 print('Folder ' + output_dir + ' already exists')
-            os.system('salloc -n 16 plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir + ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' + model_in)
+            os.system('salloc -n 16 plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
+                      ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' +
+                      model_in)
         except:
             print('Unable to process ' + output_file)
 
@@ -121,29 +123,16 @@ def post_process_model():
             paths.append(os.path.join(latest_run_day, file))
         latest_path = max(paths, key=os.path.getmtime)
         latest_run_time = os.path.join(latest_run_day,latest_path)
-        if model == 'FALL3D':
-            solution_folders.append(os.path.join(latest_run_time, 'avg'))
-            if not no_refir:
-                solution_folders.append(os.path.join(latest_run_time, 'max'))
-                solution_folders.append(os.path.join(latest_run_time, 'min'))
-        else:
-            solution_folders.append(os.path.join(latest_run_time, 'avg', 'output'))
-            if not no_refir:
-                solution_folders.append(os.path.join(latest_run_time, 'max', 'output'))
-                solution_folders.append(os.path.join(latest_run_time, 'min', 'output'))
+        for folder in os.listdir(latest_run_time):
+            solution_folder = os.path.join(latest_run_time,folder)
+            if os.path.isdir(solution_folder):
+                if 'HYSPLIT' in solution_folder:
+                    solution_folders.append(os.path.join(solution_folder, 'output'))
+                else:
+                    solution_folders.append(solution_folder)
     folders_to_remove = []
-    if len(models) == 2:
-        if len(solution_folders) == 2: #case with only average solution considered
-            i_fall3d_min = 0
-            i_fall3d_max = 1
-            i_hysplit_min = 1
-            i_hysplit_max = 2
-        else:
-            i_fall3d_min = 0
-            i_fall3d_max = 3
-            i_hysplit_min = 3
-            i_hysplit_max = 6
-        for folder in solution_folders[i_fall3d_min:i_fall3d_max]:
+    for folder in solution_folders:
+        if 'FALL3D' in folder:
             model_type.append('fall3d')
             files = os.listdir(folder)
             file_check = False
@@ -153,15 +142,16 @@ def post_process_model():
                     file_check = True
                     try:
                         temp_cdo_file = file + '_cdo'
-                        os.system('srun -J CDO cdo -selyear,2020/2999 ' + os.path.join(folder,file) + ' ' + os.path.join(folder,temp_cdo_file) + ' &> cdo.txt')
-                        os.rename(os.path.join(folder,temp_cdo_file), os.path.join(folder,file))
+                        os.system('srun -J CDO cdo -selyear,2020/2999 ' + os.path.join(folder, file) + ' ' +
+                                  os.path.join(folder, temp_cdo_file) + ' &> cdo.txt')
+                        os.rename(os.path.join(folder, temp_cdo_file), os.path.join(folder, file))
                     except:
                         file_check = False
                         print('Unable to process ' + solution_files[-1] + ' with CDO')
             if file_check == False:
                 folders_to_remove.append(folder)
                 del model_type[-1]
-        for folder in solution_folders[i_hysplit_min:i_hysplit_max]:
+        else:
             model_type.append('hysplit')
             files = os.listdir(folder)
             file_check = False  # If no res.nc file found, it remains False
@@ -172,42 +162,6 @@ def post_process_model():
             if file_check == False:
                 folders_to_remove.append(folder)
                 del model_type[-1]
-        s = set(folders_to_remove)
-        solution_folders = [x for x in solution_folders if x not in s]
-    else:
-        if models[0] == 'FALL3D':
-            for folder in solution_folders:
-                model_type.append('fall3d')
-                files = os.listdir(folder)
-                file_check = False
-                for file in files:
-                    if file.endswith('.res.nc'):
-                        solution_files.append(os.path.join(folder, file))
-                        file_check = True
-                        try:
-                            temp_cdo_file = file + '_cdo'
-                            os.system(
-                                'srun -J CDO cdo -selyear,2020/2999 ' + os.path.join(folder, file) + ' ' + os.path.join(
-                                    folder, temp_cdo_file) + ' &> cdo.txt')
-                            os.rename(os.path.join(folder, temp_cdo_file), os.path.join(folder, file))
-                        except:
-                            file_check = False
-                            print('Unable to process ' + solution_files[-1] + ' with CDO')
-                if file_check == False:
-                    folders_to_remove.append(folder)
-                    del model_type[-1]
-        else:
-            for folder in solution_folders:
-                model_type.append('hysplit')
-                files = os.listdir(folder)
-                file_check = False  # If no res.nc file found, it remains False
-                for file in files:
-                    if file.endswith('.nc'):
-                        file_check = True
-                        solution_files.append(os.path.join(folder, file))
-                if file_check == False:
-                    folders_to_remove.append(folder)
-                    del model_type[-1]
         s = set(folders_to_remove)
         solution_folders = [x for x in solution_folders if x not in s]
     try:

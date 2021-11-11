@@ -85,7 +85,9 @@ def read_args():
         print('Wrong value for variable --set')
     if short_simulation.lower() == 'true':
         short_simulation = True
-        return settings_file, tgsd, short_simulation, start_time, 999, no_refir_plots, mode, no_refir, plh_input, mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, 999, 999, 999, source_resolution, 999, output_interval, 999, 999
+        return settings_file, tgsd, short_simulation, start_time, 999, no_refir_plots, mode, no_refir, plh_input, \
+               mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, \
+               lat_max, 999, 999, 999, source_resolution, 999, output_interval, 999, 999
     elif short_simulation.lower() == 'false':
         short_simulation = False
     else:
@@ -244,9 +246,15 @@ def read_args():
         print('Wrong model selection')
         exit()
     run_name = str(run_name_in)
-    return settings_file, tgsd, short_simulation, start_time, start_time_datetime, no_refir_plots, mode, no_refir, plh_input, mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name
+    return settings_file, tgsd, short_simulation, start_time, start_time_datetime, no_refir_plots, mode, no_refir, \
+           plh_input, mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, \
+           lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, \
+           run_name
 
 def read_operational_settings_file():
+    mer_input = []
+    plh_input = []
+    er_duration_input = []
     with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
         for line in settings:
             if line.split('=')[0] == 'LAT_MIN_[deg]':
@@ -296,13 +304,12 @@ def read_operational_settings_file():
             elif line.split('=')[0] == 'ERUPTION_DURATION_[hours]':
                 er_duration_input_s = line.split('=')[1]
                 try:
-                    er_duration_input = float(er_duration_input_s)
-                    if er_duration_input <= 0:
+                    er_duration_input.append(float(er_duration_input_s))
+                    if er_duration_input[0] <= 0:
                         print('ERROR. Negative value of eruption duration provided.')
                         exit()
                 except:
                     try:
-                        er_duration_input = []
                         er_duration_input_s = er_duration_input_s.split('\t')
                         for i in range(1, len(er_duration_input_s)):
                             if float(er_duration_input_s[i]) <= 0:
@@ -313,17 +320,18 @@ def read_operational_settings_file():
                             er_duration_input.append((er_duration_input[0] + er_duration_input[1]) / 2)
                         er_duration_input.sort()
                     except:
-                        er_duration_input = 999
+                        er_duration_input.append(999)
+                if not er_duration_input:
+                    er_duration_input.append(999)
             elif line.split('=')[0] == 'ERUPTION_PLH_[m_asl]':
                 plh_input_s = line.split('=')[1]
                 try:
-                    plh_input = float(plh_input_s)
-                    if plh_input <= 0:
+                    plh_input.append(float(plh_input_s))
+                    if plh_input[0] <= 0:
                         print('ERROR. Negative value of PLH provided.')
                         exit()
                 except:
                     try:
-                        plh_input = []
                         plh_input_s = plh_input_s.split('\t')
                         for i in range(1, len(plh_input_s)):
                             if float(plh_input_s[i]) <= 0:
@@ -334,17 +342,18 @@ def read_operational_settings_file():
                             plh_input.append((plh_input[0] + plh_input[1]) / 2)
                         plh_input.sort()
                     except:
-                        plh_input = 999
+                        plh_input.append(999)
+                if not plh_input:
+                    plh_input.append(999)
             elif line.split('=')[0] == 'ERUPTION_MER_[kg/s]':
                 mer_input_s = line.split('=')[1]
                 try:
-                    mer_input = float(mer_input_s)
-                    if mer_input <= 0:
+                    mer_input.append(float(mer_input_s))
+                    if mer_input[0] <= 0:
                         print('ERROR. Negative value of MER provided.')
                         exit()
                 except:
                     try:
-                        mer_input = []
                         mer_input_s = mer_input_s.split('\t')
                         for i in range(1, len(mer_input_s)):
                             if float(mer_input_s[i]) <= 0:
@@ -355,7 +364,9 @@ def read_operational_settings_file():
                             mer_input.append((mer_input[0] + mer_input[1]) / 2)
                         mer_input.sort()
                     except:
-                        mer_input = 999
+                        mer_input.append(999)
+                if not mer_input:
+                    mer_input.append(999)
             elif line.split('=')[0] == 'SOURCE_RESOLUTION_[minutes]':
                 try:
                     source_resolution = line.split('=')[1]
@@ -400,7 +411,9 @@ def read_operational_settings_file():
                     exit()
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
-    return lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, Iceland_scenario, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models
+    return lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, \
+           Iceland_scenario, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, \
+           output_interval, tgsd, run_name, models
 
 def get_times(time):
     twodaysago_t = time - datetime.timedelta(days=2)
@@ -466,8 +479,8 @@ def run_foxi():
     except:
         print('Unable to read ESPs database')
         exit()
-    if er_duration_input != 999:
-        esps_dur = er_duration_input
+    if er_duration_input[0] != 999:
+        esps_dur = er_duration_input[0]
     if esps_dur > run_duration:
         esps_dur = run_duration
 
@@ -585,8 +598,8 @@ def run_refir():
         lines = []
         for line in refir_config_r:
             lines.append(line)
-    if er_duration_input != 999:
-        er_dur = er_duration_input
+    if er_duration_input[0] != 999:
+        er_dur = er_duration_input[0]
     else:
         er_dur = lines[173] # This is updated by FIX if the ESPs usage is activated in FIX. Otherwise this is 0.
         er_dur = float(er_dur.split('\n')[0])
@@ -1365,9 +1378,13 @@ def run_models(short_simulation, eruption_dur):
     pool_programs.map(controller, models)
     #pool_programs.join()
 
-settings_file, tgsd, short_simulation, start_time, start_time_datetime, no_refir_plots, mode, no_refir, plh_input, mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name = read_args()
+settings_file, tgsd, short_simulation, start_time, start_time_datetime, no_refir_plots, mode, no_refir, plh_input, \
+mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, \
+tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, run_name = read_args()
 if settings_file:
-    lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, Iceland_scenario, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, output_interval, tgsd, run_name, models = read_operational_settings_file()
+    lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, \
+    Iceland_scenario, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, \
+    output_interval, tgsd, run_name, models = read_operational_settings_file()
 dx = tot_dx / 2
 dy = tot_dy / 2
 grid_centre_lat = lat_min + dy
@@ -1395,7 +1412,7 @@ else:
 if no_refir:
     short_simulation = True
     dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
-    if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
+    if mer_input[0] == 999 or plh_input[0] == 999 or er_duration_input[0] == 999:
         eruption_dur = dummy1
         eruption_plh = dummy2
         eruption_mer = dummy3
@@ -1414,44 +1431,7 @@ else:
     else:
         eruption_dur, summit, volc_lat, volc_lon = run_refir()
 
-# if mode == 'operational':
-#     if no_refir:
-#         short_simulation = True
-#         dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
-#         if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
-#             eruption_dur = dummy1
-#             eruption_plh = dummy2
-#             eruption_mer = dummy3
-#             solutions = ['avg']
-#         else:
-#             eruption_dur = er_duration_input
-#             eruption_plh = plh_input
-#             eruption_mer = mer_input
-#             solutions = []
-#             for i in range(0, len(eruption_dur)):
-#                 solutions.append('run_' + str(i + 1))
-#     else:
-#         solutions = ['avg', 'max', 'min']
-#         eruption_dur, eruption_plh, summit, volc_lat, volc_lon = run_foxi()
-# else:
-#     if no_refir:
-#         short_simulation = True
-#         dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
-#         if mer_input == 999 or plh_input == 999 or er_duration_input == 999:
-#             eruption_dur = dummy1
-#             eruption_plh = dummy2
-#             eruption_mer = dummy3
-#             solutions = ['avg']
-#         else:
-#             eruption_dur = er_duration_input
-#             eruption_plh = plh_input
-#             eruption_mer = mer_input
-#             solutions = []
-#             for i in range(0, len(eruption_dur)):
-#                 solutions.append('run_' + str(i + 1))
-#     else:
-#         solutions = ['avg', 'max', 'min']
-#         eruption_dur, summit, volc_lat, volc_lon = run_refir()
+
 os.chdir(ROOT)
 
 def clean_folders():
