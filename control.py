@@ -834,6 +834,7 @@ def run_models(short_simulation, eruption_dur):
 
             def update_input_files(mer, plh, er_dur, solution):
                 def distribute_processes(n):
+                    n = n / len(solutions)
                     npx = int(n ** (1 / 3))
                     npy = npx
                     npz = npx
@@ -989,20 +990,24 @@ def run_models(short_simulation, eruption_dur):
                 return np, npx, npy, npz
 
 
+            processes_distributions = []
             if not no_refir:
-                np, npx, npy, npz = update_input_files(mer_avg, plh_avg, eruption_dur, 'avg')
-                np, npx, npy, npz = update_input_files(mer_max, plh_max, eruption_dur, 'max')
-                np, npx, npy, npz = update_input_files(mer_min, plh_min, eruption_dur, 'min')
+                processes_distributions.append(update_input_files(mer_avg, plh_avg, eruption_dur, 'avg'))
+                processes_distributions.append(update_input_files(mer_max, plh_max, eruption_dur, 'max'))
+                processes_distributions.append(update_input_files(mer_min, plh_min, eruption_dur, 'min'))
             else:
                 for i in range(0, len(solutions)):
-                    np, npx, npy, npz = update_input_files(str(eruption_mer[i]), str(eruption_plh[i]), eruption_dur[i], solutions[i])
-                #if mer_max != '999' and mer_min != '999' and plh_max != '999' and plh_min != '999':
-                #    np, npx, npy, npz = update_input_files(mer_max, plh_max, 'max')
-                #    np, npx, npy, npz = update_input_files(mer_min, plh_min, 'min')
+                    processes_distributions.append(update_input_files(str(eruption_mer[i]), str(eruption_plh[i]),
+                                                                      eruption_dur[i], solutions[i]))
 
-            def run_scripts(solution):
+
+            def run_scripts(solution, processes):
                 RUN = os.path.join(RUNS_TIME, solution)
                 INPUT = os.path.join(RUN, mode + '_' + solution + '.inp')
+                np = processes[0]
+                npx = processes[1]
+                npy = processes[2]
+                npz = processes[3]
                 command_setdbs = 'salloc -n ' + str(np) + ' -J FALL3D_SetDbs -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
                 command_setsrc = 'salloc -n 1 -J FALL3D_SetSrc -t 01:00:00 ' + FALL3D + ' SetSrc ' + INPUT
                 command_fall3d = 'salloc -n ' + str(np) + ' -J FALL3D -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
@@ -1010,13 +1015,10 @@ def run_models(short_simulation, eruption_dur):
                 os.system(command_setsrc)
                 os.system(command_fall3d)
 
-            #if no_refir: #To be changed if uncertainty is read from the ESPs database (e.g. IVESPA in the future) or input (to be arranged)
-            #    solutions = ['avg']
-            #else:
-            #    solutions = ['avg', 'max', 'min']
+
             try:
                 pool_fall3d = ThreadingPool(len(solutions))
-                pool_fall3d.map(run_scripts, solutions)
+                pool_fall3d.map(run_scripts, solutions, processes_distributions)
                 #pool_fall3d.join()
             except:
                 print('Error processing FALL3D in parallel')
