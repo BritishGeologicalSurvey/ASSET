@@ -137,15 +137,6 @@ def read_args():
                 print('ERROR. Negative value of eruption duration provided')
                 exit()
             er_duration_input.append(float(er_duration_input_s[i]))
-        if len(mer_input) == 2:
-            mer_input.append((mer_input[0] + mer_input[1]) / 2)
-        if len(plh_input) == 2:
-            plh_input.append((plh_input[0] + plh_input[1]) / 2)
-        if len(er_duration_input) == 2:
-            er_duration_input.append((er_duration_input[0] + er_duration_input[1]) / 2)
-        mer_input.sort()
-        plh_input.sort()
-        er_duration_input.sort()
     if no_refir_plots.lower() == 'true':
         no_refir_plots = True
     elif no_refir_plots.lower() == 'false':
@@ -316,9 +307,6 @@ def read_operational_settings_file():
                                 print('ERROR. Negative value of eruption duration provided.')
                                 exit()
                             er_duration_input.append(float(er_duration_input_s[i]))
-                        if len(er_duration_input) == 2:
-                            er_duration_input.append((er_duration_input[0] + er_duration_input[1]) / 2)
-                        er_duration_input.sort()
                     except:
                         er_duration_input.append(999)
                 if not er_duration_input:
@@ -338,9 +326,6 @@ def read_operational_settings_file():
                                 print('ERROR. Negative value of PLH provided.')
                                 exit()
                             plh_input.append(float(plh_input_s[i]))
-                        if len(plh_input) == 2:
-                            plh_input.append((plh_input[0] + plh_input[1]) / 2)
-                        plh_input.sort()
                     except:
                         plh_input.append(999)
                 if not plh_input:
@@ -360,9 +345,6 @@ def read_operational_settings_file():
                                 print('ERROR. Negative value of MER provided.')
                                 exit()
                             mer_input.append(float(mer_input_s[i]))
-                        if len(mer_input) == 2:
-                            mer_input.append((mer_input[0] + mer_input[1]) / 2)
-                        mer_input.sort()
                     except:
                         mer_input.append(999)
                 if not mer_input:
