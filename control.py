@@ -7,7 +7,6 @@ import sys
 
 # Folder structure
 ROOT = os.getcwd()
-#REFIR = os.path.join(ROOT,'REFIR')
 REFIR = '/home/vulcanomod/REFIR'
 RUNS = os.path.join(ROOT,'Runs')
 TGSDS = os.path.join(ROOT,'TGSDs')
@@ -1328,19 +1327,6 @@ def run_models(short_simulation, eruption_dur):
                     processes_distributions.append(update_control_files(str(eruption_mer[i]), str(eruption_plh[i]),
                                                                         eruption_dur[i], solutions[i]))
 
-            #if short_simulation == False:
-            #    for i in range(0,len(wt_fraction)):
-            #        create_emission_file(mer_avg, plh_avg, wt_fraction[i], 'EMITIMES_AVG_poll' + str(i+1))
-            #        create_emission_file(mer_max, plh_max, wt_fraction[i], 'EMITIMES_MAX_poll' + str(i+1))
-            #        create_emission_file(mer_min, plh_min, wt_fraction[i], 'EMITIMES_MIN_poll' + str(i+1))
-            #ncpu_per_pollutant = update_control_files(mer_avg, plh_avg,'avg')
-            #if not no_refir:
-            #    ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
-            #    ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
-            #else:
-            #    if mer_max != '999' and mer_min != '999' and plh_max != '999' and plh_min != '999':
-            #        ncpu_per_pollutant = update_control_files(mer_max, plh_max, 'max')
-            #        ncpu_per_pollutant = update_control_files(mer_min, plh_min, 'min')
 
             def run_hysplit_mpi(solution, n):
                 import subprocess
@@ -1386,8 +1372,7 @@ def run_models(short_simulation, eruption_dur):
 
             for i in range(0, len(solutions)):
                 run_hysplit_mpi(solutions[i], processes_distributions[i])
-            #for solution in solutions:
-            #    run_hysplit_mpi(solution)
+
             try:
                 pool_hysplit_post = ThreadingPool(len(solutions))
                 pool_hysplit_post.map(post_processing_hysplit, solutions)
@@ -1404,21 +1389,8 @@ def run_models(short_simulation, eruption_dur):
             read_refir_outputs(short_simulation)
         if new_er_dur != 0:
             eruption_dur = new_er_dur / 60
-    # else:
-    #     try:
-    #         mer_avg = str(eruption_mer[1])
-    #         mer_min = str(eruption_mer[0])
-    #         mer_max = str(eruption_mer[2])
-    #         plh_avg = str(eruption_plh[1])
-    #         plh_max = str(eruption_plh[2])
-    #         plh_min = str(eruption_plh[0])
-    #     except:
-    #         mer_avg = str(eruption_mer)
-    #         plh_avg = str(eruption_plh)
-    #         mer_max = mer_min = plh_max = plh_min = '999'
     pool_programs = ThreadingPool(2)
     pool_programs.map(controller, models)
-    #pool_programs.join()
 
 settings_file, tgsd, short_simulation, start_time, start_time_datetime, no_refir_plots, mode, no_refir, plh_input, \
 mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, \
