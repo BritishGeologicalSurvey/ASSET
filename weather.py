@@ -6,17 +6,23 @@ from pathos.multiprocessing import ThreadingPool
 import pandas as pd
 
 parser = argparse.ArgumentParser(description='Input data for the control script')
-parser.add_argument('-SET','--set',default='True',help='True or False. True: Read simulation parameters from operational_settings.txt. False: simulation parameters are read from the other arguments')
-parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
+parser.add_argument('-SET','--set',default='True',help='True or False. True: Read simulation parameters from '
+                                                       'operational_settings.txt. False: simulation parameters are '
+                                                       'read from the other arguments')
+parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via '
+                                                             'operational_settings.txt\nmanual: run with user specific inputs')
 parser.add_argument('-LATMIN','--latmin',default='999',help='Domain minimum latitude')
 parser.add_argument('-LATMAX','--latmax',default='999',help='Domain maximum latitude')
 parser.add_argument('-LONMIN','--lonmin',default='999',help='Domain minimum longitude')
 parser.add_argument('-LONMAX','--lonmax',default='999',help='Domain maximum longitude')
 parser.add_argument('-D','--dur',default='96',help='Ash dispersion simulation duration')
 parser.add_argument('-V','--volc',default='999',help='Smithsonian Institude volcano ID')
-parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
-parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be the starting time with format HH')
-parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
+parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC '
+                                                               '(DD/MM/YYYY-HH:MM). Option valid only in manual mode')
+parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be '
+                                                               'the starting time with format HH')
+parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR '
+                                                             'for ESPs')
 args = parser.parse_args()
 settings_file = args.set
 mode = args.mode
@@ -152,13 +158,16 @@ def get_times(time):
     twodaysago = syr_2d+smo_2d+sda_2d
     # Find most up to date GFS run
     time_gfs = time
-    while time_gfs.strftime('%H') != '00' and time_gfs.strftime('%H') != '06' and time_gfs.strftime('%H') != '12' and time_gfs.strftime('%H') != '18':
+    while time_gfs.strftime('%H') != '00' and time_gfs.strftime('%H') != '06' and time_gfs.strftime('%H') != '12' \
+            and time_gfs.strftime('%H') != '18':
         time_gfs -= datetime.timedelta(hours=1)
-    url = url_base + time_gfs.strftime('%Y') +  time_gfs.strftime('%m') + time_gfs.strftime('%d') + '/' + time_gfs.strftime('%H') + '/gfs.t' + time_gfs.strftime('%H') + 'z.pgrb2b.0p25.f128'
+    url = url_base + time_gfs.strftime('%Y') +  time_gfs.strftime('%m') + time_gfs.strftime('%d') + '/' + \
+          time_gfs.strftime('%H') + '/gfs.t' + time_gfs.strftime('%H') + 'z.pgrb2b.0p25.f128'
     r = http.request('GET',url)
     if r.status != '202':
         time_gfs -= datetime.timedelta(hours=6)
-        url = url_base + time_gfs.strftime('%Y') +  time_gfs.strftime('%m') + time_gfs.strftime('%d') + '/' + time_gfs.strftime('%H') + '/gfs.t' + time_gfs.strftime('%H') + 'z.pgrb2b.0p25.f128'
+        url = url_base + time_gfs.strftime('%Y') +  time_gfs.strftime('%m') + time_gfs.strftime('%d') + '/' + \
+              time_gfs.strftime('%H') + '/gfs.t' + time_gfs.strftime('%H') + 'z.pgrb2b.0p25.f128'
     time_diff = time - time_gfs
     time_diff_hours, remainder = divmod(time_diff.seconds, 3600)
     shr_wt_run_st = '{:01d}'.format((int(time_gfs.strftime('%H'))))
@@ -202,9 +211,11 @@ def extract_data_gfs(wtfile, wtfile_int, profile_grb, profile):
     lat_corner = float(lat_source)
     lon_corner = str(int(lon_corner - 2))
     lat_corner = str(int(lat_corner - 2))
-    os.system('srun -J wgrib2 wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + lon_corner + ':400:0.01 ' + lat_corner + ':400:0.01 ' + wtfile_int)
+    os.system('srun -J wgrib2 wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' +
+              lon_corner + ':400:0.01 ' + lat_corner + ':400:0.01 ' + wtfile_int)
     print('Saving weather data along the vertical at the vent location')
-    os.system('srun -J wgrib2 wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' + profile_grb)
+    os.system('srun -J wgrib2 wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' +
+              profile_grb)
     file = open(profile_grb, "r",encoding="utf-8", errors="surrogateescape")
     records1 = []
     records2 = []
@@ -332,9 +343,11 @@ except:
 
 os.chdir(weather_scripts_dir)
 if shr_wt_run_st == '18':
-    command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + yesterday
+    command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + \
+              lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + yesterday
 else:
-    command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + today
+    command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + \
+              lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + today
 os.system(command)
 os.system('srun -J grib2nc sh grib2nc.sh ' + time_diff_hours)
 if mode == 'manual':
@@ -375,7 +388,8 @@ if mode == 'operational' and not no_refir:
     time_validity = datetime.datetime.strptime(today+shr_wt_run_st,format('%Y%m%d%H'))
     for i in range(0,duration + 1):
         wtfiles.append('weather_data_'+ today + '{:02}'.format(int(shr_wt_run_st)) + '_f' + '{:03}'.format(i))
-        wtfiles_interpolated.append('weather_data_interpolated_'+ today + '{:02}'.format(int(shr_wt_run_st)) + '_f' + '{:03}'.format(i))
+        wtfiles_interpolated.append('weather_data_interpolated_'+ today + '{:02}'.format(int(shr_wt_run_st)) + '_f'
+                                    + '{:03}'.format(i))
         time_validity_s = datetime.datetime.strftime(time_validity,format('%Y%m%d%H'))
         profiles_grb.append('profile_' + time_validity_s + '.txt')
         profiles.append('profile_data_' + time_validity_s + '.txt')

@@ -14,14 +14,17 @@ TGSDS = os.path.join(ROOT,'TGSDs')
 def read_args():
     parser = argparse.ArgumentParser(description='Input data for the control script')
     parser.add_argument('-M', '--mode', default='operational',
-                        help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
+                        help='operational: routine simulation mode controlled via operational_settings.txt'
+                             '\nmanual: run with user specific inputs')
     parser.add_argument('-SET', '--set', default='True',
-                        help='True: Read simulation parameters from operational_settings.txt. False: simulation parameters are read from the other arguments')
+                        help='True: Read simulation parameters from operational_settings.txt. False: simulation '
+                             'parameters are read from the other arguments')
     parser.add_argument('-V', '--volc', default=999,
                         help='This is the volcano ID based on the Smithsonian Institute IDs')
     parser.add_argument('-NP', '--np', default=0, help='Number of processes for parallel processing')
     parser.add_argument('-S', '--s', default='True',
-                        help='True or False. True: run REFIR for 5 minutes; False: run REFIR for the duration set by the ESPs database')
+                        help='True or False. True: run REFIR for 5 minutes; False: run REFIR for the duration set by '
+                             'the ESPs database')
     parser.add_argument('-I', '--i', default='True',
                         help='True or False. True: Icelandic volcanoes scenarios; False: other volcanoes')
     parser.add_argument('-LATMIN', '--latmin', default=999, help='Domain minimum latitude')
@@ -30,7 +33,8 @@ def read_args():
     parser.add_argument('-LONMAX', '--lonmax', default=999, help='Domain maximum longitude')
     parser.add_argument('-D', '--dur', default=96, help='Ash dispersion simulation duration (hours)')
     parser.add_argument('-START', '--start_time', default='999',
-                        help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in manual mode')
+                        help='Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in '
+                             'manual mode')
     parser.add_argument('-SR', '--source_resolution', default=60, help='Time resolution of the source (minutes)')
     parser.add_argument('-PER', '--per', default=1000000,
                         help='Total lagrangian particles emission rate (particle/hour)')
@@ -43,13 +47,17 @@ def read_args():
     parser.add_argument('-NR', '--no_refir', default='False',
                         help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
     parser.add_argument('-MER', '--mer', nargs='+', default=[],
-                        help='Mass Eruption Rate (kg/s). Used if -NR True (up to three values). If -NR True and it is not specified, the ESPs database is used')
+                        help='Mass Eruption Rate (kg/s). Used if -NR True (up to three values). If -NR True and it is '
+                             'not specified, the ESPs database is used')
     parser.add_argument('-PH', '--plh', nargs='+', default=[],
-                        help='Plume top height a.s.l. (m). Used if -NR True (up to three values). If -NR True and it is not specified, the ESPs database is used')
+                        help='Plume top height a.s.l. (m). Used if -NR True (up to three values). If -NR True and it is'
+                             ' not specified, the ESPs database is used')
     parser.add_argument('-ED', '--er_duration', nargs='+', default=[],
-                        help='Eruption duration (hours) (up to three values). If specified, it overcomes the ESPs database duration (if used by REFIR)')
+                        help='Eruption duration (hours) (up to three values). If specified, it overcomes the ESPs '
+                             'database duration (if used by REFIR)')
     parser.add_argument('-NRP', '--no_refir_plots', default='False',
-                        help='True: avoid saving and updating plots during the REFIR run. This overcomes any related setting in fix_config.txt. \n False: keep the fix_config.txt plot settings')
+                        help='True: avoid saving and updating plots during the REFIR run. This overcomes any related'
+                             ' setting in fix_config.txt. \n False: keep the fix_config.txt plot settings')
     args = parser.parse_args()
     mode = args.mode
     settings_file = args.set
@@ -113,7 +121,8 @@ def read_args():
         print('Warning. REFIR deactivated and not all ESPs specified. The ESPs database is going to be used')
     if no_refir:
         if len(er_duration_input_s) > 3:
-            print('WARNING. Maximum number of inputs of -ED --er_durations is 3. Taking the first three values into account')
+            print('WARNING. Maximum number of inputs of -ED --er_durations is 3. Taking the first three values into'
+                  ' account')
         if len(mer_input_s) > 3:
             print('WARNING. Maximum number of inputs of -MER --mer is 3. Taking the first three values into account')
         if len(plh_input_s) > 3:
@@ -354,7 +363,8 @@ def read_operational_settings_file():
                     source_resolution = line.split('=')[1]
                     source_resolution = int(source_resolution)
                     base = 5
-                    source_resolution = base * round(source_resolution / base)  # Ensure the source resolution is always a multiple of 5
+                    source_resolution = base * round(source_resolution / base)  # Ensure the source resolution is
+                    # always a multiple of 5
                 except:
                     source_resolution = 60
             elif line.split('=')[0] == 'PARTICLE_EMISSION_RATE_[p/hr]':
@@ -631,7 +641,8 @@ def run_models(short_simulation, eruption_dur):
                 for line in mer_file_r:
                     lines += 1
             if lines == 2:
-                short_simulation = True  # always convert to a short simulation if REFIR has been run manually for one time step only
+                short_simulation = True  # always convert to a short simulation if REFIR has been run manually for
+                # one time step only
             else:
                 short_simulation = False
             mer_file_r.close()
@@ -685,7 +696,8 @@ def run_models(short_simulation, eruption_dur):
                 try:
                     minute = int(line.split('\t')[1])
                     new_er_dur = minute
-                    if minute % source_resolution == 0 or (minute - 1) % source_resolution == 0 or (minute + 1) % source_resolution == 0:
+                    if minute % source_resolution == 0 or (minute - 1) % source_resolution == 0 or (minute + 1) % \
+                            source_resolution == 0:
                         mer_min_tmp = line.split('\t')[2]
                         mer_min_tmp = mer_min_tmp.split('.')[0]
                         mer_min += ' ' + mer_min_tmp
@@ -712,7 +724,8 @@ def run_models(short_simulation, eruption_dur):
             for line in plh_file_r:
                 try:
                     minute = int(line.split('\t')[1])
-                    if minute % source_resolution == 0 or (minute - 1) % source_resolution == 0 or (minute + 1) % source_resolution == 0:
+                    if minute % source_resolution == 0 or (minute - 1) % source_resolution == 0 or (minute + 1) % \
+                            source_resolution == 0:
                         plh_min_tmp = line.split('\t')[2]
                         plh_min_tmp = plh_min_tmp.split('.')[0]
                         plh_min += ' ' + plh_min_tmp
@@ -869,7 +882,8 @@ def run_models(short_simulation, eruption_dur):
                     if no_refir:
                         plh_abv += str(float(plh_vector[i]) - summit)
                     else:
-                        plh_abv += str(float(plh_vector[i]))    # FALL3D wants height above vent, which is what REFIR produces
+                        plh_abv += str(float(plh_vector[i]))    # FALL3D wants height above vent, which is what
+                        # REFIR produces
                     mer_string += mer_vector[i] + ' '
                 max_altitude += 8000
                 max_altitude = round(max_altitude, -3)
@@ -990,9 +1004,11 @@ def run_models(short_simulation, eruption_dur):
                 npx = processes[1]
                 npy = processes[2]
                 npz = processes[3]
-                command_setdbs = 'salloc -n ' + str(np) + ' -J FALL3D_SetDbs -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
+                command_setdbs = 'salloc -n ' + str(np) + ' -J FALL3D_SetDbs -t 01:00:00 mpirun -n ' + str(np) + ' ' \
+                                 + FALL3D + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
                 command_setsrc = 'salloc -n 1 -J FALL3D_SetSrc -t 01:00:00 ' + FALL3D + ' SetSrc ' + INPUT
-                command_fall3d = 'salloc -n ' + str(np) + ' -J FALL3D -t 01:00:00 mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
+                command_fall3d = 'salloc -n ' + str(np) + ' -J FALL3D -t 01:00:00 mpirun -n ' + str(np) + ' ' \
+                                 + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
                 os.system(command_setdbs)
                 os.system(command_setsrc)
                 os.system(command_fall3d)
@@ -1058,7 +1074,8 @@ def run_models(short_simulation, eruption_dur):
                         pollutants.append('AS' + str(i))
                     pollutants_strings.append('poll[' + str(i) + ']')
 
-                return n_bins, diam, rho, shape, wt_fraction, pollutants, diam_strings, rho_strings, shape_strings, wt_fraction_strings, pollutants_strings
+                return n_bins, diam, rho, shape, wt_fraction, pollutants, diam_strings, rho_strings, shape_strings, \
+                       wt_fraction_strings, pollutants_strings
 
             def update_control_files(mer, plh, er_dur, solution):
                 EMFILE = os.path.join(HYSPLIT_RUNS, 'EMITIMES_' + solution.upper() + '_poll')
@@ -1122,7 +1139,8 @@ def run_models(short_simulation, eruption_dur):
                     if no_refir:
                         plh_vector[i] = float(plh_vector[i])
                     else:
-                        plh_vector[i] = float(plh_vector[i]) + summit  # Currently HYSPLIT is setup to use heights asl (see SETUP.CFG) but this can be changed back to above ground
+                        plh_vector[i] = float(plh_vector[i]) + summit  # Currently HYSPLIT is setup to use heights
+                        # asl (see SETUP.CFG) but this can be changed back to above ground
                 max_altitude = max(plh_vector) + 8000
                 if short_simulation == False: # HYSPLIT will use EMITIMES
                     efile = 'EMITIMES'
@@ -1134,7 +1152,8 @@ def run_models(short_simulation, eruption_dur):
                     mer = float(mer) * 3600.0 * 1000 #Convert in g/h for HYSPLIT
                     efile = ''
                     for i in range(0, len(wt_fraction)):
-                        em_rates.append(mer * float(wt_fraction[i])) # / float(n_bins))  # Here divide per the number of bins NOT NEEDED!
+                        em_rates.append(mer * float(wt_fraction[i])) # / float(n_bins))  # Here divide per the
+                        # number of bins NOT NEEDED!
                         em_rates_strings.append('em_rate[' + str(i+1) + ']')
                     em_duration = str(er_dur)
                 n_source_locations = 2 * len(plh_vector)
@@ -1156,8 +1175,11 @@ def run_models(short_simulation, eruption_dur):
                         control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + '\n')
                         control_file.write(str(n_source_locations) + '\n')
                         for j in range(0, len(plh_vector)):
-                            control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' + '{:.2f}'.format(float(volc_lon)) + ' ' + str(summit) + '\n')
-                            control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' + '{:.2f}'.format(float(volc_lon)) + ' ' + '{:.2f}'.format(float(plh_vector[j])) + '\n')
+                            control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' +
+                                               '{:.2f}'.format(float(volc_lon)) + ' ' + str(summit) + '\n')
+                            control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' +
+                                               '{:.2f}'.format(float(volc_lon)) + ' ' +
+                                               '{:.2f}'.format(float(plh_vector[j])) + '\n')
                         control_file.write(str(run_duration) + '\n')
                         control_file.write('0\n')
                         control_file.write(str(max_altitude) + '\n')
@@ -1172,7 +1194,8 @@ def run_models(short_simulation, eruption_dur):
                         control_file.write(em_duration + '\n')
                         control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + ' 00\n')
                         control_file.write('1\n')
-                        control_file.write('{:.1f}'.format(grid_centre_lat) + ' ' + '{:.1f}'.format(grid_centre_lon) + '\n')
+                        control_file.write('{:.1f}'.format(grid_centre_lat) + ' ' +
+                                           '{:.1f}'.format(grid_centre_lon) + '\n')
                         control_file.write('0.05 0.05\n')
                         control_file.write(str(tot_dy) + ' ' + str(tot_dx) + '\n')
                         control_file.write('../output/\n')
@@ -1183,7 +1206,8 @@ def run_models(short_simulation, eruption_dur):
                         control_file.write('99 12 31 24 60\n')
                         control_file.write('00 ' + output_interval + ' 00\n')
                         control_file.write('1\n')
-                        control_file.write('{:.2f}'.format(diam_micron) + ' ' + '{:.1f}'.format(rho_gcc) + ' ' + shape[i-1] + '\n')
+                        control_file.write('{:.2f}'.format(diam_micron) + ' ' + '{:.1f}'.format(rho_gcc) + ' ' +
+                                           shape[i-1] + '\n')
                         control_file.write('0.0 0.0 0.0 0.0 0.0\n')
                         control_file.write('0.0 0.0 0.0\n')
                         control_file.write('0.0\n')
@@ -1240,9 +1264,11 @@ def run_models(short_simulation, eruption_dur):
                         time_step_s += '{:02d}'.format(remainder) + ' '
                         mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt)
                         plh = float(plh_vector[time]) + summit
-                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' +
+                                               str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
                         em_file_records.append(
-                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + '{:.1f}'.format(plh) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + '{:.1f}'.format(plh)
+                            + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
                         n_records += 2
                         break
                     else:
@@ -1258,13 +1284,16 @@ def run_models(short_simulation, eruption_dur):
                         time_step_s += '{:02d}'.format(remainder) + ' '
                         mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt)
                         plh = float(plh_vector[time]) + summit
-                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
-                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + '{:.1f}'.format(plh) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' '
+                                               + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' '
+                                               + '{:.1f}'.format(plh) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
                         time += 1
                         n_records += 2
                         time_emission += datetime.timedelta(minutes=source_resolution)
                         time_end_emission += datetime.timedelta(minutes=source_resolution)
-                em_file_records[2] = start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n'  # Overwrite with the correct number of records
+                em_file_records[2] = start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n'  # Overwrite
+                # with the correct number of records
                 with open(emission_file, 'w', encoding="utf-8", errors="surrogateescape") as em_file:
                     for record in em_file_records:
                         em_file.write(record)
@@ -1338,14 +1367,16 @@ def run_models(short_simulation, eruption_dur):
                 else:
                     os.rename(os.path.join(OUT,'cdump1'), os.path.join(OUT,'cdump_base'))
                     for i in range(2, int(n_bins) + 1):
-                        os.system('srun -J HYSPLIT_concadd ' + os.path.join(HYSPLIT, 'concadd') + ' -i' + os.path.join(OUT,'cdump') + str(
+                        os.system('srun -J HYSPLIT_concadd ' + os.path.join(HYSPLIT, 'concadd') + ' -i' +
+                                  os.path.join(OUT,'cdump') + str(
                                 i) + ' -b' + os.path.join(OUT,'cdump_base') + ' -o' + os.path.join(OUT,'cdump_temp'))
                         os.rename(os.path.join(OUT,'cdump_temp'), os.path.join(OUT,'cdump_base'))
                 try:
                     os.rename(os.path.join(OUT,'cdump_base'), os.path.join(OUT,'cdump'))
                 except:
                     print('File ' + os.path.join(OUT,'cdump_base') + ' not found')
-                os.system('srun -J HYSPLIT_con2cdf4 ' + os.path.join(HYSPLIT, 'con2cdf4') + ' ' + os.path.join(OUT,'cdump') + ' ' + os.path.join(OUT,'cdump.nc'))
+                os.system('srun -J HYSPLIT_con2cdf4 ' + os.path.join(HYSPLIT, 'con2cdf4') + ' ' +
+                          os.path.join(OUT,'cdump') + ' ' + os.path.join(OUT,'cdump.nc'))
                 for i in range(2, int(n_bins) + 1):
                     try:
                         os.remove(os.path.join(OUT, 'cdump' + str(i)))
@@ -1369,7 +1400,8 @@ def run_models(short_simulation, eruption_dur):
             run_hysplit()
 
     if not no_refir:
-        mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur = read_refir_outputs(short_simulation)
+        mer_avg, mer_max, mer_min, plh_avg, plh_max, plh_min, short_simulation, new_er_dur = \
+            read_refir_outputs(short_simulation)
         if new_er_dur != 0:
             eruption_dur = new_er_dur / 60
     # else:
@@ -1422,10 +1454,13 @@ else:
 if no_refir:
     short_simulation = True
     dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
+    eruption_dur = []
+    eruption_plh = []
+    eruption_mer = []
     if mer_input[0] == 999 or plh_input[0] == 999 or er_duration_input[0] == 999:
-        eruption_dur = dummy1
-        eruption_plh = dummy2
-        eruption_mer = dummy3
+        eruption_dur.append(dummy1)
+        eruption_plh.append(dummy2)
+        eruption_mer.append(dummy3)
         solutions = ['avg']
     else:
         eruption_dur = er_duration_input

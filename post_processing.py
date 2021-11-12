@@ -7,14 +7,17 @@ RUNS = os.path.join(ROOT,'Runs')
 #NP = int(os.environ["SLURM_JOB_CPUS_PER_NODE"])
 
 parser = argparse.ArgumentParser(description='Input data for the post_processing script')
-parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via operational_settings.txt\nmanual: run with user specific inputs')
+parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via '
+                                                             'operational_settings.txt\nmanual: run with user specific inputs')
 parser.add_argument('-SET','--set',default='True',help='Read simulation parameters from operational_settings.txt')
 parser.add_argument('-LATMIN','--latmin',default=999,help='Domain minimum latitude')
 parser.add_argument('-LATMAX','--latmax',default=999,help='Domain maximum latitude')
 parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longitude')
 parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
-parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)')
-parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
+parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all '
+                                                        '(both hysplit and fall3d)')
+parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR '
+                                                             'for ESPs')
 args = parser.parse_args()
 mode = args.mode
 models_in = args.model
