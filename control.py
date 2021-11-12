@@ -3,6 +3,7 @@ import datetime
 import shutil
 import argparse
 from pathos.multiprocessing import ThreadingPool
+import sys
 
 # Folder structure
 ROOT = os.getcwd()
@@ -47,14 +48,14 @@ def read_args():
     parser.add_argument('-NR', '--no_refir', default='False',
                         help='True: avoid running REFIR for ESPs. False: run REFIR for ESPs')
     parser.add_argument('-MER', '--mer', nargs='+', default=[],
-                        help='Mass Eruption Rate (kg/s). Used if -NR True (up to three values). If -NR True and it is '
-                             'not specified, the ESPs database is used')
+                        help='Mass Eruption Rate (kg/s). Used if -NR True. If not specified and -NR True, the'
+                             ' ESPs database is used')
     parser.add_argument('-PH', '--plh', nargs='+', default=[],
-                        help='Plume top height a.s.l. (m). Used if -NR True (up to three values). If -NR True and it is'
-                             ' not specified, the ESPs database is used')
+                        help='Plume top height a.s.l. (m). Used if -NR True. If not specified and -NR True, the'
+                             ' ESPs database is used')
     parser.add_argument('-ED', '--er_duration', nargs='+', default=[],
-                        help='Eruption duration (hours) (up to three values). If specified, it overcomes the ESPs '
-                             'database duration (if used by REFIR)')
+                        help='Eruption duration (hours). If specified, it overcomes the ESPs database duration '
+                             '(if used by REFIR)')
     parser.add_argument('-NRP', '--no_refir_plots', default='False',
                         help='True: avoid saving and updating plots during the REFIR run. This overcomes any related'
                              ' setting in fix_config.txt. \n False: keep the fix_config.txt plot settings')
@@ -87,15 +88,15 @@ def read_args():
     er_duration_input = []
     if settings_file.lower() == 'true':
         settings_file = True
+        return settings_file, tgsd, short_simulation, start_time, 999, no_refir_plots, mode, no_refir, plh_input, \
+               mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, \
+               lat_max, 999, 999, 999, source_resolution, 999, output_interval, 999, 999
     elif settings_file.lower() == 'false':
         settings_file = False
     else:
         print('Wrong value for variable --set')
     if short_simulation.lower() == 'true':
         short_simulation = True
-        return settings_file, tgsd, short_simulation, start_time, 999, no_refir_plots, mode, no_refir, plh_input, \
-               mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, \
-               lat_max, 999, 999, 999, source_resolution, 999, output_interval, 999, 999
     elif short_simulation.lower() == 'false':
         short_simulation = False
     else:
@@ -103,13 +104,13 @@ def read_args():
     if mode != 'manual' and mode != 'operational':
         print('Wrong value for variable --mode')
         print('Execution stopped')
-        exit()
+        sys.exit()
     if start_time != '999':
         try:
             start_time_datetime = datetime.datetime.strptime(start_time, format('%d/%m/%Y-%H:%M'))
         except:
             print('Unable to read starting time. Please check the format')
-            exit()
+            sys.exit()
     if no_refir.lower() == 'true':
         no_refir = True
     elif no_refir.lower() == 'false':
@@ -120,32 +121,31 @@ def read_args():
     if no_refir and (len(er_duration_input_s) == 0 or len(mer_input_s) == 0 or len(plh_input_s) == 0):
         print('Warning. REFIR deactivated and not all ESPs specified. The ESPs database is going to be used')
     if no_refir:
-        if len(er_duration_input_s) > 3:
-            print('WARNING. Maximum number of inputs of -ED --er_durations is 3. Taking the first three values into'
-                  ' account')
-        if len(mer_input_s) > 3:
-            print('WARNING. Maximum number of inputs of -MER --mer is 3. Taking the first three values into account')
-        if len(plh_input_s) > 3:
-            print('WARNING. Maximum number of inputs of -PLH --plh is 3. Taking the first three values into account')
         if len(er_duration_input_s) != len(mer_input_s) or len(er_duration_input_s) != len(plh_input_s) or len(
                 mer_input_s) != len(plh_input_s):
             print('ERROR. Number of PLH, MER and ED scenarios are not consistent')
-            exit()
+            sys.exit()
         for i in range(0, len(mer_input_s)):
             if float(mer_input_s[i]) <= 0:
                 print('ERROR. Negative value of MER provided')
-                exit()
+                sys.exit()
             mer_input.append(float(mer_input_s[i]))
+        if not mer_input:
+            mer_input.append(999)
         for i in range(0, len(plh_input_s)):
             if float(plh_input_s[i]) <= 0:
                 print('ERROR. Negative value of PLH provided')
-                exit()
+                sys.exit()
             plh_input.append(float(plh_input_s[i]))
+        if not plh_input:
+            plh_input.append(999)
         for i in range(0, len(er_duration_input_s)):
             if float(er_duration_input_s[i]) <= 0:
                 print('ERROR. Negative value of eruption duration provided')
-                exit()
+                sys.exit()
             er_duration_input.append(float(er_duration_input_s[i]))
+        if not er_duration_input:
+            er_duration_input.append(999)
     if no_refir_plots.lower() == 'true':
         no_refir_plots = True
     elif no_refir_plots.lower() == 'false':
@@ -159,81 +159,81 @@ def read_args():
     lat_min = float(lat_min)
     if lat_min == 999:
         print('Please specify a valid value for lat_min')
-        exit()
+        sys.exit()
     if lat_max == 999:
         print('Please specify a valid value for lat_max')
-        exit()
+        sys.exit()
     if lon_min == 999:
         print('Please specify a valid value for lon_min')
-        exit()
+        sys.exit()
     if lon_max == 999:
         print('Please specify a valid value for lon_max')
-        exit()
+        sys.exit()
     if lat_max > 90 or lat_max < -90:
         print('lat_max not in the valid range -90 < latitude < 90. Please specify a valid value')
-        exit()
+        sys.exit()
     if lat_min > 90 or lat_min < -90:
         print('lat_min not in the valid range -90 < latitude < 90. Please specify a valid value')
-        exit()
+        sys.exit()
     if lat_min >= lat_max:
         print('lat_min greater than or equal to lat_max. Please check the values')
-        exit()
+        sys.exit()
     if lon_min > 180 or lon_min < -180:
         print('lon_min not in the valid range -90 < longitude < 90. Please specify a valid value')
-        exit()
+        sys.exit()
     if lon_max > 180 or lon_max < -180:
         print('lon_max not in the valid range -90 < longitude < 90. Please specify a valid value')
-        exit()
+        sys.exit()
     if lon_min >= lon_max:
         print('lon_min greater than or equal to lon_max. Please check the values')
-        exit()
+        sys.exit()
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
     try:
         volc_id = int(volc_id)
-        if volc_id <= 0:
-            print('Please provide a valid ID (> 0)')
-            exit()
+        if volc_id <= 0 or volc_id == 999:
+            print('Please provide a valid volcano ID')
+            sys.exit()
     except:
-        print('Please provide a valid ID')
-
+        print('Please provide a valid volcano ID')
+        sys.exit()
     try:
         n_processes = int(n_processes)
         if n_processes <= 0:
             print('Please provide a valid number of processes (> 0)')
-            exit()
+            sys.exit()
     except:
         print('Please provide a valid number of processes')
     try:
         run_duration = int(run_duration)
         if run_duration <= 0:
             print('Please provide a valid duration (> 0)')
-            exit()
+            sys.exit()
     except:
         print('Please provide a valid duration')
-        exit()
+        sys.exit()
     if Iceland_scenario.lower() == 'true':
         Iceland_scenario = True
     elif Iceland_scenario.lower() == 'false':
         Iceland_scenario = False
     else:
         print('Wrong value for variable --i')
-        exit()
+        sys.exit()
     try:
         source_resolution = int(source_resolution)
     except:
         print('Please provide a valid integer for the source resolution in minutes')
-        exit()
+        sys.exit()
     base = 5
     source_resolution = base * round(source_resolution / base) #Ensure the source resolution is always a multiple of 5
     try:
         tot_particle_rate = int(per)
     except:
         print('Please provide a valid number for the Total particle emission rate')
-        exit()
-    if output_interval <= 0:
+        sys.exit()
+    if int(output_interval) <= 0:
         print('Please provide a valid number for the output interval in hours')
-        exit()
+        sys.exit()
     else:
         output_interval = str(output_interval)
     if models_in == 'all':
@@ -244,7 +244,7 @@ def read_args():
         models = ['fall3d']
     else:
         print('Wrong model selection')
-        exit()
+        sys.exit()
     run_name = str(run_name_in)
     return settings_file, tgsd, short_simulation, start_time, start_time_datetime, no_refir_plots, mode, no_refir, \
            plh_input, mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, \
@@ -307,14 +307,14 @@ def read_operational_settings_file():
                     er_duration_input.append(float(er_duration_input_s))
                     if er_duration_input[0] <= 0:
                         print('ERROR. Negative value of eruption duration provided.')
-                        exit()
+                        sys.exit()
                 except:
                     try:
                         er_duration_input_s = er_duration_input_s.split('\t')
                         for i in range(1, len(er_duration_input_s)):
                             if float(er_duration_input_s[i]) <= 0:
                                 print('ERROR. Negative value of eruption duration provided.')
-                                exit()
+                                sys.exit()
                             er_duration_input.append(float(er_duration_input_s[i]))
                     except:
                         er_duration_input.append(999)
@@ -326,14 +326,14 @@ def read_operational_settings_file():
                     plh_input.append(float(plh_input_s))
                     if plh_input[0] <= 0:
                         print('ERROR. Negative value of PLH provided.')
-                        exit()
+                        sys.exit()
                 except:
                     try:
                         plh_input_s = plh_input_s.split('\t')
                         for i in range(1, len(plh_input_s)):
                             if float(plh_input_s[i]) <= 0:
                                 print('ERROR. Negative value of PLH provided.')
-                                exit()
+                                sys.exit()
                             plh_input.append(float(plh_input_s[i]))
                     except:
                         plh_input.append(999)
@@ -345,14 +345,14 @@ def read_operational_settings_file():
                     mer_input.append(float(mer_input_s))
                     if mer_input[0] <= 0:
                         print('ERROR. Negative value of MER provided.')
-                        exit()
+                        sys.exit()
                 except:
                     try:
                         mer_input_s = mer_input_s.split('\t')
                         for i in range(1, len(mer_input_s)):
                             if float(mer_input_s[i]) <= 0:
                                 print('ERROR. Negative value of MER provided.')
-                                exit()
+                                sys.exit()
                             mer_input.append(float(mer_input_s[i]))
                     except:
                         mer_input.append(999)
@@ -400,7 +400,7 @@ def read_operational_settings_file():
                     models = ['fall3d']
                 else:
                     print('Wrong model selection')
-                    exit()
+                    sys.exit()
     tot_dx = lon_max - lon_min
     tot_dy = lat_max - lat_min
     return lat_min, lat_max, lon_min, lon_max, tot_dx, tot_dy, volc_id, n_processes, run_duration, short_simulation, \
@@ -470,7 +470,7 @@ def run_foxi():
         esps_dur, esps_plh, dummy, summit, volc_lat, volc_lon = read_esps_database()
     except:
         print('Unable to read ESPs database')
-        exit()
+        sys.exit()
     if er_duration_input[0] != 999:
         esps_dur = er_duration_input[0]
     if esps_dur > run_duration:
@@ -1303,7 +1303,7 @@ def run_models(short_simulation, eruption_dur):
                 wt_fraction_strings, pollutants_strings = read_tgsd_file(tgsd)
             except:
                 print('Unable to process file ' + tgsd)
-                exit()
+                sys.exit()
 
 
             processes_distributions = []
@@ -1439,7 +1439,7 @@ if not os.path.exists(tgsd_file):
     s_input = input('Press Enter when the file is available')
     if s_input != '':
         print('Wrong input. Simulation aborting')
-        exit()
+        sys.exit()
 if start_time != '999' and mode == 'manual':
     time_now = start_time_datetime
 else:

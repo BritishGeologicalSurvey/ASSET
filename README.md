@@ -59,20 +59,28 @@ usage: weather.py [-h] [-SET SET] [-M MODE] [-LATMIN LATMIN] [-LATMAX LATMAX]
 
 - control.py.
 Python script that controls all the models execution. It takes the following arguments:
-usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I] [-LATMIN LATMIN] [-LATMAX LATMAX]
-                  [-LONMIN LONMIN] [-LONMAX LONMAX] [-D DUR] [-START START_TIME] [-SR SOURCE_RESOLUTION] [-PER PER]
-                  [-OI OUTPUT_INTERVAL] [-TGSD TGSD] [-MOD MODEL] [-RUN RUN_NAME] [-NR NO_REFIR] [-MER MER] [-PH PLH]
-                  [-ED ER_DURATION] [-NRP NO_REFIR_PLOTS]
+usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I]
+                  [-LATMIN LATMIN] [-LATMAX LATMAX] [-LONMIN LONMIN]
+                  [-LONMAX LONMAX] [-D DUR] [-START START_TIME]
+                  [-SR SOURCE_RESOLUTION] [-PER PER] [-OI OUTPUT_INTERVAL]
+                  [-TGSD TGSD] [-MOD MODEL] [-RUN RUN_NAME] [-NR NO_REFIR]
+                  [-MER MER [MER ...]] [-PH PLH [PLH ...]]
+                  [-ED ER_DURATION [ER_DURATION ...]] [-NRP NO_REFIR_PLOTS]
+
   -h, --help            show this help message and exit
-  -M MODE, --mode MODE  operational: routine simulation mode controlled via operational_settings.txt manual: run with
-                        user specific inputs
-  -SET SET, --set SET   True: Read simulation parameters from operational_settings.txt. False: simulation parameters
+  -M MODE, --mode MODE  operational: routine simulation mode controlled via
+                        operational_settings.txt manual: run with user
+                        specific inputs
+  -SET SET, --set SET   True: Read simulation parameters from
+                        operational_settings.txt. False: simulation parameters
                         are read from the other arguments
-  -V VOLC, --volc VOLC  This is the volcano ID based on the Smithsonian Institute IDs
+  -V VOLC, --volc VOLC  This is the volcano ID based on the Smithsonian
+                        Institute IDs
   -NP NP, --np NP       Number of processes for parallel processing
-  -S S, --s S           True or False. True: run REFIR for 5 minutes; False: run REFIR for the duration set by the
-                        ESPs database
-  -I I, --i I           True or False. True: Icelandic volcanoes scenarios; False: other volcanoes
+  -S S, --s S           True or False. True: run REFIR for 5 minutes; False:
+                        run REFIR for the duration set by the ESPs database
+  -I I, --i I           True or False. True: Icelandic volcanoes scenarios;
+                        False: other volcanoes
   -LATMIN LATMIN, --latmin LATMIN
                         Domain minimum latitude
   -LATMAX LATMAX, --latmax LATMAX
@@ -83,31 +91,39 @@ usage: control.py [-h] [-M MODE] [-SET SET] [-V VOLC] [-NP NP] [-S S] [-I I] [-L
                         Domain maximum longitude
   -D DUR, --dur DUR     Ash dispersion simulation duration (hours)
   -START START_TIME, --start_time START_TIME
-                        Starting date and time of the simulation in UTC (DD/MM/YYYY-HH:MM). Option valid only in
-                        manual mode
+                        Starting date and time of the simulation in UTC
+                        (DD/MM/YYYY-HH:MM). Option valid only in manual mode
   -SR SOURCE_RESOLUTION, --source_resolution SOURCE_RESOLUTION
                         Time resolution of the source (minutes)
-  -PER PER, --per PER   Total lagrangian particles emission rate (particle/hour)
+  -PER PER, --per PER   Total lagrangian particles emission rate
+                        (particle/hour)
   -OI OUTPUT_INTERVAL, --output_interval OUTPUT_INTERVAL
                         Output time interval in hours
   -TGSD TGSD, --tgsd TGSD
                         Total Grain Size Distribution file name
   -MOD MODEL, --model MODEL
-                        Dispersion model to use. Options are: hysplit, fall3d, all (both hysplit and fall3d)
+                        Dispersion model to use. Options are: hysplit, fall3d,
+                        all (both hysplit and fall3d)
   -RUN RUN_NAME, --run_name RUN_NAME
-                        Run name. If not specified, the run name will be the starting time with format HH
+                        Run name. If not specified, the run name will be the
+                        starting time with format HH
   -NR NO_REFIR, --no_refir NO_REFIR
-                        True: avoid running REFIR for ESPs. False: run REFIR for ESPs
-  -MER MER, --mer MER   Mass Eruption Rate (kg/s). Used if -NR True. If -NR True and it is not specified, the ESPs
-                        database is used
-  -PH PLH, --plh PLH    Plume top height a.s.l. (m). Used if -NR True. If -NR True and it is not specified, the ESPs
-                        database is used
-  -ED ER_DURATION, --er_duration ER_DURATION
-                        Eruption duration (hours). If specified, it overcomes the ESPs database duration (if used by
-                        REFIR)
+                        True: avoid running REFIR for ESPs. False: run REFIR
+                        for ESPs
+  -MER MER [MER ...], --mer MER [MER ...]
+                        Mass Eruption Rate (kg/s). Used if -NR True. If not
+                        specified and -NR True, the ESPs database is used
+  -PH PLH [PLH ...], --plh PLH [PLH ...]
+                        Plume top height a.s.l. (m). Used if -NR True. If not
+                        specified and -NR True, the ESPs database is used
+  -ED ER_DURATION [ER_DURATION ...], --er_duration ER_DURATION [ER_DURATION ...]
+                        Eruption duration (hours). If specified, it overcomes
+                        the ESPs database duration (if used by REFIR)
   -NRP NO_REFIR_PLOTS, --no_refir_plots NO_REFIR_PLOTS
-                        True: avoid saving and updating plots during the REFIR run. This overcomes any related setting
-                        in fix_config.txt. False: keep the fix_config.txt plot settings
+                        True: avoid saving and updating plots during the REFIR
+                        run. This overcomes any related setting in
+                        fix_config.txt. False: keep the fix_config.txt plot
+                        settings
 
 - post_processing.py
 Python script that automatically produce contour plots of the simulation outputs by using the ash-model-plotting package (see Dependencies).

@@ -4,6 +4,7 @@ import shutil
 import argparse
 from pathos.multiprocessing import ThreadingPool
 import pandas as pd
+import sys
 
 parser = argparse.ArgumentParser(description='Input data for the control script')
 parser.add_argument('-SET','--set',default='True',help='True or False. True: Read simulation parameters from '
@@ -33,7 +34,7 @@ no_refir = args.no_refir
 if mode != 'manual' and mode != 'operational':
     print('Wrong value for variable --mode')
     print('Execution stopped')
-    exit()
+    sys.exit()
 if no_refir.lower() == 'true':
     no_refir = True
 elif no_refir.lower() == 'false':
@@ -86,56 +87,56 @@ elif settings_file == 'False':
         duration = int(args.dur)
         if duration <= 0:
             print('Please provide a valid duration (> 0)')
-            exit()
+            sys.exit()
     except:
         print('Please provide a valid duration')
-        exit()
+        sys.exit()
     try:
         volc_id = int(args.volc)
         if volc_id <= 0:
             print('Please provide a valid ID (> 0)')
-            exit()
+            sys.exit()
     except:
         print('Please provide a valid ID')
     if lat_min == '999':
         print('Please specify a valid value for lat_min')
-        exit()
+        sys.exit()
     if lat_max == '999':
         print('Please specify a valid value for lat_max')
-        exit()
+        sys.exit()
     if lon_min == '999':
         print('Please specify a valid value for lon_min')
-        exit()
+        sys.exit()
     if lon_max == '999':
         print('Please specify a valid value for lon_max')
-        exit()
+        sys.exit()
     if float(lat_max) > 90 or float(lat_max) < -90:
         print('lat_max not in the valid range -90 < latitude < 90. Please specify a valid value')
-        exit()
+        sys.exit()
     if float(lat_min) > 90 or float(lat_min) < -90:
         print('lat_min not in the valid range -90 < latitude < 90. Please specify a valid value')
-        exit()
+        sys.exit()
     if float(lat_min) >= float(lat_max):
         print('lat_min greater than or equal to lat_max. Please check the values')
-        exit()
+        sys.exit()
     if float(lon_min) > 180 or float(lon_min) < -180:
         print('lon_min not in the valid range -90 < longitude < 90. Please specify a valid value')
-        exit()
+        sys.exit()
     if float(lon_max) > 180 or float(lon_max) < -180:
         print('lon_max not in the valid range -90 < longitude < 90. Please specify a valid value')
-        exit()
+        sys.exit()
     if float(lon_min) >= float(lon_max):
         print('lon_min greater than or equal to lon_max. Please check the values')
-        exit()
+        sys.exit()
 else:
     print('Wrong value for variable --set')
-    exit()
+    sys.exit()
 if start_time != '999':
     try:
         start_time_datetime = datetime.datetime.strptime(start_time,format('%d/%m/%Y-%H:%M'))
     except:
         print('Unable to read starting time. Please check the format')
-        exit()
+        sys.exit()
 
 def get_times(time):
     import urllib3

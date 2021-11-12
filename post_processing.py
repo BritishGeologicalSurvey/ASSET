@@ -1,6 +1,7 @@
 import os
 import argparse
 from pathos.multiprocessing import ThreadingPool
+import sys
 
 ROOT = os.getcwd()
 RUNS = os.path.join(ROOT,'Runs')
@@ -25,7 +26,7 @@ no_refir = args.no_refir
 if mode != 'manual' and mode != 'operational':
     print('Wrong value for variable --mode')
     print('Execution stopped')
-    exit()
+    sys.exit()
 if args.set == 'True':
     settings_file = True
 elif args.set == 'False':
@@ -33,7 +34,7 @@ elif args.set == 'False':
 else:
     print('Wrong value for variable --set')
     print('Execution stopped')
-    exit()
+    sys.exit()
 if no_refir.lower() == 'true':
     no_refir = True
 elif no_refir.lower() == 'false':
@@ -79,7 +80,7 @@ else:
     if args.latmin == 999 or args.latmax == 999 or args.lonmin == 999 or args.lonmax == 999:
         print('Error. Wrong coordinate specification')
         print('Execution stopped')
-        exit()
+        sys.exit()
     else:
         lon_min = args.lonmin
         lon_max = args.lonmax
@@ -93,7 +94,7 @@ elif models_in == 'fall3d':
     models = ['FALL3D']
 else:
     print('Wrong model selection')
-    exit()
+    sys.exit()
 
 def post_process_model():
     def post_process_solution(output_folder, output_file, model_in):
