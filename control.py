@@ -853,7 +853,7 @@ def run_models(short_simulation, eruption_dur):
                     decimal_time = hours + minutes / 60
                     return decimal_time
 
-                RUN = os.path.join(RUNS_TIME,solution)
+                RUN = os.path.join(RUNS_TIME, solution)
                 try:
                     os.mkdir(RUN)
                 except FileExistsError:
@@ -1023,13 +1023,13 @@ def run_models(short_simulation, eruption_dur):
 
         def run_hysplit():
             ARL = os.path.join(ROOT, 'weather', 'data', mode)
-            HYSPLIT = '/home/vulcanomod/HYSPLIT/hysplit.v4.2.0/exec'
+            HYSPLIT = '/home/vulcanomod/HYSPLIT/hysplit.v5.2.0/exec'
             HYSPLIT_RUNS = os.path.join(RUNS, 'HYSPLIT')
             try:
                 os.mkdir(HYSPLIT_RUNS)
             except FileExistsError:
                 print('Folder ' + HYSPLIT_RUNS + ' exists')
-            ASCDATA = os.path.join(HYSPLIT_RUNS, 'ASCDATA.CFG')
+            ASCDATA = os.path.join(HYSPLIT_RUNS, 'ASCDATA.CFG') #REMEMBER. When it's done, copy the ASCDATA.CFG from /home/vulcanomod/HYSPLIT/Runs/Test_parallel/parallel
             SETUP = os.path.join(HYSPLIT_RUNS, 'SETUP.CFG')
             WTDATA = os.path.join(ARL, syr + smo + sda, run_folder)
             SIM = os.path.join(HYSPLIT_RUNS, syr + smo + sda, run_folder)
@@ -1078,14 +1078,14 @@ def run_models(short_simulation, eruption_dur):
 
             def update_control_files(mer, plh, er_dur, solution):
                 EMFILE = os.path.join(HYSPLIT_RUNS, 'EMITIMES_' + solution.upper() + '_poll')
-                SIM_solution = os.path.join(SIM,solution)
+                SIM_solution = os.path.join(SIM, solution)
                 met = mode + '.arl'
                 ADD_WTDATA = ARL
                 metdata = 'oct1618.BIN'
                 try:
-                    os.mkdir(os.path.join(HYSPLIT_RUNS,syr+smo+sda))
+                    os.mkdir(os.path.join(HYSPLIT_RUNS, syr+smo+sda))
                 except FileExistsError:
-                    print('Folder ' + os.path.join(HYSPLIT_RUNS,syr+smo+sda) + ' exists')
+                    print('Folder ' + os.path.join(HYSPLIT_RUNS, syr+smo+sda) + ' exists')
                 try:
                     os.mkdir(SIM)
                 except:
@@ -1095,37 +1095,43 @@ def run_models(short_simulation, eruption_dur):
                 except:
                     print('Folder ' + SIM_solution + ' exists')
                 os.chdir(SIM_solution)
-                OUT = os.path.join(SIM_solution,'output')
-                try:
-                    os.mkdir(OUT)
-                except FileExistsError:
-                    print('Folder ' + OUT + ' exists')
-                RUN = os.path.join(SIM_solution,'runs')
-                try:
-                    os.mkdir(RUN)
-                except FileExistsError:
-                    print('Folder ' + RUN + ' exists')
-                os.chdir(RUN)
-                for i in range(1,int(n_bins) + 1):
-                    try:
-                        os.mkdir('poll'+str(i))
-                    except:
-                        print('Folder ' + 'poll'+str(i) + ' exists in ' + RUN)
-                    os.chdir('poll'+str(i))
-                    try:
-                        os.mkdir('output')
-                    except FileExistsError:
-                        print('Folder output exists in ' + os.path.join(RUN,'poll'+str(i)))
-                    try:
-                        os.mkdir('run')
-                    except FileExistsError:
-                        print('Folder run exists in ' + os.path.join(RUN, 'poll' + str(i)))
-                    os.chdir(RUN)
-                os.chdir(RUN)
+
+
+
+
+
+
+                # OUT = os.path.join(SIM_solution,'output')
+                # try:
+                #     os.mkdir(OUT)
+                # except FileExistsError:
+                #     print('Folder ' + OUT + ' exists')
+                # RUN = os.path.join(SIM_solution, 'runs')
+                # try:
+                #     os.mkdir(RUN)
+                # except FileExistsError:
+                #     print('Folder ' + RUN + ' exists')
+                # os.chdir(RUN)
+                # for i in range(1,int(n_bins) + 1):
+                #     try:
+                #         os.mkdir('poll'+str(i))
+                #     except:
+                #         print('Folder ' + 'poll'+str(i) + ' exists in ' + RUN)
+                #     os.chdir('poll'+str(i))
+                #     try:
+                #         os.mkdir('output')
+                #     except FileExistsError:
+                #         print('Folder output exists in ' + os.path.join(RUN,'poll'+str(i)))
+                #     try:
+                #         os.mkdir('run')
+                #     except FileExistsError:
+                #         print('Folder run exists in ' + os.path.join(RUN, 'poll' + str(i)))
+                #     os.chdir(RUN)
+                # os.chdir(RUN)
                 syr_2ch = syr[2:4]
-                ncpu_per_pollutant = n_processes / len(solutions) / int(n_bins)
-                if ncpu_per_pollutant > 16:
-                    ncpu_per_pollutant = 16
+                # ncpu_per_pollutant = n_processes / len(solutions) / int(n_bins)
+                # if ncpu_per_pollutant > 16:
+                #     ncpu_per_pollutant = 16
                 em_rates = []
                 em_rates_strings = []
                 if not short_simulation:
@@ -1151,8 +1157,7 @@ def run_models(short_simulation, eruption_dur):
                     mer = float(mer) * 3600.0 * 1000 #Convert in g/h for HYSPLIT
                     efile = ''
                     for i in range(0, len(wt_fraction)):
-                        em_rates.append(mer * float(wt_fraction[i])) # / float(n_bins))  # Here divide per the
-                        # number of bins NOT NEEDED!
+                        em_rates.append(mer * float(wt_fraction[i]))
                         em_rates_strings.append('em_rate[' + str(i+1) + ']')
                     em_duration = str(er_dur)
                 n_source_locations = 2 * len(plh_vector)
@@ -1167,7 +1172,6 @@ def run_models(short_simulation, eruption_dur):
                 for i in range(1,int(n_bins)+1):
                     particle_rate_bin = tot_particle_rate * float((wt_fraction[i-1]))
                     tot_particles = particle_rate_bin * er_dur
-                    os.chdir(os.path.join(RUN,'poll'+str(i),'run'))
                     with open('CONTROL', 'w', encoding="utf-8", errors="surrogateescape") as control_file:
                         diam_micron = float(diam[i-1]) * 1000.0
                         rho_gcc = float(rho[i-1]) / 1000.0
