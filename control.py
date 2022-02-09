@@ -1029,7 +1029,7 @@ def run_models(short_simulation, eruption_dur):
                 os.mkdir(HYSPLIT_RUNS)
             except FileExistsError:
                 print('Folder ' + HYSPLIT_RUNS + ' exists')
-            ASCDATA = os.path.join(HYSPLIT_RUNS, 'ASCDATA.CFG') #REMEMBER. When it's done, copy the ASCDATA.CFG from /home/vulcanomod/HYSPLIT/Runs/Test_parallel/parallel
+            ASCDATA = os.path.join(HYSPLIT_RUNS, 'ASCDATA.CFG') #TO DO. When it's done, copy the ASCDATA.CFG from /home/vulcanomod/HYSPLIT/Runs/Test_parallel/parallel
             SETUP = os.path.join(HYSPLIT_RUNS, 'SETUP.CFG')
             WTDATA = os.path.join(ARL, syr + smo + sda, run_folder)
             SIM = os.path.join(HYSPLIT_RUNS, syr + smo + sda, run_folder)
@@ -1095,45 +1095,8 @@ def run_models(short_simulation, eruption_dur):
                 except:
                     print('Folder ' + SIM_solution + ' exists')
                 os.chdir(SIM_solution)
-
-
-
-
-
-
-                # OUT = os.path.join(SIM_solution,'output')
-                # try:
-                #     os.mkdir(OUT)
-                # except FileExistsError:
-                #     print('Folder ' + OUT + ' exists')
-                # RUN = os.path.join(SIM_solution, 'runs')
-                # try:
-                #     os.mkdir(RUN)
-                # except FileExistsError:
-                #     print('Folder ' + RUN + ' exists')
-                # os.chdir(RUN)
-                # for i in range(1,int(n_bins) + 1):
-                #     try:
-                #         os.mkdir('poll'+str(i))
-                #     except:
-                #         print('Folder ' + 'poll'+str(i) + ' exists in ' + RUN)
-                #     os.chdir('poll'+str(i))
-                #     try:
-                #         os.mkdir('output')
-                #     except FileExistsError:
-                #         print('Folder output exists in ' + os.path.join(RUN,'poll'+str(i)))
-                #     try:
-                #         os.mkdir('run')
-                #     except FileExistsError:
-                #         print('Folder run exists in ' + os.path.join(RUN, 'poll' + str(i)))
-                #     os.chdir(RUN)
-                # os.chdir(RUN)
                 syr_2ch = syr[2:4]
-                # ncpu_per_pollutant = n_processes / len(solutions) / int(n_bins)
-                # if ncpu_per_pollutant > 16:
-                #     ncpu_per_pollutant = 16
                 em_rates = []
-                em_rates_strings = []
                 if not short_simulation:
                     plh_vector = plh.split(' ')
                     plh_vector = plh_vector[1:]
@@ -1151,14 +1114,12 @@ def run_models(short_simulation, eruption_dur):
                     efile = 'EMITIMES'
                     for i in range(0, len(wt_fraction)):
                         em_rates.append(0.0)  # Here divide per the number of processes
-                        em_rates_strings.append('em_rate[' + str(i + 1) + ']')
                     em_duration = '0.0'
                 else:
                     mer = float(mer) * 3600.0 * 1000 #Convert in g/h for HYSPLIT
                     efile = ''
                     for i in range(0, len(wt_fraction)):
                         em_rates.append(mer * float(wt_fraction[i]))
-                        em_rates_strings.append('em_rate[' + str(i+1) + ']')
                     em_duration = str(er_dur)
                 n_source_locations = 2 * len(plh_vector)
                 max_altitude = round(max_altitude, -3)
@@ -1169,59 +1130,59 @@ def run_models(short_simulation, eruption_dur):
                 while altitude < max_altitude:
                     altitude += dz
                     levels += ' ' + str(int(altitude))
-                for i in range(1,int(n_bins)+1):
-                    particle_rate_bin = tot_particle_rate * float((wt_fraction[i-1]))
-                    tot_particles = particle_rate_bin * er_dur
-                    with open('CONTROL', 'w', encoding="utf-8", errors="surrogateescape") as control_file:
-                        diam_micron = float(diam[i-1]) * 1000.0
-                        rho_gcc = float(rho[i-1]) / 1000.0
-                        control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + '\n')
-                        control_file.write(str(n_source_locations) + '\n')
-                        for j in range(0, len(plh_vector)):
-                            control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' +
-                                               '{:.2f}'.format(float(volc_lon)) + ' ' + str(summit) + '\n')
-                            control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' +
-                                               '{:.2f}'.format(float(volc_lon)) + ' ' +
-                                               '{:.2f}'.format(float(plh_vector[j])) + '\n')
-                        control_file.write(str(run_duration) + '\n')
-                        control_file.write('0\n')
-                        control_file.write(str(max_altitude) + '\n')
-                        control_file.write('2\n')
-                        control_file.write(WTDATA + '/\n')
-                        control_file.write(met + '\n')
-                        control_file.write(ADD_WTDATA + '/\n')
-                        control_file.write(metdata + '\n')
-                        control_file.write('1\n')
-                        control_file.write(pollutants[i-1] + '\n')
-                        control_file.write('{:.1f}'.format(em_rates[i-1]) + '\n')
+                tot_particles = tot_particle_rate * er_dur
+                with open('CONTROL', 'w', encoding="utf-8", errors="surrogateescape") as control_file:
+                    control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + '\n')
+                    control_file.write(str(n_source_locations) + '\n')
+                    for j in range(0, len(plh_vector)):
+                        control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' +
+                                           '{:.2f}'.format(float(volc_lon)) + ' ' + str(summit) + '\n')
+                        control_file.write('{:.2f}'.format(float(volc_lat)) + ' ' +
+                                           '{:.2f}'.format(float(volc_lon)) + ' ' +
+                                           '{:.2f}'.format(float(plh_vector[j])) + '\n')
+                    control_file.write(str(run_duration) + '\n')
+                    control_file.write('0\n')
+                    control_file.write(str(max_altitude) + '\n')
+                    control_file.write('2\n')
+                    control_file.write(WTDATA + '/\n')
+                    control_file.write(met + '\n')
+                    control_file.write(ADD_WTDATA + '/\n')
+                    control_file.write(metdata + '\n')
+                    control_file.write(n_bins + '\n')
+                    for i in range(1, int(n_bins) + 1):
+                        control_file.write(pollutants[i - 1] + '\n')
+                        control_file.write('{:.1f}'.format(em_rates[i - 1]) + '\n')
                         control_file.write(em_duration + '\n')
                         control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + ' 00\n')
-                        control_file.write('1\n')
-                        control_file.write('{:.1f}'.format(grid_centre_lat) + ' ' +
-                                           '{:.1f}'.format(grid_centre_lon) + '\n')
-                        control_file.write('0.05 0.05\n')
-                        control_file.write(str(tot_dy) + ' ' + str(tot_dx) + '\n')
-                        control_file.write('../output/\n')
-                        control_file.write('cdump' + str(i) + '\n')
-                        control_file.write(str(n_levels) + '\n')
-                        control_file.write(levels + '\n')
-                        control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + ' 00\n')
-                        control_file.write('99 12 31 24 60\n')
-                        control_file.write('00 ' + output_interval + ' 00\n')
-                        control_file.write('1\n')
+                    control_file.write('1\n')
+                    control_file.write('{:.1f}'.format(grid_centre_lat) + ' ' +
+                                       '{:.1f}'.format(grid_centre_lon) + '\n')
+                    control_file.write('0.05 0.05\n')
+                    control_file.write(str(tot_dy) + ' ' + str(tot_dx) + '\n')
+                    control_file.write('../output/\n')
+                    control_file.write('cdump' + str(i) + '\n')
+                    control_file.write(str(n_levels) + '\n')
+                    control_file.write(levels + '\n')
+                    control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + ' 00\n')
+                    control_file.write('99 12 31 24 60\n')
+                    control_file.write('00 ' + output_interval + ' 00\n')
+                    control_file.write(n_bins + '\n')
+                    for i in range(1, int(n_bins) + 1):
+                        diam_micron = float(diam[i - 1]) * 1000.0
+                        rho_gcc = float(rho[i - 1]) / 1000.0
                         control_file.write('{:.2f}'.format(diam_micron) + ' ' + '{:.1f}'.format(rho_gcc) + ' ' +
-                                           shape[i-1] + '\n')
+                                           shape[i - 1] + '\n')
                         control_file.write('0.0 0.0 0.0 0.0 0.0\n')
                         control_file.write('0.0 0.0 0.0\n')
                         control_file.write('0.0\n')
                         control_file.write('0.0\n')
-                    shutil.copyfile(SETUP,os.path.join(os.getcwd(),'SETUP.CFG'))
+                    shutil.copyfile(SETUP, os.path.join(os.getcwd(), 'SETUP.CFG'))
                     lines = []
                     with open('SETUP.CFG', 'r', encoding="utf-8", errors="surrogateescape") as setup_file:
                         for line in setup_file:
                             record = line.split(' = ')
                             if record[0] == ' numpar':
-                                line = record[0] + ' = ' + str(int(particle_rate_bin)) + ',\n'
+                                line = record[0] + ' = ' + str(int(tot_particle_rate)) + ',\n'
                             elif record[0] == ' maxpar':
                                 line = record[0] + ' = ' + str(int(tot_particles)) + ',\n'
                             elif record[0] == ' efile':
@@ -1230,11 +1191,13 @@ def run_models(short_simulation, eruption_dur):
                     with open('SETUP.CFG', 'w', encoding="utf-8", errors="surrogateescape") as setup_file:
                         setup_file.writelines(lines)
                     if not short_simulation:
-                        shutil.copyfile(EMFILE + str(i),os.path.join(os.getcwd(),'EMITIMES'))
-                    shutil.copyfile(ASCDATA,os.path.join(os.getcwd(),'ASCDATA.CFG'))
-                return ncpu_per_pollutant
+                        shutil.copyfile(EMFILE + str(i), os.path.join(os.getcwd(), 'EMITIMES'))
+                    shutil.copyfile(ASCDATA, os.path.join(os.getcwd(), 'ASCDATA.CFG'))
+                return
 
             def create_emission_file(mer, plh, er_dur, wt, emfile_name):
+                # TO DO: the emission file structure is changed, it is now possible to specify all the pollutants emissions in one single file
+                # see https://www.ready.noaa.gov/documents/Tutorial/images/etime000.png
                 emission_file = os.path.join(HYSPLIT_RUNS, emfile_name)
                 mer_vector = mer.split(' ')
                 mer_vector = mer_vector[1:]
@@ -1301,6 +1264,7 @@ def run_models(short_simulation, eruption_dur):
                     for record in em_file_records:
                         em_file.write(record)
 
+
             try:
                 n_bins, diam, rho, shape, wt_fraction, pollutants, diam_strings, rho_strings, shape_strings, \
                 wt_fraction_strings, pollutants_strings = read_tgsd_file(tgsd)
@@ -1308,8 +1272,6 @@ def run_models(short_simulation, eruption_dur):
                 print('Unable to process file ' + tgsd)
                 sys.exit()
 
-
-            processes_distributions = []
             if not no_refir:
                 if short_simulation == False:
                     for i in range(0, len(wt_fraction)):
@@ -1319,20 +1281,22 @@ def run_models(short_simulation, eruption_dur):
                                              + str(i + 1))
                         create_emission_file(mer_min, plh_min, eruption_dur, wt_fraction[i], 'EMITIMES_MIN_poll'
                                              + str(i + 1))
-                processes_distributions.append(update_control_files(mer_avg, plh_avg, eruption_dur, 'avg'))
-                processes_distributions.append(update_control_files(mer_max, plh_max, eruption_dur, 'max'))
-                processes_distributions.append(update_control_files(mer_min, plh_min, eruption_dur, 'min'))
+                update_control_files(mer_avg, plh_avg, eruption_dur, 'avg')
+                update_control_files(mer_max, plh_max, eruption_dur, 'max')
+                update_control_files(mer_min, plh_min, eruption_dur, 'min')
             else:
                 for i in range(0, len(solutions)):
                     if short_simulation == False:
                         for i in range(0, len(wt_fraction)):
                             create_emission_file(str(eruption_mer[i]), str(eruption_plh[i]), eruption_dur[i],
                                                  wt_fraction[i], 'EMITIMES' + solutions[i] + '_poll' + str(i + 1))
-                    processes_distributions.append(update_control_files(str(eruption_mer[i]), str(eruption_plh[i]),
-                                                                        eruption_dur[i], solutions[i]))
+                    update_control_files(str(eruption_mer[i]), str(eruption_plh[i]), eruption_dur[i], solutions[i])
 
 
             def run_hysplit_mpi(solution, n):
+                # TO DO: Modify this (and probably the equivalent of FALL3D) to use the Slurm script (e.g. the one in
+                # /home/vulcanomod/HYSPLIT/Runs/Test_parallel/parallel) after verifying slurm is available. If not
+                # available, use run_mpi.sh as it is now
                 import subprocess
                 SIM_solution = os.path.join(SIM, solution)
                 RUN = os.path.join(SIM_solution, 'runs')
@@ -1340,7 +1304,7 @@ def run_models(short_simulation, eruption_dur):
                 for i in range(1, int(n_bins) + 1):
                     path = os.path.join(RUN, 'poll' + str(i), 'run')
                     os.chdir(path)
-                    p = subprocess.Popen(['sh',os.path.join(HYSPLIT, 'run_mpi.sh'),'{:.0f}'.format(n), 'hycm_std'])
+                    p = subprocess.Popen(['sh',os.path.join(HYSPLIT, 'run_mpi.sh'), '{:.0f}'.format(n), 'hycm_std'])
                     ps.append(p)
                 for p in ps:
                     p.wait()
@@ -1375,7 +1339,7 @@ def run_models(short_simulation, eruption_dur):
 
 
             for i in range(0, len(solutions)):
-                run_hysplit_mpi(solutions[i], processes_distributions[i])
+                run_hysplit_mpi(solutions[i], n_processes / len(solutions))
 
             try:
                 pool_hysplit_post = ThreadingPool(len(solutions))
