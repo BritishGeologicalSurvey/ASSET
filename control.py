@@ -1019,7 +1019,7 @@ def run_models(short_simulation, eruption_dur):
                 #     os.system('srun -J FALL3D_SetDbs -n ' + str(np) + ' ' + command_setdbs)
                 #     os.system('srun -J FALL3D_SetSrc -n 1 ' + command_setsrc)
                 #     os.system('srun -J FALL3D -n ' + str(np) + ' ' + command_fall3d)
-                if which('sbatch') is not None:
+                if which('salloc') != None:
                     os.system('salloc -n ' + str(np) + ' -J FALL3D &> log_slurm.txt &')
                     with open('log_slurm.txt', 'r') as slurm_log:
                         for line in slurm_log:
@@ -1028,7 +1028,7 @@ def run_models(short_simulation, eruption_dur):
                 os.system(command_setdbs)
                 os.system(command_setsrc)
                 os.system(command_fall3d)
-                if which('sbatch') is not None:
+                if which('sbatch') != None:
                     os.system('scancel ' + job_id)
 
             try:
@@ -1315,7 +1315,7 @@ def run_models(short_simulation, eruption_dur):
                 np = n_processes / len(solutions)
                 if np > n_bins:
                     np = n_bins
-                if which('sbatch') is not None:
+                if which('salloc') != None:
                     os.system('salloc -n ' + str(np) + ' -J HYSPLIT &> log_slurm.txt &')
                     with open('log_slurm.txt', 'r') as slurm_log:
                         for line in slurm_log:
@@ -1324,7 +1324,7 @@ def run_models(short_simulation, eruption_dur):
                 os.system('mpirun -np ' + '{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std'))
                 os.system(os.path.join(HYSPLIT, 'con2cdf4') + ' ' + os.path.join(OUT, 'cdump') + ' ' +
                           os.path.join(OUT, 'cdump.nc'))
-                if which('sbatch') is not None:
+                if which('sbatch') != None:
                     os.system('scancel ' + job_id)
 
                 # if which('srun') is None:
