@@ -600,6 +600,7 @@ def run_refir():
     original_config_files = os.listdir(REFIR_CONFIG_OPERATIONAL)
     for file in original_config_files:
         shutil.copy(os.path.join(REFIR_CONFIG_OPERATIONAL,file),REFIR_CONFIG)
+    os.chdir(ROOT)
     return er_dur, summit, volc_lat, volc_lon
 
 def run_models(short_simulation, eruption_dur):
@@ -997,26 +998,32 @@ def run_models(short_simulation, eruption_dur):
 
 
             def run_scripts(solution, processes):
+                import subprocess
+                from shutil import which
                 RUN = os.path.join(RUNS_TIME, solution)
                 INPUT = os.path.join(RUN, mode + '_' + solution + '.inp')
                 np = processes[0]
                 npx = processes[1]
                 npy = processes[2]
                 npz = processes[3]
-                command_setdbs = 'salloc -n ' + str(np) + ' -J FALL3D_SetDbs -t 01:00:00 mpirun -n ' + str(np) + ' ' \
-                                 + FALL3D + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
-                command_setsrc = 'salloc -n 1 -J FALL3D_SetSrc -t 01:00:00 ' + FALL3D + ' SetSrc ' + INPUT
-                command_fall3d = 'salloc -n ' + str(np) + ' -J FALL3D -t 01:00:00 mpirun -n ' + str(np) + ' ' \
-                                 + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + str(npy) + ' ' + str(npz)
-                os.system(command_setdbs)
-                os.system(command_setsrc)
-                os.system(command_fall3d)
+                command_setdbs = 'mpirun -n ' + str(np) + ' ' + FALL3D + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + \
+                                 str(npy) + ' ' + str(npz)
+                command_setsrc = FALL3D + ' SetSrc ' + INPUT
+                command_fall3d = 'mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + \
+                                 str(npy) + ' ' + str(npz)
+                if which('sbatch') is None:
+                    os.system(command_setdbs)
+                    os.system(command_setsrc)
+                    os.system(command_fall3d)
+                else:
+                    os.system('srun -J FALL3D_SetDbs -n ' + str(np) + command_setdbs)
+                    os.system('srun -J FALL3D_SetSrc -n 1 ' + command_setsrc)
+                    os.system('srun -J FALL3D -n ' + str(np) + command_fall3d)
 
 
             try:
                 pool_fall3d = ThreadingPool(len(solutions))
                 pool_fall3d.map(run_scripts, solutions, processes_distributions)
-                #pool_fall3d.join()
             except:
                 print('Error processing FALL3D in parallel')
 
@@ -1029,7 +1036,7 @@ def run_models(short_simulation, eruption_dur):
                 os.mkdir(HYSPLIT_RUNS)
             except FileExistsError:
                 print('Folder ' + HYSPLIT_RUNS + ' exists')
-            ASCDATA = os.path.join(HYSPLIT_RUNS, 'ASCDATA.CFG') #TO DO. When it's done, copy the ASCDATA.CFG from /home/vulcanomod/HYSPLIT/Runs/Test_parallel/parallel
+            ASCDATA = os.path.join(HYSPLIT_RUNS, 'ASCDATA.CFG')
             SETUP = os.path.join(HYSPLIT_RUNS, 'SETUP.CFG')
             WTDATA = os.path.join(ARL, syr + smo + sda, run_folder)
             SIM = os.path.join(HYSPLIT_RUNS, syr + smo + sda, run_folder)
@@ -1077,7 +1084,6 @@ def run_models(short_simulation, eruption_dur):
                        wt_fraction_strings, pollutants_strings
 
             def update_control_files(mer, plh, er_dur, solution):
-                EMFILE = os.path.join(HYSPLIT_RUNS, 'EMITIMES_' + solution.upper() + '_poll')
                 SIM_solution = os.path.join(SIM, solution)
                 met = mode + '.arl'
                 ADD_WTDATA = ARL
@@ -1190,15 +1196,12 @@ def run_models(short_simulation, eruption_dur):
                             lines.append(line)
                     with open('SETUP.CFG', 'w', encoding="utf-8", errors="surrogateescape") as setup_file:
                         setup_file.writelines(lines)
-                    if not short_simulation:
-                        shutil.copyfile(EMFILE + str(i), os.path.join(os.getcwd(), 'EMITIMES'))
                     shutil.copyfile(ASCDATA, os.path.join(os.getcwd(), 'ASCDATA.CFG'))
                 return
 
-            def create_emission_file(mer, plh, er_dur, wt, emfile_name):
-                # TO DO: the emission file structure is changed, it is now possible to specify all the pollutants emissions in one single file
-                # see https://www.ready.noaa.gov/documents/Tutorial/images/etime000.png
-                emission_file = os.path.join(HYSPLIT_RUNS, emfile_name)
+            def create_emission_file(mer, plh, er_dur, wt, solution):
+                SIM_solution = os.path.join(SIM, solution)
+                emission_file = os.path.join(SIM_SOLUTION, 'EMITIMES')
                 mer_vector = mer.split(' ')
                 mer_vector = mer_vector[1:]
                 plh_vector = plh.split(' ')
@@ -1228,14 +1231,17 @@ def run_models(short_simulation, eruption_dur):
                             remainder = time_step_minutes
                         time_step_s += '{:02d}'.format(time_step_hours)
                         time_step_s += '{:02d}'.format(remainder) + ' '
-                        mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt)
                         plh = float(plh_vector[time]) + summit
-                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' +
+                        for j in range(0, len(wt)):
+                            mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt[j])
+                            em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' +
                                                str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
-                        em_file_records.append(
-                            time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' + '{:.1f}'.format(plh)
-                            + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
-                        n_records += 2
+                            n_records += 1
+                        for j in range(0, len(wt)):
+                            mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt[j])
+                            em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' ' +
+                                                   '{:.1f}'.format(plh) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                            n_records += 1
                         break
                     else:
                         time_emission_s = datetime.datetime.strftime(time_emission, "%Y %m %d %H %M")
@@ -1248,14 +1254,18 @@ def run_models(short_simulation, eruption_dur):
                             remainder = time_step_minutes
                         time_step_s += '{:02d}'.format(time_step_hours)
                         time_step_s += '{:02d}'.format(remainder) + ' '
-                        mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt)
                         plh = float(plh_vector[time]) + summit
-                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' '
+                        for j in range(0, len(wt)):
+                            mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt[j])
+                            em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' '
                                                + str(summit) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
-                        em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' '
+                            n_records += 1
+                        for j in range(0, len(wt)):
+                            mer_bin = float(mer_vector[time]) * 3600 * 1000 * float(wt[j])
+                            em_file_records.append(time_emission_s + time_step_s + volc_lat + ' ' + volc_lon + ' '
                                                + '{:.1f}'.format(plh) + ' ' + '{:.5E}'.format(mer_bin) + ' 0.0 0.0\n')
+                            n_records += 1
                         time += 1
-                        n_records += 2
                         time_emission += datetime.timedelta(minutes=source_resolution)
                         time_end_emission += datetime.timedelta(minutes=source_resolution)
                 em_file_records[2] = start_time_short + ' ' + eruption_dur_s + ' ' + str(n_records) + '\n'  # Overwrite
@@ -1274,78 +1284,42 @@ def run_models(short_simulation, eruption_dur):
 
             if not no_refir:
                 if short_simulation == False:
-                    for i in range(0, len(wt_fraction)):
-                        create_emission_file(mer_avg, plh_avg, eruption_dur, wt_fraction[i], 'EMITIMES_AVG_poll'
-                                             + str(i + 1))
-                        create_emission_file(mer_max, plh_max, eruption_dur, wt_fraction[i], 'EMITIMES_MAX_poll'
-                                             + str(i + 1))
-                        create_emission_file(mer_min, plh_min, eruption_dur, wt_fraction[i], 'EMITIMES_MIN_poll'
-                                             + str(i + 1))
+                    for solution in solutions:
+                        create_emission_file(mer_avg, plh_avg, eruption_dur, wt_fraction, solution)
                 update_control_files(mer_avg, plh_avg, eruption_dur, 'avg')
                 update_control_files(mer_max, plh_max, eruption_dur, 'max')
                 update_control_files(mer_min, plh_min, eruption_dur, 'min')
             else:
                 for i in range(0, len(solutions)):
                     if short_simulation == False:
-                        for i in range(0, len(wt_fraction)):
                             create_emission_file(str(eruption_mer[i]), str(eruption_plh[i]), eruption_dur[i],
-                                                 wt_fraction[i], 'EMITIMES' + solutions[i] + '_poll' + str(i + 1))
+                                                 wt_fraction[i], solutions[i])
                     update_control_files(str(eruption_mer[i]), str(eruption_plh[i]), eruption_dur[i], solutions[i])
 
 
-            def run_hysplit_mpi(solution, n):
-                # TO DO: Modify this (and probably the equivalent of FALL3D) to use the Slurm script (e.g. the one in
-                # /home/vulcanomod/HYSPLIT/Runs/Test_parallel/parallel) after verifying slurm is available. If not
-                # available, use run_mpi.sh as it is now
+            def run_hysplit_mpi(solution):
                 import subprocess
+                from shutil import which
                 SIM_solution = os.path.join(SIM, solution)
-                RUN = os.path.join(SIM_solution, 'runs')
-                ps = []
-                for i in range(1, int(n_bins) + 1):
-                    path = os.path.join(RUN, 'poll' + str(i), 'run')
-                    os.chdir(path)
-                    p = subprocess.Popen(['sh',os.path.join(HYSPLIT, 'run_mpi.sh'), '{:.0f}'.format(n), 'hycm_std'])
-                    ps.append(p)
-                for p in ps:
-                    p.wait()
-
-            def post_processing_hysplit(solution):
-                SIM_solution = os.path.join(SIM, solution)
-                OUT = os.path.join(SIM_solution,'output')
-                RUN = os.path.join(SIM_solution, 'runs')
-                for i in range(1, int(n_bins) + 1):
-                    CDUMP_POLL = os.path.join(RUN, 'poll' + str(i), 'output', 'cdump' + str(i))
-                    shutil.copyfile(CDUMP_POLL, os.path.join(OUT, 'cdump' + str(i)))
-                if int(n_bins) == 1:
-                    os.rename(os.path.join(OUT,'cdump1'), os.path.join(OUT,'cdump'))
+                os.chdir(SIM_solution)
+                np = n_processes / len(solutions)
+                if np > n_bins:
+                    np = n_bins
+                if which('srun') is None:
+                    os.system('mpirun' + ' -np ' +'{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std'))
                 else:
-                    os.rename(os.path.join(OUT,'cdump1'), os.path.join(OUT,'cdump_base'))
-                    for i in range(2, int(n_bins) + 1):
-                        os.system('srun -J HYSPLIT_concadd ' + os.path.join(HYSPLIT, 'concadd') + ' -i' +
-                                  os.path.join(OUT,'cdump') + str(
-                                i) + ' -b' + os.path.join(OUT,'cdump_base') + ' -o' + os.path.join(OUT,'cdump_temp'))
-                        os.rename(os.path.join(OUT,'cdump_temp'), os.path.join(OUT,'cdump_base'))
-                try:
-                    os.rename(os.path.join(OUT,'cdump_base'), os.path.join(OUT,'cdump'))
-                except:
-                    print('File ' + os.path.join(OUT,'cdump_base') + ' not found')
+                    os.system('srun -J HYSPLIT -n ' + +'{:.0f}'.format(np) + 'mpirun' + ' -np ' +'{:.0f}'.format(np)
+                              + ' ' + os.path.join(HYSPLIT, 'hycm_std'))
                 os.system('srun -J HYSPLIT_con2cdf4 ' + os.path.join(HYSPLIT, 'con2cdf4') + ' ' +
-                          os.path.join(OUT,'cdump') + ' ' + os.path.join(OUT,'cdump.nc'))
-                for i in range(2, int(n_bins) + 1):
-                    try:
-                        os.remove(os.path.join(OUT, 'cdump' + str(i)))
-                    except:
-                        print('File ' + os.path.join(OUT, 'cdump' + str(i)) + ' not found')
+                          os.path.join(OUT, 'cdump') + ' ' + os.path.join(OUT, 'cdump.nc'))
+                os.chdir(ROOT)
 
-
-            for i in range(0, len(solutions)):
-                run_hysplit_mpi(solutions[i], n_processes / len(solutions))
 
             try:
-                pool_hysplit_post = ThreadingPool(len(solutions))
-                pool_hysplit_post.map(post_processing_hysplit, solutions)
+                pool_hysplit_mpi = ThreadingPool(len(solutions))
+                pool_hysplit_mpi.map(run_hysplit_mpi, solutions)
             except:
-                print('Error processing HYSPLIT outputs in parallel')
+                print('Error running HYSPLIT simulations')
 
         if model == 'fall3d':
             run_fall3d()
