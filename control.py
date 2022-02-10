@@ -1308,7 +1308,7 @@ def run_models(short_simulation, eruption_dur):
                 if which('srun') is None:
                     os.system('mpirun' + ' -np ' +'{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std'))
                 else:
-                    os.system('srun -J HYSPLIT -n ' + +'{:.0f}'.format(np) + 'mpirun' + ' -np ' +'{:.0f}'.format(np)
+                    os.system('srun -J HYSPLIT -n ' + +'{:.0f}'.format(np) + ' mpirun' + ' -np ' +'{:.0f}'.format(np)
                               + ' ' + os.path.join(HYSPLIT, 'hycm_std'))
                 os.system('srun -J HYSPLIT_con2cdf4 ' + os.path.join(HYSPLIT, 'con2cdf4') + ' ' +
                           os.path.join(OUT, 'cdump') + ' ' + os.path.join(OUT, 'cdump.nc'))
