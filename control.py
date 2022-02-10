@@ -1016,9 +1016,9 @@ def run_models(short_simulation, eruption_dur):
                     os.system(command_setsrc)
                     os.system(command_fall3d)
                 else:
-                    os.system('srun -J FALL3D_SetDbs -n ' + str(np) + command_setdbs)
+                    os.system('srun -J FALL3D_SetDbs -n ' + str(np) + ' ' + command_setdbs)
                     os.system('srun -J FALL3D_SetSrc -n 1 ' + command_setsrc)
-                    os.system('srun -J FALL3D -n ' + str(np) + command_fall3d)
+                    os.system('srun -J FALL3D -n ' + str(np) + ' ' + command_fall3d)
 
 
             try:
