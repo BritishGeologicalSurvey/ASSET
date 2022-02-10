@@ -1166,7 +1166,7 @@ def run_models(short_simulation, eruption_dur):
                     control_file.write('0.05 0.05\n')
                     control_file.write(str(tot_dy) + ' ' + str(tot_dx) + '\n')
                     control_file.write('../output/\n')
-                    control_file.write('cdump' + str(i) + '\n')
+                    control_file.write('cdump\n')
                     control_file.write(str(n_levels) + '\n')
                     control_file.write(levels + '\n')
                     control_file.write(syr_2ch + ' ' + smo + ' ' + sda + ' ' + shr + ' 00\n')
@@ -1201,7 +1201,7 @@ def run_models(short_simulation, eruption_dur):
 
             def create_emission_file(mer, plh, er_dur, wt, solution):
                 SIM_solution = os.path.join(SIM, solution)
-                emission_file = os.path.join(SIM_SOLUTION, 'EMITIMES')
+                emission_file = os.path.join(SIM_solution, 'EMITIMES')
                 mer_vector = mer.split(' ')
                 mer_vector = mer_vector[1:]
                 plh_vector = plh.split(' ')
@@ -1298,9 +1298,9 @@ def run_models(short_simulation, eruption_dur):
 
 
             def run_hysplit_mpi(solution):
-                import subprocess
                 from shutil import which
                 SIM_solution = os.path.join(SIM, solution)
+                OUT = os.path.join(SIM_solution, 'output')
                 os.chdir(SIM_solution)
                 np = n_processes / len(solutions)
                 if np > n_bins:
@@ -1308,7 +1308,7 @@ def run_models(short_simulation, eruption_dur):
                 if which('srun') is None:
                     os.system('mpirun' + ' -np ' +'{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std'))
                 else:
-                    os.system('srun -J HYSPLIT -n ' + +'{:.0f}'.format(np) + ' mpirun' + ' -np ' +'{:.0f}'.format(np)
+                    os.system('srun -J HYSPLIT -n ' + '{:.0f}'.format(np) + ' mpirun' + ' -np ' +'{:.0f}'.format(np)
                               + ' ' + os.path.join(HYSPLIT, 'hycm_std'))
                 os.system('srun -J HYSPLIT_con2cdf4 ' + os.path.join(HYSPLIT, 'con2cdf4') + ' ' +
                           os.path.join(OUT, 'cdump') + ' ' + os.path.join(OUT, 'cdump.nc'))
