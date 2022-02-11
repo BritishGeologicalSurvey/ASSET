@@ -1086,7 +1086,6 @@ def run_models(short_simulation, eruption_dur):
 
             def update_control_files(mer, plh, er_dur, solution):
                 SIM_solution = os.path.join(SIM, solution)
-                OUTPUT = os.path.join(SIM_solution, 'output')
                 met = mode + '.arl'
                 ADD_WTDATA = ARL
                 metdata = 'oct1618.BIN'
@@ -1102,10 +1101,6 @@ def run_models(short_simulation, eruption_dur):
                     os.mkdir(SIM_solution)
                 except:
                     print('Folder ' + SIM_solution + ' exists')
-                try:
-                    os.mkdir(OUTPUT)
-                except:
-                    print('Folder ' + OUTPUT + ' exists')
                 os.chdir(SIM_solution)
                 syr_2ch = syr[2:4]
                 em_rates = []
@@ -1171,7 +1166,7 @@ def run_models(short_simulation, eruption_dur):
                                        '{:.1f}'.format(grid_centre_lon) + '\n')
                     control_file.write('0.05 0.05\n')
                     control_file.write(str(tot_dy) + ' ' + str(tot_dx) + '\n')
-                    control_file.write('./output/\n')
+                    control_file.write('./\n')
                     control_file.write('cdump\n')
                     control_file.write(str(n_levels) + '\n')
                     control_file.write(levels + '\n')
@@ -1330,12 +1325,10 @@ def run_models(short_simulation, eruption_dur):
                     OUTPUT = os.path.join(SIM_solution, 'output')
                     os.chdir(SIM_solution)
                     if which('salloc') is None:
-                        p = subprocess.Popen([os.path.join(HYSPLIT, 'con2cdf4'), os.path.join(OUTPUT, 'cdump'),
-                                              os.path.join(OUTPUT, 'cdump.nc')])
+                        p = subprocess.Popen([os.path.join(HYSPLIT, 'con2cdf4'),'cdump', 'cdump.nc'])
                     else:
-                        p = subprocess.Popen(['salloc', '-J', 'HYSPLIT_con2cdf4','-n', '1',
-                                              os.path.join(HYSPLIT, 'con2cdf4'), os.path.join(OUTPUT, 'cdump'),
-                                              os.path.join(OUTPUT, 'cdump.nc')])
+                        p = subprocess.Popen(['salloc', '-J', 'HYSPLIT_con2cdf4', '-n', '1',
+                                              os.path.join(HYSPLIT, 'con2cdf4'), 'cdump', 'cdump.nc'])
                     ps.append(p)
                 for p in ps:
                     p.wait()

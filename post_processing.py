@@ -2,6 +2,7 @@ import os
 import argparse
 from pathos.multiprocessing import ThreadingPool
 import sys
+from shutil import which
 
 ROOT = os.getcwd()
 RUNS = os.path.join(ROOT,'Runs')
@@ -42,9 +43,7 @@ elif no_refir.lower() == 'false':
 else:
     print('WARNING. Wrong input for argument -NR --no_refir')
     no_refir = False
-RUNS = os.path.join(RUNS,mode)
-FALL3D_RUNS = os.path.join(RUNS, 'FALL3D')
-HYSPLIT_RUNS = os.path.join(RUNS, 'HYSPLIT')
+RUNS_mode = os.path.join(RUNS, mode)
 
 if settings_file:
     with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
@@ -104,7 +103,12 @@ def post_process_model():
                 os.mkdir(output_dir)
             except:
                 print('Folder ' + output_dir + ' already exists')
-            os.system('salloc -n 16 plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
+            if which('srun') is None:
+                os.system('plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
+                          ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' +
+                          model_in)
+            else:
+                os.system('salloc -n 16 plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
                       ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' +
                       model_in)
         except:
@@ -114,7 +118,7 @@ def post_process_model():
     solution_folders = []
     solution_files = []
     for model in models:
-        MODEL_RUNS = os.path.join(RUNS, model)
+        MODEL_RUNS = os.path.join(RUNS_mode, model)
         files = os.listdir(MODEL_RUNS)
         paths = []
         for file in files:
@@ -126,28 +130,29 @@ def post_process_model():
         for file in files:
             paths.append(os.path.join(latest_run_day, file))
         latest_path = max(paths, key=os.path.getmtime)
-        latest_run_time = os.path.join(latest_run_day,latest_path)
+        latest_run_time = os.path.join(latest_run_day, latest_path)
         for folder in os.listdir(latest_run_time):
-            solution_folder = os.path.join(latest_run_time,folder)
+            solution_folder = os.path.join(latest_run_time, folder)
             if os.path.isdir(solution_folder):
-                if 'HYSPLIT' in solution_folder:
-                    solution_folders.append(os.path.join(solution_folder, 'output'))
-                else:
-                    solution_folders.append(solution_folder)
+                solution_folders.append(solution_folder)
     folders_to_remove = []
     for folder in solution_folders:
-        if 'FALL3D' in folder:
+        if 'FALL3D' in str(folder):
             model_type.append('fall3d')
             files = os.listdir(folder)
             file_check = False
             for file in files:
-                if file.endswith('.res.nc'):
+                if str(file).endswith('.res.nc'):
                     solution_files.append(os.path.join(folder, file))
                     file_check = True
                     try:
-                        temp_cdo_file = file + '_cdo'
-                        os.system('srun -J CDO cdo -selyear,2020/2999 ' + os.path.join(folder, file) + ' ' +
+                        temp_cdo_file = str(file) + '_cdo'
+                        if which('srun') is None:
+                            os.system('cdo -selyear,2020/2999 ' + os.path.join(folder, file) + ' ' +
                                   os.path.join(folder, temp_cdo_file) + ' &> cdo.txt')
+                        else:
+                            os.system('srun -J CDO cdo -selyear,2020/2999 ' + os.path.join(folder, file) + ' ' +
+                                      os.path.join(folder, temp_cdo_file) + ' &> cdo.txt')
                         os.rename(os.path.join(folder, temp_cdo_file), os.path.join(folder, file))
                     except:
                         file_check = False
