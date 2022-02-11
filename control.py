@@ -1305,7 +1305,7 @@ def run_models(short_simulation, eruption_dur):
                 os.chdir(SIM_solution)
                 np = n_processes / len(solutions)
                 if np > int(n_bins):
-                    np = n_bins
+                    np = int(n_bins)
                 command_hycm = 'mpirun -np ' + '{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std')
                 command_con2cdf4 = os.path.join(HYSPLIT, 'con2cdf4') + ' ' + os.path.join(OUT, 'cdump') + ' ' + \
                                    os.path.join(OUT, 'cdump.nc')
