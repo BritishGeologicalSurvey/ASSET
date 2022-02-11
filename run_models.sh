@@ -13,8 +13,3 @@ python weather.py > log/log_weather_$shr.txt # Download weather data
 python control.py --set=True > log/log_models_$shr.txt # Add options
 conda deactivate
 sbatch post_processing.sh 'post_processing.py --set=True --mode=operational'
-process_id=$!
-wait $process_id
-mv cdo.txt log/
-mv post_processing.err log/
-mv post_processing.txt log/

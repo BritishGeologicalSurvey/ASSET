@@ -15,3 +15,6 @@ export MYAPP=python
 FLAGS=$1
 echo "$MYAPP $FLAGS"                                 
 $MYAPP $FLAGS                                 
+mv cdo.txt log/
+mv post_processing.err log/
+mv post_processing.txt log/
