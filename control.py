@@ -1086,6 +1086,7 @@ def run_models(short_simulation, eruption_dur):
 
             def update_control_files(mer, plh, er_dur, solution):
                 SIM_solution = os.path.join(SIM, solution)
+                OUTPUT = os.path.join(SIM_solution, 'output')
                 met = mode + '.arl'
                 ADD_WTDATA = ARL
                 metdata = 'oct1618.BIN'
@@ -1101,6 +1102,10 @@ def run_models(short_simulation, eruption_dur):
                     os.mkdir(SIM_solution)
                 except:
                     print('Folder ' + SIM_solution + ' exists')
+                try:
+                    os.mkdir(OUTPUT)
+                except:
+                    print('Folder ' + OUTPUT + ' exists')
                 os.chdir(SIM_solution)
                 syr_2ch = syr[2:4]
                 em_rates = []
@@ -1166,7 +1171,7 @@ def run_models(short_simulation, eruption_dur):
                                        '{:.1f}'.format(grid_centre_lon) + '\n')
                     control_file.write('0.05 0.05\n')
                     control_file.write(str(tot_dy) + ' ' + str(tot_dx) + '\n')
-                    control_file.write('../output/\n')
+                    control_file.write(OUTPUT + '\n')
                     control_file.write('cdump\n')
                     control_file.write(str(n_levels) + '\n')
                     control_file.write(levels + '\n')
@@ -1301,14 +1306,14 @@ def run_models(short_simulation, eruption_dur):
             def run_hysplit_mpi(solution):
                 from shutil import which
                 SIM_solution = os.path.join(SIM, solution)
-                OUT = os.path.join(SIM_solution, 'output')
+                OUTPUT = os.path.join(SIM_solution, 'output')
                 os.chdir(SIM_solution)
                 np = n_processes / len(solutions)
                 if np > int(n_bins):
                     np = int(n_bins)
                 command_hycm = 'mpirun -np ' + '{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std')
-                command_con2cdf4 = os.path.join(HYSPLIT, 'con2cdf4') + ' ' + os.path.join(OUT, 'cdump') + ' ' + \
-                                   os.path.join(OUT, 'cdump.nc')
+                command_con2cdf4 = os.path.join(HYSPLIT, 'con2cdf4') + ' ' + os.path.join(OUTPUT, 'cdump') + ' ' + \
+                                   os.path.join(OUTPUT, 'cdump.nc')
                 if which('salloc') is None:
                     os.system(command_hycm)
                     os.system(command_con2cdf4)
