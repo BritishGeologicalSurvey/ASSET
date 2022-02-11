@@ -1012,14 +1012,14 @@ def run_models(short_simulation, eruption_dur):
                 command_fall3d = 'mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + \
                                  str(npy) + ' ' + str(npz)
                 os.chdir(RUN)
-                if which('srun') is None:
+                if which('salloc') is None:
                     os.system(command_setdbs)
                     os.system(command_setsrc)
                     os.system(command_fall3d)
                 else:
-                    os.system('srun -J FALL3D_SetDbs -n ' + str(np) + ' ' + command_setdbs)
-                    os.system('srun -J FALL3D_SetSrc -n 1 ' + command_setsrc)
-                    os.system('srun -J FALL3D -n ' + str(np) + ' ' + command_fall3d)
+                    os.system('salloc -J FALL3D_SetDbs -n ' + str(np) + ' ' + command_setdbs)
+                    os.system('salloc -J FALL3D_SetSrc -n 1 ' + command_setsrc)
+                    os.system('salloc -J FALL3D -n ' + str(np) + ' ' + command_fall3d)
                 os.chdir(ROOT)
 
             try:
@@ -1304,17 +1304,17 @@ def run_models(short_simulation, eruption_dur):
                 OUT = os.path.join(SIM_solution, 'output')
                 os.chdir(SIM_solution)
                 np = n_processes / len(solutions)
-                if np > n_bins:
+                if np > int(n_bins):
                     np = n_bins
                 command_hycm = 'mpirun -np ' + '{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std')
                 command_con2cdf4 = os.path.join(HYSPLIT, 'con2cdf4') + ' ' + os.path.join(OUT, 'cdump') + ' ' + \
                                    os.path.join(OUT, 'cdump.nc')
-                if which('run') is None:
+                if which('salloc') is None:
                     os.system(command_hycm)
                     os.system(command_con2cdf4)
                 else:
-                    os.system('srun -J HYSPLIT -n ' + '{:.0f}'.format(np) + ' ' + command_hycm)
-                    os.system('srun -J HYSPLIT -n 1 '+ command_con2cdf4)
+                    os.system('salloc -J HYSPLIT -n ' + '{:.0f}'.format(np) + ' ' + command_hycm)
+                    os.system('salloc -J HYSPLIT -n 1 '+ command_con2cdf4)
                 os.chdir(ROOT)
 
 
