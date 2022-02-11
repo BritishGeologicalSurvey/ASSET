@@ -1171,7 +1171,7 @@ def run_models(short_simulation, eruption_dur):
                                        '{:.1f}'.format(grid_centre_lon) + '\n')
                     control_file.write('0.05 0.05\n')
                     control_file.write(str(tot_dy) + ' ' + str(tot_dx) + '\n')
-                    control_file.write(OUTPUT + '\n')
+                    control_file.write('./output/\n')
                     control_file.write('cdump\n')
                     control_file.write(str(n_levels) + '\n')
                     control_file.write(levels + '\n')
