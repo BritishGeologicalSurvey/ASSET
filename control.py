@@ -1303,31 +1303,44 @@ def run_models(short_simulation, eruption_dur):
                     update_control_files(str(eruption_mer[i]), str(eruption_plh[i]), eruption_dur[i], solutions[i])
 
 
-            def run_hysplit_mpi(solution):
+            def run_hysplit_mpi(solutions):
                 from shutil import which
-                SIM_solution = os.path.join(SIM, solution)
-                OUTPUT = os.path.join(SIM_solution, 'output')
-                os.chdir(SIM_solution)
+                import subprocess
                 np = n_processes / len(solutions)
                 if np > int(n_bins):
                     np = int(n_bins)
-                command_hycm = 'mpirun -np ' + '{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std')
-                command_con2cdf4 = os.path.join(HYSPLIT, 'con2cdf4') + ' ' + os.path.join(OUTPUT, 'cdump') + ' ' + \
-                                   os.path.join(OUTPUT, 'cdump.nc')
-                if which('salloc') is None:
-                    os.system(command_hycm)
-                    os.system(command_con2cdf4)
-                else:
-                    os.system('salloc -J HYSPLIT -n ' + '{:.0f}'.format(np) + ' ' + command_hycm)
-                    os.system('salloc -J HYSPLIT -n 1 '+ command_con2cdf4)
-                os.chdir(ROOT)
+                # Run HYSPLIT
+                ps = []
+                for solution in solutions:
+                    SIM_solution = os.path.join(SIM, solution)
+                    OUTPUT = os.path.join(SIM_solution, 'output')
+                    os.chdir(SIM_solution)
+                    if which('salloc') is None:
+                        p = subprocess.Popen(['mpirun', '-np', '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
+                    else:
+                        p = subprocess.Popen(['salloc', '-J', 'HYSPLIT','-n', '{:.0f}'.format(np), 'mpirun', '-np',
+                                              '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
+                    ps.append(p)
+                for p in ps:
+                    p.wait()
+                # Convert HYSPLIT outputs in netcdf4
+                ps = []
+                for solution in solutions:
+                    SIM_solution = os.path.join(SIM, solution)
+                    OUTPUT = os.path.join(SIM_solution, 'output')
+                    os.chdir(SIM_solution)
+                    if which('salloc') is None:
+                        p = subprocess.Popen([os.path.join(HYSPLIT, 'con2cdf4'), os.path.join(OUTPUT, 'cdump'),
+                                              os.path.join(OUTPUT, 'cdump.nc')])
+                    else:
+                        p = subprocess.Popen(['salloc', '-J', 'HYSPLIT_con2cdf4','-n', '1',
+                                              os.path.join(HYSPLIT, 'con2cdf4'), os.path.join(OUTPUT, 'cdump'),
+                                              os.path.join(OUTPUT, 'cdump.nc')])
+                    ps.append(p)
+                for p in ps:
+                    p.wait()
 
-
-            try:
-                pool_hysplit_mpi = ThreadingPool(len(solutions))
-                pool_hysplit_mpi.map(run_hysplit_mpi, solutions)
-            except:
-                print('Error running HYSPLIT simulations')
+            run_hysplit_mpi(solutions)
 
         if model == 'fall3d':
             run_fall3d()
