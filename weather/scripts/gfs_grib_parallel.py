@@ -14,13 +14,14 @@ from datetime import datetime
 from fall3dutil.grib_filter import GFS
 from pathos.multiprocessing import ThreadingPool
 import os
+from shutil import which
 
 timesteps = []
 wtfiles_refir = []
 gribfiles = []
 arlfiles = []
 HYSPLIT = '/home/vulcanomod/HYSPLIT'
-API2ARL = os.path.join(HYSPLIT,'hysplit.v4.2.0','exec','api2arl_v4')
+API2ARL = os.path.join(HYSPLIT,'hysplit.v4.2.0','exec','api2arl_v4') #Upgrade to v5.2
 
 def lat_type(str):
     try:
@@ -136,7 +137,10 @@ def main():
         request.save_data()
 
     def convert_to_arl(gribfile,arlfile):
-        os.system('srun -J api2arl ' + API2ARL + ' -dapi2arl.cfg -i' + gribfile + ' -o' + arlfile)
+        if which('salloc') is None:
+            os.system(API2ARL + ' -dapi2arl.cfg -i' + gribfile + ' -o' + arlfile)
+        else:
+            os.system('salloc -n 1 -J api2arl ' + API2ARL + ' -dapi2arl.cfg -i' + gribfile + ' -o' + arlfile)
 
     pool = ThreadingPool(args.time[1]+1)
     pool.map(launch_requests,timesteps)
