@@ -21,7 +21,7 @@ wtfiles_refir = []
 gribfiles = []
 arlfiles = []
 HYSPLIT = '/home/vulcanomod/HYSPLIT'
-API2ARL = os.path.join(HYSPLIT,'hysplit.v4.2.0','exec','api2arl_v4') #Upgrade to v5.2
+API2ARL = os.path.join(HYSPLIT,'hysplit.v5.2.0','exec','api2arl_v4')
 
 def lat_type(str):
     try:
