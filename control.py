@@ -621,7 +621,7 @@ def run_models(short_simulation, eruption_dur):
         files = os.listdir(refir_run)
         for file in files:
             if file.endswith('_STATUS_REPORT.txt'):
-                refir_run_name = file.split('_')[0]  # Get REFIR run name
+                refir_run_name = file.split('_STATUS_REPORT.txt')[0]  # Get REFIR run name
         for file in files:
             if file.endswith('tavg_FMER.txt'):
                 tavg_mer_file = os.path.join(refir_run, file)
