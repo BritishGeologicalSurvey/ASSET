@@ -1202,6 +1202,14 @@ def run_models(short_simulation, eruption_dur):
 
             def create_emission_file(mer, plh, er_dur, wt, solution):
                 SIM_solution = os.path.join(SIM, solution)
+                try:
+                    os.mkdir(SIM)
+                except:
+                    print('Folder ' + SIM + ' exists')
+                try:
+                    os.mkdir(SIM_solution)
+                except:
+                    print('Folder ' + SIM_solution + ' exists')
                 emission_file = os.path.join(SIM_solution, 'EMITIMES')
                 mer_vector = mer.split(' ')
                 mer_vector = mer_vector[1:]
