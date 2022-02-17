@@ -137,7 +137,7 @@ def post_process_model():
                     os.system('ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
                 else:
                     os.system('srun -n 1 -J ncap2 ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
-                    os.system('srun -n 1 -J ncap2 ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
+                    os.system('srun -n 1 -J ncks ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
                 copy(cdump_temp_file, solution_file)
             except:
                 print('Unable to process ' + solution_file + ' with ncap2 and ncks')
