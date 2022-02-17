@@ -2,7 +2,7 @@ import os
 import argparse
 from pathos.multiprocessing import ThreadingPool
 import sys
-from shutil import which
+from shutil import which, copy
 
 ROOT = os.getcwd()
 RUNS = os.path.join(ROOT,'Runs')
@@ -96,28 +96,71 @@ else:
     sys.exit()
 
 def post_process_model():
-    def post_process_solution(output_folder, output_file, model_in):
+    def post_process_solution(output_folder, output_file):
+        if 'HYSPLIT' in str(output_file):
+            model = 'hysplit'
+        else:
+            model = 'fall3d'
         try:
-            output_dir = os.path.join(output_folder,'iris_outputs')
+            output_dir = os.path.join(output_folder, 'iris_outputs')
             try:
                 os.mkdir(output_dir)
             except:
                 print('Folder ' + output_dir + ' already exists')
-            if which('srun') is None:
+            if which('salloc') is None:
                 os.system('plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
                           ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' +
-                          model_in)
+                          model)
             else:
                 os.system('salloc -n 16 plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
                       ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' +
-                      model_in)
+                      model)
         except:
             print('Unable to process ' + output_file)
 
-    model_type = []
-    solution_folders = []
-    solution_files = []
-    for model in models:
+    def preprocess_models(model):
+
+        def preprocess_hysplit_outputs(solution_file):
+            folder_hysplit = os.path.dirname(solution_file)
+            pollutants = ''
+            with open(os.path.join(folder_hysplit, 'CONTROL'), 'r') as control_file:
+                for line in control_file:
+                    if 'AS' in line:
+                        pollutants += line.strip('\n') + '+'
+            pollutants = pollutants[:-1]
+            pollutants = "'" + 'sum=' + pollutants + "'"
+            try:
+                cdump_sum_file = os.path.join(folder_hysplit, 'cdump_sum.nc')
+                cdump_temp_file = os.path.join(folder_hysplit, 'cdump_temp.nc')
+                if which('srun') is None:
+                    os.system('ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
+                    os.system('ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
+                else:
+                    os.system('srun -n 1 -J ncap2 ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
+                    os.system('srun -n 1 -J ncap2 ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
+                copy(cdump_temp_file, solution_file)
+            except:
+                print('Unable to process ' + solution_file + ' with ncap2 and ncks')
+                files_to_remove.append(solution_file)
+                folders_to_remove.append(folder_hysplit)
+
+
+        def preprocess_fall3d_outputs(solution_file):
+            folder_fall3d = os.path.dirname(solution_file)
+            try:
+                temp_cdo_file = str(solution_file) + '_cdo'
+                if which('srun') is None:
+                    os.system('cdo -selyear,2020/2999 ' + solution_file + ' ' + temp_cdo_file + ' &> cdo.txt')
+                else:
+                    os.system('srun -n 1 -J CDO cdo -selyear,2020/2999 ' + solution_file + ' ' + temp_cdo_file +
+                              ' &> cdo.txt')
+                os.rename(temp_cdo_file, solution_file)
+            except:
+                print('Unable to process ' + solution_file + ' with CDO')
+                files_to_remove.append(solution_file)
+                folders_to_remove.append(folder_fall3d)
+
+        solution_files_model = []
         MODEL_RUNS = os.path.join(RUNS_mode, model)
         files = os.listdir(MODEL_RUNS)
         paths = []
@@ -135,47 +178,49 @@ def post_process_model():
             solution_folder = os.path.join(latest_run_time, folder)
             if os.path.isdir(solution_folder):
                 solution_folders.append(solution_folder)
-    folders_to_remove = []
-    for folder in solution_folders:
-        if 'FALL3D' in str(folder):
-            model_type.append('fall3d')
+        for folder in solution_folders:
             files = os.listdir(folder)
-            file_check = False
             for file in files:
-                if str(file).endswith('.res.nc'):
-                    solution_files.append(os.path.join(folder, file))
-                    file_check = True
-                    try:
-                        temp_cdo_file = str(file) + '_cdo'
-                        if which('srun') is None:
-                            os.system('cdo -selyear,2020/2999 ' + os.path.join(folder, file) + ' ' +
-                                  os.path.join(folder, temp_cdo_file) + ' &> cdo.txt')
-                        else:
-                            os.system('srun -J CDO cdo -selyear,2020/2999 ' + os.path.join(folder, file) + ' ' +
-                                      os.path.join(folder, temp_cdo_file) + ' &> cdo.txt')
-                        os.rename(os.path.join(folder, temp_cdo_file), os.path.join(folder, file))
-                    except:
-                        file_check = False
-                        print('Unable to process ' + solution_files[-1] + ' with CDO')
-            if file_check == False:
-                folders_to_remove.append(folder)
-                del model_type[-1]
+                if model == 'FALL3D':
+                    if str(file).endswith('.res.nc'):
+                        solution_files_model.append(os.path.join(folder, file))
+                        solution_files.append(solution_files_model[-1])
+                else:
+                    if str(file).endswith('.nc'):
+                        solution_files_model.append(os.path.join(folder, file))
+                        solution_files.append(solution_files_model[-1])
+        if model == 'FALL3D':
+            try:
+                pool_pre_fall3d = ThreadingPool(len(solution_files_model))
+                pool_pre_fall3d.map(preprocess_fall3d_outputs, solution_files_model)
+            except:
+                print('Error pre-processing FALL3D outputs')
         else:
-            model_type.append('hysplit')
-            files = os.listdir(folder)
-            file_check = False  # If no res.nc file found, it remains False
-            for file in files:
-                if file.endswith('.nc'):
-                    file_check = True
-                    solution_files.append(os.path.join(folder, file))
-            if file_check == False:
-                folders_to_remove.append(folder)
-                del model_type[-1]
-        s = set(folders_to_remove)
-        solution_folders = [x for x in solution_folders if x not in s]
+            try:
+                pool_pre_hysplit = ThreadingPool(len(solution_files_model))
+                pool_pre_hysplit.map(preprocess_hysplit_outputs, solution_files_model)
+            except:
+                print('Error pre-processing HYSPLIT outputs')
+        return folders_to_remove, files_to_remove
+
+
+    folders_to_remove = []
+    files_to_remove = []
+    solution_folders = []
+    solution_files = []
+    try:
+        pool_preprocess = ThreadingPool(len(models))
+        pool_preprocess.map(preprocess_models, models)
+    except:
+        print('Error pre-processing outputs in parallel')
+
+    s = set(folders_to_remove)
+    solution_folders = [x for x in solution_folders if x not in s]
+    s = set(files_to_remove)
+    solution_files = [x for x in solution_files if x not in s]
     try:
         pool_solution_post = ThreadingPool(len(solution_folders))
-        pool_solution_post.map(post_process_solution, solution_folders, solution_files, model_type)
+        pool_solution_post.map(post_process_solution, solution_folders, solution_files)
     except:
         print('Error processing outputs in parallel')
 

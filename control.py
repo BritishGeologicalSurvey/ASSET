@@ -143,8 +143,8 @@ def read_args():
                 print('ERROR. Negative value of eruption duration provided')
                 sys.exit()
             er_duration_input.append(float(er_duration_input_s[i]))
-        if not er_duration_input:
-            er_duration_input.append(999)
+    if not er_duration_input:
+        er_duration_input.append(999)
     if no_refir_plots.lower() == 'true':
         no_refir_plots = True
     elif no_refir_plots.lower() == 'false':
@@ -880,9 +880,9 @@ def run_models(short_simulation, eruption_dur):
                     if float(plh_vector[i]) > max_altitude:
                         max_altitude = float(plh_vector[i])
                     if no_refir:
-                        plh_abv += str(float(plh_vector[i]) - summit)
+                        plh_abv += str(float(plh_vector[i]) - summit)  + ' '
                     else:
-                        plh_abv += str(float(plh_vector[i]))    # FALL3D wants height above vent, which is what
+                        plh_abv += str(float(plh_vector[i])) + ' '    # FALL3D wants height above vent, which is what
                         # REFIR produces
                     mer_string += mer_vector[i] + ' '
                 max_altitude += 8000
@@ -998,7 +998,6 @@ def run_models(short_simulation, eruption_dur):
 
 
             def run_scripts(solution, processes):
-                import subprocess
                 from shutil import which
                 RUN = os.path.join(RUNS_TIME, solution)
                 INPUT = os.path.join(RUN, mode + '_' + solution + '.inp')
@@ -1011,7 +1010,6 @@ def run_models(short_simulation, eruption_dur):
                 command_setsrc = FALL3D + ' SetSrc ' + INPUT
                 command_fall3d = 'mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + \
                                  str(npy) + ' ' + str(npz)
-                os.chdir(RUN)
                 if which('salloc') is None:
                     os.system(command_setdbs)
                     os.system(command_setsrc)
@@ -1020,7 +1018,6 @@ def run_models(short_simulation, eruption_dur):
                     os.system('salloc -J FALL3D_SetDbs -n ' + str(np) + ' ' + command_setdbs)
                     os.system('salloc -J FALL3D_SetSrc -n 1 ' + command_setsrc)
                     os.system('salloc -J FALL3D -n ' + str(np) + ' ' + command_fall3d)
-                os.chdir(ROOT)
 
             try:
                 pool_fall3d = ThreadingPool(len(solutions))
@@ -1040,7 +1037,16 @@ def run_models(short_simulation, eruption_dur):
             ASCDATA = os.path.join(HYSPLIT_RUNS, 'ASCDATA.CFG')
             SETUP = os.path.join(HYSPLIT_RUNS, 'SETUP.CFG')
             WTDATA = os.path.join(ARL, syr + smo + sda, run_folder)
-            SIM = os.path.join(HYSPLIT_RUNS, syr + smo + sda, run_folder)
+            HYSPLIT_RUNS_DAY = os.path.join(HYSPLIT_RUNS, syr + smo + sda)
+            try:
+                os.mkdir(HYSPLIT_RUNS_DAY)
+            except FileExistsError:
+                print('Folder ' + HYSPLIT_RUNS_DAY + ' exists')
+            SIM = os.path.join(HYSPLIT_RUNS_DAY, run_folder)
+            try:
+                os.mkdir(SIM)
+            except FileExistsError:
+                print('Folder ' + SIM + ' exists')
 
             def read_tgsd_file(tgsd_in):
                 # Read grainsize distribution
@@ -1090,16 +1096,8 @@ def run_models(short_simulation, eruption_dur):
                 ADD_WTDATA = ARL
                 metdata = 'oct1618.BIN'
                 try:
-                    os.mkdir(os.path.join(HYSPLIT_RUNS, syr+smo+sda))
-                except FileExistsError:
-                    print('Folder ' + os.path.join(HYSPLIT_RUNS, syr+smo+sda) + ' exists')
-                try:
-                    os.mkdir(SIM)
-                except:
-                    print('Folder ' + SIM + ' exists')
-                try:
                     os.mkdir(SIM_solution)
-                except:
+                except FileExistsError:
                     print('Folder ' + SIM_solution + ' exists')
                 os.chdir(SIM_solution)
                 syr_2ch = syr[2:4]
@@ -1203,12 +1201,8 @@ def run_models(short_simulation, eruption_dur):
             def create_emission_file(mer, plh, er_dur, wt, solution):
                 SIM_solution = os.path.join(SIM, solution)
                 try:
-                    os.mkdir(SIM)
-                except:
-                    print('Folder ' + SIM + ' exists')
-                try:
                     os.mkdir(SIM_solution)
-                except:
+                except FileExistsError:
                     print('Folder ' + SIM_solution + ' exists')
                 emission_file = os.path.join(SIM_solution, 'EMITIMES')
                 mer_vector = mer.split(' ')
@@ -1316,12 +1310,11 @@ def run_models(short_simulation, eruption_dur):
                 ps = []
                 for solution in solutions:
                     SIM_solution = os.path.join(SIM, solution)
-                    OUTPUT = os.path.join(SIM_solution, 'output')
                     os.chdir(SIM_solution)
                     if which('salloc') is None:
                         p = subprocess.Popen(['mpirun', '-np', '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
                     else:
-                        p = subprocess.Popen(['salloc', '-J', 'HYSPLIT','-n', '{:.0f}'.format(np), 'mpirun', '-np',
+                        p = subprocess.Popen(['salloc', '-J', 'HYSPLIT', '-n', '{:.0f}'.format(np), 'mpirun', '-np',
                                               '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
                     ps.append(p)
                 for p in ps:
@@ -1330,7 +1323,6 @@ def run_models(short_simulation, eruption_dur):
                 ps = []
                 for solution in solutions:
                     SIM_solution = os.path.join(SIM, solution)
-                    OUTPUT = os.path.join(SIM_solution, 'output')
                     os.chdir(SIM_solution)
                     if which('salloc') is None:
                         p = subprocess.Popen([os.path.join(HYSPLIT, 'con2cdf4'),'cdump', 'cdump.nc'])
