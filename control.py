@@ -1314,8 +1314,12 @@ def run_models(short_simulation, eruption_dur):
                     if which('salloc') is None:
                         p = subprocess.Popen(['mpirun', '-np', '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
                     else:
-                        p = subprocess.Popen(['salloc', '-J', 'HYSPLIT', '-n', '{:.0f}'.format(np), 'mpirun', '-np',
-                                              '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
+                        try: #Try using only one node, this is ideal otherwise HYSPLIT is very slow
+                            p = subprocess.Popen(['salloc', '-J', 'HYSPLIT', '-n', '{:.0f}'.format(np), '-N', '1',
+                                              'mpirun', '-np', '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
+                        except BaseException:
+                            p = subprocess.Popen(['salloc', '-J', 'HYSPLIT', '-n', '{:.0f}'.format(np), 'mpirun', '-np',
+                                                  '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
                     ps.append(p)
                 for p in ps:
                     p.wait()
