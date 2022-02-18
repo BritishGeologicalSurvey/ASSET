@@ -132,12 +132,12 @@ def post_process_model():
             try:
                 cdump_sum_file = os.path.join(folder_hysplit, 'cdump_sum.nc')
                 cdump_temp_file = os.path.join(folder_hysplit, 'cdump_temp.nc')
-                if which('srun') is None:
+                if which('salloc') is None:
                     os.system('ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
                     os.system('ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
                 else:
-                    os.system('srun -n 1 -J ncap2 ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
-                    os.system('srun -n 1 -J ncks ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
+                    os.system('salloc -n 1 -J ncap2 ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
+                    os.system('salloc -n 1 -J ncks ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
                 copy(cdump_temp_file, solution_file)
             except:
                 print('Unable to process ' + solution_file + ' with ncap2 and ncks')
@@ -149,10 +149,10 @@ def post_process_model():
             folder_fall3d = os.path.dirname(solution_file)
             try:
                 temp_cdo_file = str(solution_file) + '_cdo'
-                if which('srun') is None:
+                if which('salloc') is None:
                     os.system('cdo -selyear,2020/2999 ' + solution_file + ' ' + temp_cdo_file + ' &> cdo.txt')
                 else:
-                    os.system('srun -n 1 -J CDO cdo -selyear,2020/2999 ' + solution_file + ' ' + temp_cdo_file +
+                    os.system('salloc -n 1 -J CDO cdo -selyear,2020/2999 ' + solution_file + ' ' + temp_cdo_file +
                               ' &> cdo.txt')
                 os.rename(temp_cdo_file, solution_file)
             except:
@@ -160,7 +160,27 @@ def post_process_model():
                 files_to_remove.append(solution_file)
                 folders_to_remove.append(folder_fall3d)
 
-        solution_files_model = []
+        if model == 'FALL3D':
+            try:
+                pool_pre_fall3d = ThreadingPool(len(solution_files_fall3d))
+                pool_pre_fall3d.map(preprocess_fall3d_outputs, solution_files_fall3d)
+            except:
+                print('Error pre-processing FALL3D outputs')
+        else:
+            try:
+                pool_pre_hysplit = ThreadingPool(len(solution_files_hysplit))
+                pool_pre_hysplit.map(preprocess_hysplit_outputs, solution_files_hysplit)
+            except:
+                print('Error pre-processing HYSPLIT outputs')
+        return folders_to_remove, files_to_remove
+
+
+    folders_to_remove = []
+    files_to_remove = []
+    solution_folders = []
+    solution_files_fall3d = []
+    solution_files_hysplit = []
+    for model in models:
         MODEL_RUNS = os.path.join(RUNS_mode, model)
         files = os.listdir(MODEL_RUNS)
         paths = []
@@ -178,42 +198,21 @@ def post_process_model():
             solution_folder = os.path.join(latest_run_time, folder)
             if os.path.isdir(solution_folder):
                 solution_folders.append(solution_folder)
-        for folder in solution_folders:
-            files = os.listdir(folder)
-            for file in files:
-                if model == 'FALL3D':
-                    if str(file).endswith('.res.nc'):
-                        solution_files_model.append(os.path.join(folder, file))
-                        solution_files.append(solution_files_model[-1])
-                else:
-                    if str(file).endswith('.nc'):
-                        solution_files_model.append(os.path.join(folder, file))
-                        solution_files.append(solution_files_model[-1])
-        if model == 'FALL3D':
-            try:
-                pool_pre_fall3d = ThreadingPool(len(solution_files_model))
-                pool_pre_fall3d.map(preprocess_fall3d_outputs, solution_files_model)
-            except:
-                print('Error pre-processing FALL3D outputs')
-        else:
-            try:
-                pool_pre_hysplit = ThreadingPool(len(solution_files_model))
-                pool_pre_hysplit.map(preprocess_hysplit_outputs, solution_files_model)
-            except:
-                print('Error pre-processing HYSPLIT outputs')
-        return folders_to_remove, files_to_remove
-
-
-    folders_to_remove = []
-    files_to_remove = []
-    solution_folders = []
-    solution_files = []
+    for folder in solution_folders:
+        files = os.listdir(folder)
+        for file in files:
+            file_full_name = os.path.join(folder, file)
+            if 'FALL3D' in str(file_full_name) and file.endswith('res.nc'):
+                solution_files_fall3d.append(file_full_name)
+            elif 'HYSPLIT' in str(file_full_name) and file.endswith('.nc'):
+                solution_files_hysplit.append(os.path.join(folder, file_full_name))
     try:
         pool_preprocess = ThreadingPool(len(models))
         pool_preprocess.map(preprocess_models, models)
     except:
         print('Error pre-processing outputs in parallel')
 
+    solution_files = solution_files_fall3d + solution_files_hysplit
     s = set(folders_to_remove)
     solution_folders = [x for x in solution_folders if x not in s]
     s = set(files_to_remove)
