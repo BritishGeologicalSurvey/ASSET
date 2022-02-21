@@ -107,12 +107,7 @@ def post_process_model():
                 os.mkdir(output_dir)
             except:
                 print('Folder ' + output_dir + ' already exists')
-            if which('salloc') is None:
-                os.system('plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
-                          ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' +
-                          model)
-            else:
-                os.system('salloc -n 16 plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
+            os.system('plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
                       ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' +
                       model)
         except:
@@ -132,12 +127,8 @@ def post_process_model():
             try:
                 cdump_sum_file = os.path.join(folder_hysplit, 'cdump_sum.nc')
                 cdump_temp_file = os.path.join(folder_hysplit, 'cdump_temp.nc')
-                if which('salloc') is None:
-                    os.system('ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
-                    os.system('ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
-                else:
-                    os.system('salloc -n 1 -J ncap2 ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
-                    os.system('salloc -n 1 -J ncks ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
+                os.system('ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
+                os.system('ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
                 copy(cdump_temp_file, solution_file)
             except:
                 print('Unable to process ' + solution_file + ' with ncap2 and ncks')
@@ -149,11 +140,7 @@ def post_process_model():
             folder_fall3d = os.path.dirname(solution_file)
             try:
                 temp_cdo_file = str(solution_file) + '_cdo'
-                if which('salloc') is None:
-                    os.system('cdo -selyear,2020/2999 ' + solution_file + ' ' + temp_cdo_file + ' &> cdo.txt')
-                else:
-                    os.system('salloc -n 1 -J CDO cdo -selyear,2020/2999 ' + solution_file + ' ' + temp_cdo_file +
-                              ' &> cdo.txt')
+                os.system('cdo -selyear,2020/2999 ' + solution_file + ' ' + temp_cdo_file + ' &> cdo.txt')
                 os.rename(temp_cdo_file, solution_file)
             except:
                 print('Unable to process ' + solution_file + ' with CDO')

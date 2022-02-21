@@ -7,8 +7,8 @@
 # set the partition (a queue in SGE)
 #SBATCH -p defq
 #SBATCH --time=18:00:00
-# request the use of 6 core
-#SBATCH -n 6
+# request the use of 16 core
+#SBATCH -n 16
 source ~/.bashrc
 conda activate ash_model_plotting
 export MYAPP=python
