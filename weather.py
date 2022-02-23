@@ -362,7 +362,18 @@ else:
     os.system('srun -J grib2nc sh grib2nc.sh ' + time_diff_hours)
 if mode == 'manual':
     os.rename('operational.nc',mode + '.nc')
+
+# Remove arl time steps before the starting times before merging
+arl_files_to_remove = []
+all_files = os.listdir(os.getcwd())
+for arl_file in all_files:
+    if arl_file.endswith('.arl'):
+       if int(arl_file.split('-')[0]) < int(time_diff_hours):
+           arl_files_to_remove.append(arl_file)
+for file_to_remove in arl_files_to_remove:
+    os.remove(file_to_remove)
 os.system('cat *.arl > ' + mode + '.arl')
+
 if not no_refir:
     try:
         shutil.rmtree(refir_weather_twodaysago_dir)
