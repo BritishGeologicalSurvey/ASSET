@@ -130,6 +130,8 @@ def post_process_model():
                 os.system('ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
                 os.system('ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
                 copy(cdump_temp_file, solution_file)
+                os.remove(cdump_sum_file)
+                os.remove(cdump_temp_file)
             except:
                 print('Unable to process ' + solution_file + ' with ncap2 and ncks')
                 files_to_remove.append(solution_file)
