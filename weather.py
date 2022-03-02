@@ -214,14 +214,14 @@ def extract_data_gfs(wtfile, wtfile_int, profile_grb, profile):
     lon_corner = str(int(lon_corner - 2))
     lat_corner = str(int(lat_corner - 2))
     print('Saving weather data along the vertical at the vent location')
-    if which('srun') is None:
+    if which('salloc') is None:
         os.system('wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + lon_corner +
                   ':400:0.01 ' + lat_corner + ':400:0.01 ' + wtfile_int)
         os.system('wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' + profile_grb)
     else:
-        os.system('srun -J wgrib2 wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' +
+        os.system('salloc -J wgrib2 wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' +
               lon_corner + ':400:0.01 ' + lat_corner + ':400:0.01 ' + wtfile_int)
-        os.system('srun -J wgrib2 wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' +
+        os.system('salloc -J wgrib2 wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' +
               profile_grb)
     file = open(profile_grb, "r",encoding="utf-8", errors="surrogateescape")
     records1 = []
@@ -356,10 +356,10 @@ else:
     command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + \
               lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + today
 os.system(command)
-if which('srun') is None:
+if which('salloc') is None:
     os.system('sh grib2nc.sh ' + time_diff_hours)
 else:
-    os.system('srun -J grib2nc sh grib2nc.sh ' + time_diff_hours)
+    os.system('salloc -J grib2nc sh grib2nc.sh ' + time_diff_hours)
 if mode == 'manual':
     os.rename('operational.nc',mode + '.nc')
 
