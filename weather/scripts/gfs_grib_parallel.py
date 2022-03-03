@@ -137,10 +137,18 @@ def main():
         request.save_data()
 
     def convert_to_arl(gribfile,arlfile):
-        if which('salloc') is None:
+        if which('sbatch') is None:
             os.system(API2ARL + ' -dapi2arl.cfg -i' + gribfile + ' -o' + arlfile)
         else:
-            os.system('salloc -n 1 -J api2arl ' + API2ARL + ' -dapi2arl.cfg -i' + gribfile + ' -o' + arlfile)
+            lines = []
+            with open('api2arl.sh', 'r', encoding="utf-8", errors="surrogateescape") as api2arl_script:
+                for line in api2arl_script:
+                    if '$MYAPP' in line:
+                        line = '$MYAPP -dapi2arl.cfg -i' + gribfile + ' -o' + arlfile
+                    lines.append(line)
+            with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
+                api2arl_script.writelines(lines)
+            os.system('sbatch api2arl.sh')
 
     pool = ThreadingPool(args.time[1]+1)
     pool.map(launch_requests,timesteps)

@@ -214,15 +214,27 @@ def extract_data_gfs(wtfile, wtfile_int, profile_grb, profile):
     lon_corner = str(int(lon_corner - 2))
     lat_corner = str(int(lat_corner - 2))
     print('Saving weather data along the vertical at the vent location')
-    if which('salloc') is None:
-        os.system('wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + lon_corner +
-                  ':400:0.01 ' + lat_corner + ':400:0.01 ' + wtfile_int)
-        os.system('wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' + profile_grb)
+    wgrib2_zoom = 'wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + \
+                  lon_corner + ':400:0.01 ' + lat_corner + ':400:0.01 ' + wtfile_int
+    wgrib2_interpolation = 'wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' + profile_grb
+    if which('sbatch') is None:
+        os.system(wgrib2_zoom)
+        os.system(wgrib2_interpolation)
     else:
-        os.system('salloc -J wgrib2 wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' +
-              lon_corner + ':400:0.01 ' + lat_corner + ':400:0.01 ' + wtfile_int)
-        os.system('salloc -J wgrib2 wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' +
-              profile_grb)
+        lines = []
+        with open('wgrib2.sh', 'r', encoding="utf-8", errors="surrogateescape") as wgrib_script:
+            for line in wgrib_script:
+                if '$MYAPP' in line:
+                    line = '$MYAPP' + wgrib2_zoom + '\n'
+                lines.append(line)
+        with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
+            wgrib_script.writelines(lines)
+        os.system('sbatch wgrib2.sh')
+        lines.pop()
+        lines.append('$MYAPP' + wgrib2_interpolation + '\n')
+        with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
+            wgrib_script.writelines(lines)
+        os.system('sbatch wgrib2.sh')
     file = open(profile_grb, "r",encoding="utf-8", errors="surrogateescape")
     records1 = []
     records2 = []
@@ -356,10 +368,18 @@ else:
     command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + \
               lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + today
 os.system(command)
-if which('salloc') is None:
+if which('sbatch') is None:
     os.system('sh grib2nc.sh ' + time_diff_hours)
 else:
-    os.system('salloc -J grib2nc sh grib2nc.sh ' + time_diff_hours)
+    lines = []
+    with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+        for line in grib2nc_script:
+            if 't_start=$1' in line:
+                line = 't_start=' + time_diff_hours + '\n'
+            lines.append(line)
+    with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+        grib2nc_script.writelines(lines)
+    os.system('sbatch grib2nc.sh')
 if mode == 'manual':
     os.rename('operational.nc',mode + '.nc')
 
@@ -408,17 +428,18 @@ if mode == 'operational' and not no_refir:
     wtfiles_interpolated = []
     time_validity = datetime.datetime.strptime(today+shr_wt_run_st,format('%Y%m%d%H'))
     for i in range(0,duration + 1):
-        wtfiles.append('weather_data_'+ today + '{:02}'.format(int(shr_wt_run_st)) + '_f' + '{:03}'.format(i))
-        wtfiles_interpolated.append('weather_data_interpolated_'+ today + '{:02}'.format(int(shr_wt_run_st)) + '_f'
-                                    + '{:03}'.format(i))
+        wtfiles.append(os.path.join(refir_weather_today_dir,'weather_data_'+ today + '{:02}'.format(int(shr_wt_run_st))
+                                    + '_f' + '{:03}'.format(i)))
+        wtfiles_interpolated.append(os.path.join(refir_weather_today_dir, 'weather_data_interpolated_'+ today
+                                                 + '{:02}'.format(int(shr_wt_run_st)) + '_f' + '{:03}'.format(i)))
         time_validity_s = datetime.datetime.strftime(time_validity,format('%Y%m%d%H'))
-        profiles_grb.append('profile_' + time_validity_s + '.txt')
-        profiles.append('profile_data_' + time_validity_s + '.txt')
+        profiles_grb.append(os.path.join(refir_weather_today_dir, 'profile_' + time_validity_s + '.txt'))
+        profiles.append(os.path.join(refir_weather_today_dir, 'profile_data_' + time_validity_s + '.txt'))
         time_validity += datetime.timedelta(hours=1)
-    os.chdir(refir_weather_today_dir)
+#    os.chdir(refir_weather_today_dir)
     pool = ThreadingPool(duration + 1)
     pool.map(extract_data_gfs,wtfiles,wtfiles_interpolated,profiles_grb,profiles)
-    os.chdir(weather_scripts_dir)
+#    os.chdir(weather_scripts_dir)
 try:
     shutil.rmtree(data_twodaysago_dir)
 except:

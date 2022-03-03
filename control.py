@@ -922,7 +922,7 @@ def run_models(short_simulation, eruption_dur):
                     source_end_string += '{:.1f}'.format(decimal_time_end)
                 np, npx, npy, npz = distribute_processes(n_processes)
                 lines = []
-                with open(INPUT,'r',encoding="utf-8", errors="surrogateescape") as fall3d_input:
+                with open(INPUT, 'r', encoding="utf-8", errors="surrogateescape") as fall3d_input:
                     for line in fall3d_input:
                         try:
                             record = line.split(' = ')

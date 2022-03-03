@@ -1,4 +1,14 @@
-#!/bin/bash
+#!/bin/sh
+#SBATCH --job-name=grib2nc
+# set the output and error files - default in slurm is to put both
+# output and errors into slurm-<Job-ID>
+#SBATCH -o grib2nc.out
+#SBATCH -e grib2nc.err
+# set the partition (a queue in SGE)
+# request the use of 1 core
+#SBATCH -n 1
+source ~/.bashrc
+
 
 TABLEFILE=/home/vulcanomod/FALL3D/fall3d-8.0.1/Other/Meteo/Utils/grib_utils/gfs_0p25.levels
 OUTPUTFILE=operational.nc
