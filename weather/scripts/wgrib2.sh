@@ -8,5 +8,4 @@
 # request the use of 1 core
 #SBATCH -n 1
 source ~/.bashrc
-export MYAPP=wgrib2
-$MYAPP
+

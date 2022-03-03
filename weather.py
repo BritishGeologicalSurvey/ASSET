@@ -205,111 +205,132 @@ def get_volc_location():
         volc_lon = str(input())
     return volc_lat, volc_lon
 
-def extract_data_gfs(wtfile, wtfile_int, profile_grb, profile):
+def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
+    def run_wgrib2_commands_parallel(wgrib2_zoom_command, wgrib2_interpolation_command):
+        os.system(wgrib2_zoom_command)
+        os.system(wgrib2_interpolation_command)
+
     print('Interpolating weather data to a finer grid around the source')
     slon_source = str(lon_source)
     slat_source = str(lat_source)
     lon_corner = float(lon_source)
     lat_corner = float(lat_source)
-    lon_corner = str(int(lon_corner - 2))
-    lat_corner = str(int(lat_corner - 2))
+    lon_corner = str(int(lon_corner - 1))
+    lat_corner = str(int(lat_corner - 1))
     print('Saving weather data along the vertical at the vent location')
-    wgrib2_zoom = 'wgrib2 ' + wtfile + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + \
-                  lon_corner + ':400:0.01 ' + lat_corner + ':400:0.01 ' + wtfile_int
-    wgrib2_interpolation = 'wgrib2 ' + wtfile_int + ' -s -lon ' + slon_source + ' ' + slat_source + '  >' + profile_grb
+    wgrib2_zoom_commands = []
+    wgrib2_interpolation_commands = []
+    for i in range(0, len(wtfiles)):
+        wgrib2_zoom_commands.append('wgrib2 ' + wtfiles[i]
+                                    + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + lon_corner
+                                    + ':200:0.01 ' + lat_corner + ':200:0.01 ' + wtfiles_interpolated[i])
+        wgrib2_interpolation_commands.append('wgrib2 ' + wtfiles_interpolated[i] + ' -s -lon ' + slon_source + ' ' +
+                                             slat_source + '  >' + profiles_grb[i])
+
     if which('sbatch') is None:
-        os.system(wgrib2_zoom)
-        os.system(wgrib2_interpolation)
+        pool = ThreadingPool(len(wgrib2_zoom_commands))
+        pool.map(run_wgrib2_commands_parallel, wgrib2_zoom_commands, wgrib2_interpolation_commands)
     else:
         lines = []
+        lines_original = []
         with open('wgrib2.sh', 'r', encoding="utf-8", errors="surrogateescape") as wgrib_script:
             for line in wgrib_script:
-                if '$MYAPP' in line:
-                    line = '$MYAPP' + wgrib2_zoom + '\n'
+                lines_original.append(line)
+                if '#SBATCH -n 1' in line:
+                    line = '#SBATCH -n ' + str(len(wgrib2_zoom_commands)) + '\n'
                 lines.append(line)
+        # Prepare and run wgrib2 script to zoom
+        for i in range(0, len(wgrib2_zoom_commands) - 1):
+            line = wgrib2_zoom_commands[i] + ' &\n'
+            lines.append(line)
+        lines.append(wgrib2_zoom_commands[-1] + '\n')
+        lines.append('wait\n')
+        for i in range(0, len(wgrib2_interpolation_commands) - 1):
+            line = wgrib2_interpolation_commands[i] + ' &\n'
+            lines.append(line)
+        lines.append(wgrib2_interpolation_commands[-1] + '\n')
+        lines.append('wait\n')
         with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
             wgrib_script.writelines(lines)
-        os.system('sbatch wgrib2.sh')
-        lines.pop()
-        lines.append('$MYAPP' + wgrib2_interpolation + '\n')
+        os.system('sbatch -W wgrib2.sh')
+        # wgrib2.sh back to the original version
         with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
-            wgrib_script.writelines(lines)
-        os.system('sbatch wgrib2.sh')
-    file = open(profile_grb, "r",encoding="utf-8", errors="surrogateescape")
-    records1 = []
-    records2 = []
-    nrecords = 0
-    for line in file:
-        nrecords += 1
-        records1.append(line.split(':'))
-        records2.append(line.split('val='))
-    u_tmp = []
-    v_tmp = []
-    hgt_tmp = []
-    tmp_k_tmp = []
-    mb_tmp = []
-    u = []
-    v = []
-    wind = []
-    hgt = []
-    tmp_k = []
-    tmp_c = []
-    mb = []
-    p = []
-    i = 0
-    temp_level = '999'
-    while i < nrecords - 1:
-        level = records1[i][4]
-        if level[-2:] == 'mb':
-            if records1[i][4] == '0.4 mb':
-                i += 1
-                continue
-            else:
-                if records1[i][4].split(' ')[0] != temp_level and records1[i][3] != '5WAVH':
-                    if len(hgt_tmp) > len(u_tmp):
-                        hgt_tmp.pop()
-                        tmp_k_tmp.pop()
-                        mb_tmp.pop()
-                if records1[i][3] == 'HGT' and records1[i][4].split(' ')[0] != temp_level:
-                    temp_level = records1[i][4].split(' ')[0]
-                    hgt_tmp.append(records2[i][1])
-                    mb_tmp.append(records1[i][4].split(' '))
-                elif records1[i][3] == 'TMP' and records1[i][4].split(' ')[0] == temp_level:
-                    tmp_k_tmp.append(records2[i][1])
-                elif records1[i][3] == 'UGRD' and records1[i][4].split(' ')[0] == temp_level:
-                    u_tmp.append(records2[i][1])
-                elif records1[i][3] == 'VGRD' and records1[i][4].split(' ')[0] == temp_level:
-                    v_tmp.append(records2[i][1])
-            if records1[i][4] == '1000 mb':
-                if records1[i][3] == 'HGT':
-                    hgt_tmp.append(records2[i][1])
-                    mb_tmp.append(records1[i][4].split(' '))
-                elif records1[i][3] == 'TMP':
-                    tmp_k_tmp.append(records2[i][1])
-                elif records1[i][3] == 'UGRD':
-                    u_tmp.append(records2[i][1])
-                elif records1[i][3] == 'VGRD':
-                    v_tmp.append(records2[i][1])
-        i += 1
+            wgrib_script.writelines(lines_original)
+        for i in range(0, len(profiles_grb)):
+            with open(profiles_grb[i], "r", encoding="utf-8", errors="surrogateescape") as profile_file:
+                records1 = []
+                records2 = []
+                nrecords = 0
+                for line in profile_file:
+                    nrecords += 1
+                    records1.append(line.split(':'))
+                    records2.append(line.split('val='))
+            u_tmp = []
+            v_tmp = []
+            hgt_tmp = []
+            tmp_k_tmp = []
+            mb_tmp = []
+            u = []
+            v = []
+            wind = []
+            hgt = []
+            tmp_k = []
+            tmp_c = []
+            mb = []
+            p = []
+            j = 0
+            temp_level = '999'
+            while j < nrecords - 1:
+                level = records1[j][4]
+                if level[-2:] == 'mb':
+                    if records1[j][4] == '0.4 mb':
+                        j += 1
+                        continue
+                    else:
+                        if records1[j][4].split(' ')[0] != temp_level and records1[j][3] != '5WAVH':
+                            if len(hgt_tmp) > len(u_tmp):
+                                hgt_tmp.pop()
+                                tmp_k_tmp.pop()
+                                mb_tmp.pop()
+                        if records1[j][3] == 'HGT' and records1[j][4].split(' ')[0] != temp_level:
+                            temp_level = records1[j][4].split(' ')[0]
+                            hgt_tmp.append(records2[j][1])
+                            mb_tmp.append(records1[j][4].split(' '))
+                        elif records1[j][3] == 'TMP' and records1[j][4].split(' ')[0] == temp_level:
+                            tmp_k_tmp.append(records2[j][1])
+                        elif records1[j][3] == 'UGRD' and records1[j][4].split(' ')[0] == temp_level:
+                            u_tmp.append(records2[j][1])
+                        elif records1[j][3] == 'VGRD' and records1[j][4].split(' ')[0] == temp_level:
+                            v_tmp.append(records2[j][1])
+                    if records1[j][4] == '1000 mb':
+                        if records1[j][3] == 'HGT':
+                            hgt_tmp.append(records2[j][1])
+                            mb_tmp.append(records1[j][4].split(' '))
+                        elif records1[j][3] == 'TMP':
+                            tmp_k_tmp.append(records2[j][1])
+                        elif records1[j][3] == 'UGRD':
+                            u_tmp.append(records2[j][1])
+                        elif records1[j][3] == 'VGRD':
+                            v_tmp.append(records2[j][1])
+                j += 1
 
-    for i in range(0, len(u_tmp)):
-        u.append(float(u_tmp[i]))
-        v.append(float(v_tmp[i]))
-        wind.append((u[i] ** 2 + v[i] ** 2) ** 0.5)
-        hgt.append(float(hgt_tmp[i]))
-        tmp_k.append(float(tmp_k_tmp[i]))
-        tmp_c.append(tmp_k[i] - 273.15)
-        mb.append(float(mb_tmp[i][0]))
-        p.append(mb[i] * 100)
+            for j in range(0, len(u_tmp)):
+                u.append(float(u_tmp[j]))
+                v.append(float(v_tmp[j]))
+                wind.append((u[j] ** 2 + v[j] ** 2) ** 0.5)
+                hgt.append(float(hgt_tmp[j]))
+                tmp_k.append(float(tmp_k_tmp[j]))
+                tmp_c.append(tmp_k[j] - 273.15)
+                mb.append(float(mb_tmp[j][0]))
+                p.append(mb[j] * 100)
+            p[len(u_tmp) - 1] = 100000
 
-    p[len(u_tmp) - 1] = 100000
-    wt_output = open(profile, 'w',encoding="utf-8", errors="surrogateescape")
-    wt_output.write('  HGT[m]         P[Pa]       T[K]       T[C]     U[m/s]     V[m/s]  WIND[m/s]\n')
+            with open(profiles[i], 'w',encoding="utf-8", errors="surrogateescape") as wt_output:
+                wt_output.write('  HGT[m]         P[Pa]       T[K]       T[C]     U[m/s]     V[m/s]  WIND[m/s]\n')
+                for j in range(0, len(u)):
+                    wt_output.write('%8.2f\t%9.2f\t%6.2f\t%6.2f\t%7.2f\t%7.2f\t%7.2f\n' % (
+                    hgt[j], p[j], tmp_k[j], tmp_c[j], u[j], v[j], wind[j]))
 
-    for i in range(0, len(u)):
-        wt_output.write('%8.2f\t%9.2f\t%6.2f\t%6.2f\t%7.2f\t%7.2f\t%7.2f\n' % (
-        hgt[i], p[i], tmp_k[i], tmp_c[i], u[i], v[i], wind[i]))
-    wt_output.close()
 
 if start_time != '999' and mode == 'manual':
     time_now = start_time_datetime
@@ -372,16 +393,21 @@ if which('sbatch') is None:
     os.system('sh grib2nc.sh ' + time_diff_hours)
 else:
     lines = []
+    lines_original = []
     with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
         for line in grib2nc_script:
+            lines_original.append(line)
             if 't_start=$1' in line:
                 line = 't_start=' + time_diff_hours + '\n'
             lines.append(line)
-    with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+    lines.append('wait\n')
+    with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
         grib2nc_script.writelines(lines)
     os.system('sbatch grib2nc.sh')
+    with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+        grib2nc_script.writelines(lines_original)
 if mode == 'manual':
-    os.rename('operational.nc',mode + '.nc')
+    os.rename('operational.nc', mode + '.nc')
 
 # Remove arl time steps before the starting times before merging
 arl_files_to_remove = []
@@ -403,19 +429,16 @@ if not no_refir:
         os.mkdir(refir_weather_today_dir)
     except:
         print('Folder ' + refir_weather_today_dir + ' already exists')
-        #shutil.rmtree(refir_weather_today_dir)
-        #os.mkdir(refir_weather_today_dir)
 
 for file in os.listdir(weather_scripts_dir):
     if file.startswith('weather_data') and not no_refir:
         try:
-            shutil.move(file,refir_weather_today_dir)
+            shutil.move(file, refir_weather_today_dir)
         except:
             print('File ' + file + ' already present in ' + refir_weather_today_dir)
             os.remove(file)
     elif file.endswith('.grb') or file.endswith('0p25.arl'):
         os.remove(file)
-    #elif file.startswith('operational.'):
     elif file.startswith(mode):
         shutil.move(file, data_run_dir)
 
@@ -427,7 +450,7 @@ if mode == 'operational' and not no_refir:
     wtfiles = []
     wtfiles_interpolated = []
     time_validity = datetime.datetime.strptime(today+shr_wt_run_st,format('%Y%m%d%H'))
-    for i in range(0,duration + 1):
+    for i in range(0, duration + 1):
         wtfiles.append(os.path.join(refir_weather_today_dir,'weather_data_'+ today + '{:02}'.format(int(shr_wt_run_st))
                                     + '_f' + '{:03}'.format(i)))
         wtfiles_interpolated.append(os.path.join(refir_weather_today_dir, 'weather_data_interpolated_'+ today
@@ -436,10 +459,8 @@ if mode == 'operational' and not no_refir:
         profiles_grb.append(os.path.join(refir_weather_today_dir, 'profile_' + time_validity_s + '.txt'))
         profiles.append(os.path.join(refir_weather_today_dir, 'profile_data_' + time_validity_s + '.txt'))
         time_validity += datetime.timedelta(hours=1)
-#    os.chdir(refir_weather_today_dir)
-    pool = ThreadingPool(duration + 1)
-    pool.map(extract_data_gfs,wtfiles,wtfiles_interpolated,profiles_grb,profiles)
-#    os.chdir(weather_scripts_dir)
+    extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles)
+
 try:
     shutil.rmtree(data_twodaysago_dir)
 except:
