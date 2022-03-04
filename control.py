@@ -1005,12 +1005,12 @@ def run_models(short_simulation, eruption_dur):
                 npy = processes[2]
                 npz = processes[3]
                 command_setdbs = 'mpirun -n ' + str(np) + ' ' + FALL3D + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + \
-                                 str(npy) + ' ' + str(npz)
-                command_setsrc = FALL3D + ' SetSrc ' + INPUT
+                                 str(npy) + ' ' + str(npz) + '\n'
+                command_setsrc = FALL3D + ' SetSrc ' + INPUT + '\n'
                 command_fall3d = 'mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + \
-                                 str(npy) + ' ' + str(npz)
+                                 str(npy) + ' ' + str(npz) + '\n'
                 fall3d_script = os.path.join(RUN, 'fall3d.sh')
-                copy(os.path.join(RUNS, 'fall3d.sh'), fall3d_script)
+                copy(os.path.join(RUNS, 'FALL3D', 'fall3d.sh'), fall3d_script)
                 lines = []
                 if which('sbatch') is None:
                     with open(fall3d_script, 'r', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
@@ -1321,7 +1321,6 @@ def run_models(short_simulation, eruption_dur):
 
 
             def run_hysplit_mpi(solution):
-                import subprocess
                 SIM_solution = os.path.join(SIM, solution)
                 os.chdir(SIM_solution)
                 np = n_processes / len(solutions)
