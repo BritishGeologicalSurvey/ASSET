@@ -1,6 +1,6 @@
 import os
 import datetime
-import shutil
+from shutil import which, copy, copyfile, rmtree
 import argparse
 from pathos.multiprocessing import ThreadingPool
 import sys
@@ -448,7 +448,7 @@ def read_esps_database():
     return esps_dur, esps_plh, esps_mer, summit, volc_lat, volc_lon
 
 def run_foxi():
-    shutil.copy(os.path.join(ROOT, 'fix_config.txt'), os.path.join(REFIR, 'fix_config.txt'))
+    copy(os.path.join(ROOT, 'fix_config.txt'), os.path.join(REFIR, 'fix_config.txt'))
     fix_config_file = os.path.join(REFIR, 'fix_config.txt')
     REFIR_CONFIG = os.path.join(REFIR, 'refir_config')
     REFIR_CONFIG_OPERATIONAL = os.path.join(REFIR_CONFIG,'operational_setting')
@@ -460,7 +460,7 @@ def run_foxi():
         print('Folder ' + REFIR_CONFIG_OPERATIONAL + ' already exists')
     for file in setting_files:
         if file.endswith('ini'):
-            shutil.copy(os.path.join(REFIR_CONFIG,file),os.path.join(REFIR_CONFIG_OPERATIONAL,file))
+            copy(os.path.join(REFIR_CONFIG,file),os.path.join(REFIR_CONFIG_OPERATIONAL,file))
     fix_config_records = []
     with open(fix_config_file, 'r', encoding="utf-8", errors="surrogateescape") as fix_config:
         for line in fix_config:
@@ -599,7 +599,7 @@ def run_refir():
     print('Restoring pre-existing coniguration files in ' + REFIR_CONFIG)
     original_config_files = os.listdir(REFIR_CONFIG_OPERATIONAL)
     for file in original_config_files:
-        shutil.copy(os.path.join(REFIR_CONFIG_OPERATIONAL,file),REFIR_CONFIG)
+        copy(os.path.join(REFIR_CONFIG_OPERATIONAL,file),REFIR_CONFIG)
     os.chdir(ROOT)
     return er_dur, summit, volc_lat, volc_lon
 
@@ -820,7 +820,7 @@ def run_models(short_simulation, eruption_dur):
                 os.mkdir(RUNS_DAY)
             except FileExistsError:
                 print('Folder ' + RUNS_DAY + ' exists')
-            RUNS_TIME = os.path.join(RUNS_DAY,run_folder)
+            RUNS_TIME = os.path.join(RUNS_DAY, run_folder)
             try:
                 os.mkdir(RUNS_TIME)
             except FileExistsError:
@@ -860,9 +860,9 @@ def run_models(short_simulation, eruption_dur):
                 except FileExistsError:
                     print('Folder ' + RUN + ' exists')
                 INPUT = os.path.join(RUN, mode + '_' + solution + '.inp')
-                shutil.copyfile(OP_INPUT,INPUT)
+                copyfile(OP_INPUT,INPUT)
                 TGSD_FILE = os.path.join(RUN, mode + '_' + solution + '.tgsd.tephra')
-                shutil.copyfile(os.path.join(TGSDS,tgsd),TGSD_FILE)
+                copyfile(os.path.join(TGSDS,tgsd),TGSD_FILE)
                 if not short_simulation:
                     mer_vector = mer.split(' ')
                     mer_vector = mer_vector[1:]
@@ -997,8 +997,7 @@ def run_models(short_simulation, eruption_dur):
                                                                       eruption_dur[i], solutions[i]))
 
 
-            def run_scripts(solution, processes):
-                from shutil import which
+            def run_fall3d_mpi(solution, processes):
                 RUN = os.path.join(RUNS_TIME, solution)
                 INPUT = os.path.join(RUN, mode + '_' + solution + '.inp')
                 np = processes[0]
@@ -1010,18 +1009,39 @@ def run_models(short_simulation, eruption_dur):
                 command_setsrc = FALL3D + ' SetSrc ' + INPUT
                 command_fall3d = 'mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + \
                                  str(npy) + ' ' + str(npz)
-                if which('salloc') is None:
-                    os.system(command_setdbs)
-                    os.system(command_setsrc)
-                    os.system(command_fall3d)
+                fall3d_script = os.path.join(RUN, 'fall3d.sh')
+                copy(os.path.join(RUNS, 'fall3d.sh'), fall3d_script)
+                lines = []
+                if which('sbatch') is None:
+                    with open(fall3d_script, 'r', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
+                        for line in fall3d_script_input:
+                            if '#SBATCH' not in line or '##' not in line:
+                                lines.append(line)
+                    lines.append(command_setdbs)
+                    lines.append(command_setsrc)
+                    lines.append(command_fall3d)
+                    lines.append('wait\n')
+                    with open(fall3d_script, 'w', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
+                        fall3d_script_input.writelines(lines)
+                    os.system('sh ' + fall3d_script)
                 else:
-                    os.system('salloc -J FALL3D_SetDbs -n ' + str(np) + ' ' + command_setdbs)
-                    os.system('salloc -J FALL3D_SetSrc -n 1 ' + command_setsrc)
-                    os.system('salloc -J FALL3D -n ' + str(np) + ' ' + command_fall3d)
+                    with open(fall3d_script, 'r', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
+                        for line in fall3d_script_input:
+                            if '#SBATCH -n' in line:
+                                lines.append('#SBATCH -n ' + str(np) + '\n')
+                            else:
+                                lines.append(line)
+                    lines.append(command_setdbs)
+                    lines.append(command_setsrc)
+                    lines.append(command_fall3d)
+                    lines.append('wait\n')
+                    with open(fall3d_script, 'w', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
+                        fall3d_script_input.writelines(lines)
+                    os.system('sbatch -W ' + fall3d_script)
 
             try:
                 pool_fall3d = ThreadingPool(len(solutions))
-                pool_fall3d.map(run_scripts, solutions, processes_distributions)
+                pool_fall3d.map(run_fall3d_mpi, solutions, processes_distributions)
             except:
                 print('Error processing FALL3D in parallel')
 
@@ -1181,7 +1201,7 @@ def run_models(short_simulation, eruption_dur):
                         control_file.write('0.0 0.0 0.0\n')
                         control_file.write('0.0\n')
                         control_file.write('0.0\n')
-                    shutil.copyfile(SETUP, os.path.join(os.getcwd(), 'SETUP.CFG'))
+                    copyfile(SETUP, os.path.join(os.getcwd(), 'SETUP.CFG'))
                     lines = []
                     with open('SETUP.CFG', 'r', encoding="utf-8", errors="surrogateescape") as setup_file:
                         for line in setup_file:
@@ -1195,7 +1215,7 @@ def run_models(short_simulation, eruption_dur):
                             lines.append(line)
                     with open('SETUP.CFG', 'w', encoding="utf-8", errors="surrogateescape") as setup_file:
                         setup_file.writelines(lines)
-                    shutil.copyfile(ASCDATA, os.path.join(os.getcwd(), 'ASCDATA.CFG'))
+                    copyfile(ASCDATA, os.path.join(os.getcwd(), 'ASCDATA.CFG'))
                 return
 
             def create_emission_file(mer, plh, er_dur, wt, solution):
@@ -1300,44 +1320,49 @@ def run_models(short_simulation, eruption_dur):
                     update_control_files(str(eruption_mer[i]), str(eruption_plh[i]), eruption_dur[i], solutions[i])
 
 
-            def run_hysplit_mpi(solutions):
-                from shutil import which
+            def run_hysplit_mpi(solution):
                 import subprocess
+                SIM_solution = os.path.join(SIM, solution)
+                os.chdir(SIM_solution)
                 np = n_processes / len(solutions)
                 if np > int(n_bins):
                     np = int(n_bins)
                 # Run HYSPLIT
-                ps = []
-                for solution in solutions:
-                    SIM_solution = os.path.join(SIM, solution)
-                    os.chdir(SIM_solution)
-                    if which('salloc') is None:
-                        p = subprocess.Popen(['mpirun', '-np', '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
-                    else:
-                        try: #Try using only one node, this is ideal otherwise HYSPLIT is very slow
-                            p = subprocess.Popen(['salloc', '-J', 'HYSPLIT', '-n', '{:.0f}'.format(np), '-N', '1',
-                                              'mpirun', '-np', '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
-                        except BaseException:
-                            p = subprocess.Popen(['salloc', '-J', 'HYSPLIT', '-n', '{:.0f}'.format(np), 'mpirun', '-np',
-                                                  '{:.0f}'.format(np), os.path.join(HYSPLIT, 'hycm_std')])
-                    ps.append(p)
-                for p in ps:
-                    p.wait()
-                # Convert HYSPLIT outputs in netcdf4
-                ps = []
-                for solution in solutions:
-                    SIM_solution = os.path.join(SIM, solution)
-                    os.chdir(SIM_solution)
-                    if which('salloc') is None:
-                        p = subprocess.Popen([os.path.join(HYSPLIT, 'con2cdf4'),'cdump', 'cdump.nc'])
-                    else:
-                        p = subprocess.Popen(['salloc', '-J', 'HYSPLIT_con2cdf4', '-n', '1',
-                                              os.path.join(HYSPLIT, 'con2cdf4'), 'cdump', 'cdump.nc'])
-                    ps.append(p)
-                for p in ps:
-                    p.wait()
+                hysplit_script = os.path.join(os.getcwd(), 'hysplit.sh')
+                copy(os.path.join(HYSPLIT_RUNS, 'hysplit.sh'), hysplit_script)
+                lines = []
+                hycm_std_command = 'mpirun -np ' + '{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std') + '\n'
+                con2cdf_command = os.path.join(HYSPLIT, 'con2cdf4') + ' cdump cdump.nc'
+                if which('sbatch') is None:
+                    with open(hysplit_script, 'r', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
+                        for line in hysplit_script_input:
+                            if '#SBATCH' not in line or '##' not in line:
+                                lines.append(line)
+                        lines.append(hycm_std_command)
+                        lines.append(con2cdf_command)
+                        lines.append('wait\n')
+                    with open(hysplit_script, 'w', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
+                        hysplit_script_input.writelines(lines)
+                    os.system('sh ' + hysplit_script)
+                else:
+                    with open(hysplit_script, 'r', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
+                        for line in hysplit_script_input:
+                            if '#SBATCH -n' in line:
+                                lines.append('#SBATCH -n ' + str(np) + '\n')
+                            else:
+                                lines.append(line)
+                        lines.append(hycm_std_command)
+                        lines.append(con2cdf_command)
+                        lines.append('wait\n')
+                    with open(hysplit_script, 'w', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
+                        hysplit_script_input.writelines(lines)
+                    os.system('sbatch -W hysplit.sh')
 
-            run_hysplit_mpi(solutions)
+            try:
+                pool_fall3d = ThreadingPool(len(solutions))
+                pool_fall3d.map(run_hysplit_mpi, solutions)
+            except:
+                print('Error processing HYSPLIT in parallel')
 
         if model == 'fall3d':
             run_fall3d()
@@ -1414,13 +1439,13 @@ os.chdir(ROOT)
 def clean_folders():
     for file in os.listdir(REFIR):
         if file.startswith('run_' + twodaysago):
-            shutil.rmtree(os.path.join(REFIR,file))
+            rmtree(os.path.join(REFIR,file))
     for file in os.listdir(os.path.join(RUNS,'FALL3D')):
         if file == twodaysago:
-            shutil.rmtree(os.path.join(RUNS,'FALL3D',file))
+            rmtree(os.path.join(RUNS,'FALL3D',file))
     for file in os.listdir(os.path.join(RUNS,'HYSPLIT')):
         if file == twodaysago:
-            shutil.rmtree(os.path.join(RUNS,'HYSPLIT',file))
+            rmtree(os.path.join(RUNS,'HYSPLIT',file))
         elif file.startswith('EMITIMES_'):
             os.remove(os.path.join(RUNS,'HYSPLIT',file))
 
