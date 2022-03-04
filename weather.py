@@ -7,137 +7,142 @@ import pandas as pd
 import sys
 from shutil import which
 
-parser = argparse.ArgumentParser(description='Input data for the control script')
-parser.add_argument('-SET','--set',default='True',help='True or False. True: Read simulation parameters from '
-                                                       'operational_settings.txt. False: simulation parameters are '
-                                                       'read from the other arguments')
-parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via '
-                                                             'operational_settings.txt\nmanual: run with user specific inputs')
-parser.add_argument('-LATMIN','--latmin',default='999',help='Domain minimum latitude')
-parser.add_argument('-LATMAX','--latmax',default='999',help='Domain maximum latitude')
-parser.add_argument('-LONMIN','--lonmin',default='999',help='Domain minimum longitude')
-parser.add_argument('-LONMAX','--lonmax',default='999',help='Domain maximum longitude')
-parser.add_argument('-D','--dur',default='96',help='Ash dispersion simulation duration')
-parser.add_argument('-V','--volc',default='999',help='Smithsonian Institude volcano ID')
-parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC '
-                                                               '(DD/MM/YYYY-HH:MM). Option valid only in manual mode')
-parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be '
-                                                               'the starting time with format HH')
-parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR '
-                                                             'for ESPs')
-args = parser.parse_args()
-settings_file = args.set
-mode = args.mode
-start_time = args.start_time
-run_name = args.run_name
-no_refir = args.no_refir
+def get_args():
+    parser = argparse.ArgumentParser(description='Input data for the control script')
+    parser.add_argument('-SET','--set',default='True',help='True or False. True: Read simulation parameters from '
+                                                           'operational_settings.txt. False: simulation parameters are '
+                                                           'read from the other arguments')
+    parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via '
+                                                                 'operational_settings.txt\nmanual: run with user specific inputs')
+    parser.add_argument('-LATMIN','--latmin',default='999',help='Domain minimum latitude')
+    parser.add_argument('-LATMAX','--latmax',default='999',help='Domain maximum latitude')
+    parser.add_argument('-LONMIN','--lonmin',default='999',help='Domain minimum longitude')
+    parser.add_argument('-LONMAX','--lonmax',default='999',help='Domain maximum longitude')
+    parser.add_argument('-D','--dur',default='96',help='Ash dispersion simulation duration')
+    parser.add_argument('-V','--volc',default='999',help='Smithsonian Institude volcano ID')
+    parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC '
+                                                                   '(DD/MM/YYYY-HH:MM). Option valid only in manual mode')
+    parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be '
+                                                                   'the starting time with format HH')
+    parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR '
+                                                                 'for ESPs')
+    args = parser.parse_args()
+    settings_file = args.set
+    mode = args.mode
+    start_time = args.start_time
+    start_time_datetime = ''
+    run_name = args.run_name
+    no_refir = args.no_refir
 
-if mode != 'manual' and mode != 'operational':
-    print('Wrong value for variable --mode')
-    print('Execution stopped')
-    sys.exit()
-if no_refir.lower() == 'true':
-    no_refir = True
-elif no_refir.lower() == 'false':
-    no_refir = False
-else:
-    print('WARNING. Wrong input for argument -NR --no_refir')
-    no_refir = False
+    if mode != 'manual' and mode != 'operational':
+        print('Wrong value for variable --mode')
+        print('Execution stopped')
+        sys.exit()
+    if no_refir.lower() == 'true':
+        no_refir = True
+    elif no_refir.lower() == 'false':
+        no_refir = False
+    else:
+        print('WARNING. Wrong input for argument -NR --no_refir')
+        no_refir = False
 
-if settings_file == 'True':
-    settings_file = True
-    with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
-        for line in settings:
-            if line.split('=')[0] == 'LAT_MIN_[deg]':
-                lat_min = line.split('=')[1]
-                lat_min = lat_min.split('\n')[0]
-            elif line.split('=')[0] == 'LAT_MAX_[deg]':
-                lat_max = line.split('=')[1]
-                lat_max = lat_max.split('\n')[0]
-            elif line.split('=')[0] == 'LON_MIN_[deg]':
-                lon_min = line.split('=')[1]
-                lon_min = lon_min.split('\n')[0]
-            elif line.split('=')[0] == 'LON_MAX_[deg]':
-                lon_max = line.split('=')[1]
-                lon_max = lon_max.split('\n')[0]
-            elif line.split('=')[0] == 'VOLCANO_ID':
-                volc_id = line.split('=')[1]
-                volc_id = int(volc_id.split('\n')[0])
-            elif line.split('=')[0] == 'DURATION_[hours]':
-                duration = line.split('=')[1]
-                duration = int(duration.split('\n')[0])
-            elif line.split('=')[0] == 'RUN_NAME':
-                run_name = line.split('=')[1]
-                run_name = run_name.split('\n')[0]
-            elif line.split('=')[0] == 'NO_REFIR':
-                no_refir = line.split('=')[1]
-                no_refir = no_refir.split('\n')[0]
-                if no_refir.lower() == 'true':
-                    no_refir = True
-                elif no_refir.lower() == 'false':
-                    no_refir = False
-                else:
-                    no_refir = False
-elif settings_file == 'False':
-    settings_file = False
-    lat_min = args.latmin
-    lat_max = args.latmax
-    lon_min = args.lonmin
-    lon_max = args.lonmax
-    try:
-        duration = int(args.dur)
-        if duration <= 0:
-            print('Please provide a valid duration (> 0)')
+    if settings_file == 'True':
+        settings_file = True
+        with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
+            for line in settings:
+                if line.split('=')[0] == 'LAT_MIN_[deg]':
+                    lat_min = line.split('=')[1]
+                    lat_min = lat_min.split('\n')[0]
+                elif line.split('=')[0] == 'LAT_MAX_[deg]':
+                    lat_max = line.split('=')[1]
+                    lat_max = lat_max.split('\n')[0]
+                elif line.split('=')[0] == 'LON_MIN_[deg]':
+                    lon_min = line.split('=')[1]
+                    lon_min = lon_min.split('\n')[0]
+                elif line.split('=')[0] == 'LON_MAX_[deg]':
+                    lon_max = line.split('=')[1]
+                    lon_max = lon_max.split('\n')[0]
+                elif line.split('=')[0] == 'VOLCANO_ID':
+                    volc_id = line.split('=')[1]
+                    volc_id = int(volc_id.split('\n')[0])
+                elif line.split('=')[0] == 'DURATION_[hours]':
+                    duration = line.split('=')[1]
+                    duration = int(duration.split('\n')[0])
+                elif line.split('=')[0] == 'RUN_NAME':
+                    run_name = line.split('=')[1]
+                    run_name = run_name.split('\n')[0]
+                elif line.split('=')[0] == 'NO_REFIR':
+                    no_refir = line.split('=')[1]
+                    no_refir = no_refir.split('\n')[0]
+                    if no_refir.lower() == 'true':
+                        no_refir = True
+                    elif no_refir.lower() == 'false':
+                        no_refir = False
+                    else:
+                        no_refir = False
+    elif settings_file == 'False':
+        settings_file = False
+        lat_min = args.latmin
+        lat_max = args.latmax
+        lon_min = args.lonmin
+        lon_max = args.lonmax
+        try:
+            duration = int(args.dur)
+            if duration <= 0:
+                print('Please provide a valid duration (> 0)')
+                sys.exit()
+        except:
+            print('Please provide a valid duration')
             sys.exit()
-    except:
-        print('Please provide a valid duration')
-        sys.exit()
-    try:
-        volc_id = int(args.volc)
-        if volc_id <= 0:
-            print('Please provide a valid ID (> 0)')
+        try:
+            volc_id = int(args.volc)
+            if volc_id <= 0:
+                print('Please provide a valid ID (> 0)')
+                sys.exit()
+        except:
+            print('Please provide a valid ID')
+        if lat_min == '999':
+            print('Please specify a valid value for lat_min')
             sys.exit()
-    except:
-        print('Please provide a valid ID')
-    if lat_min == '999':
-        print('Please specify a valid value for lat_min')
+        if lat_max == '999':
+            print('Please specify a valid value for lat_max')
+            sys.exit()
+        if lon_min == '999':
+            print('Please specify a valid value for lon_min')
+            sys.exit()
+        if lon_max == '999':
+            print('Please specify a valid value for lon_max')
+            sys.exit()
+        if float(lat_max) > 90 or float(lat_max) < -90:
+            print('lat_max not in the valid range -90 < latitude < 90. Please specify a valid value')
+            sys.exit()
+        if float(lat_min) > 90 or float(lat_min) < -90:
+            print('lat_min not in the valid range -90 < latitude < 90. Please specify a valid value')
+            sys.exit()
+        if float(lat_min) >= float(lat_max):
+            print('lat_min greater than or equal to lat_max. Please check the values')
+            sys.exit()
+        if float(lon_min) > 180 or float(lon_min) < -180:
+            print('lon_min not in the valid range -90 < longitude < 90. Please specify a valid value')
+            sys.exit()
+        if float(lon_max) > 180 or float(lon_max) < -180:
+            print('lon_max not in the valid range -90 < longitude < 90. Please specify a valid value')
+            sys.exit()
+        if float(lon_min) >= float(lon_max):
+            print('lon_min greater than or equal to lon_max. Please check the values')
+            sys.exit()
+    else:
+        print('Wrong value for variable --set')
         sys.exit()
-    if lat_max == '999':
-        print('Please specify a valid value for lat_max')
-        sys.exit()
-    if lon_min == '999':
-        print('Please specify a valid value for lon_min')
-        sys.exit()
-    if lon_max == '999':
-        print('Please specify a valid value for lon_max')
-        sys.exit()
-    if float(lat_max) > 90 or float(lat_max) < -90:
-        print('lat_max not in the valid range -90 < latitude < 90. Please specify a valid value')
-        sys.exit()
-    if float(lat_min) > 90 or float(lat_min) < -90:
-        print('lat_min not in the valid range -90 < latitude < 90. Please specify a valid value')
-        sys.exit()
-    if float(lat_min) >= float(lat_max):
-        print('lat_min greater than or equal to lat_max. Please check the values')
-        sys.exit()
-    if float(lon_min) > 180 or float(lon_min) < -180:
-        print('lon_min not in the valid range -90 < longitude < 90. Please specify a valid value')
-        sys.exit()
-    if float(lon_max) > 180 or float(lon_max) < -180:
-        print('lon_max not in the valid range -90 < longitude < 90. Please specify a valid value')
-        sys.exit()
-    if float(lon_min) >= float(lon_max):
-        print('lon_min greater than or equal to lon_max. Please check the values')
-        sys.exit()
-else:
-    print('Wrong value for variable --set')
-    sys.exit()
-if start_time != '999':
-    try:
-        start_time_datetime = datetime.datetime.strptime(start_time,format('%d/%m/%Y-%H:%M'))
-    except:
-        print('Unable to read starting time. Please check the format')
-        sys.exit()
+    if start_time != '999':
+        try:
+            start_time_datetime = datetime.datetime.strptime(start_time,format('%d/%m/%Y-%H:%M'))
+        except:
+            print('Unable to read starting time. Please check the format')
+            sys.exit()
+    return run_name, start_time, start_time_datetime, duration, lat_min, lat_max, lon_min, lon_max, no_refir, volc_id,\
+           mode
+
 
 def get_times(time):
     import urllib3
@@ -177,6 +182,7 @@ def get_times(time):
     time_diff_hours = "{:03d}".format(int(time_diff_hours))
     return syr,smo,sda,shr,shr_wt_st,shr_wt_run_st,today,yesterday,twodaysago,time_diff_hours
 
+
 def get_volc_location():
     try:
         try:
@@ -204,6 +210,71 @@ def get_volc_location():
         print('Type volcano longitude')
         volc_lon = str(input())
     return volc_lat, volc_lon
+
+
+def get_grib():
+    if shr_wt_run_st == '18':
+        command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + \
+                  lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + yesterday
+    else:
+        command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + \
+                  lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + today
+    lines = []
+    lines_original = []
+    if which('sbatch') is None:
+        with open('get_grib.sh', 'r', encoding="utf-8", errors="surrogateescape") as get_grib_script:
+            for line in get_grib_script:
+                lines_original.append(line)
+                if '#SBATCH' not in line or '##' not in line:
+                    lines.append(line)
+            lines.append(command + '\n')
+            lines.append('wait\n')
+        with open('get_grib.sh', 'w', encoding="utf-8", errors="surrogateescape") as get_grib_script:
+            get_grib_script.writelines(lines)
+        os.system('sh get_grib.sh')
+    else:
+        with open('get_grib.sh', 'r', encoding="utf-8", errors="surrogateescape") as get_grib_script:
+            for line in get_grib_script:
+                lines_original.append(line)
+                lines.append(line)
+        lines.append(command + '\n')
+        lines.append('wait\n')
+        with open('get_grib.sh', 'w', encoding="utf-8", errors="surrogateescape") as get_grib_script:
+            get_grib_script.writelines(lines)
+        os.system('sbatch -W get_grib.sh')
+    with open('get_grib.sh', 'w', encoding="utf-8", errors="surrogateescape") as get_grib_script:
+        get_grib_script.writelines(lines_original)
+
+
+def convert_grib_to_nc():
+    lines = []
+    lines_original = []
+    if which('sbatch') is None:
+        with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+            for line in grib2nc_script:
+                lines_original.append(line)
+                if '#SBATCH' not in line or '##' not in line:
+                    lines.append(line)
+            lines.append('wait\n')
+        with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+            grib2nc_script.writelines(lines)
+        os.system('sh grib2nc.sh ' + time_diff_hours)
+    else:
+        lines = []
+        lines_original = []
+        with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+            for line in grib2nc_script:
+                lines_original.append(line)
+                if 't_start=$1' in line:
+                    line = 't_start=' + time_diff_hours + '\n'
+                lines.append(line)
+        lines.append('wait\n')
+        with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+            grib2nc_script.writelines(lines)
+        os.system('sbatch -W grib2nc.sh')
+        with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+            grib2nc_script.writelines(lines_original)
+
 
 def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
     def run_wgrib2_commands_parallel(wgrib2_zoom_command, wgrib2_interpolation_command):
@@ -332,16 +403,19 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
                     hgt[j], p[j], tmp_k[j], tmp_c[j], u[j], v[j], wind[j]))
 
 
+run_name, start_time, start_time_datetime, duration, lat_min, lat_max, lon_min, lon_max, no_refir, volc_id, mode = \
+    get_args()
+
 if start_time != '999' and mode == 'manual':
     time_now = start_time_datetime
 else:
     time_now = datetime.datetime.utcnow()
-syr,smo,sda,shr,shr_wt_st,shr_wt_run_st,today,yesterday,twodaysago,time_diff_hours = get_times(time_now)
+syr, smo, sda, shr, shr_wt_st, shr_wt_run_st, today, yesterday, twodaysago, time_diff_hours = get_times(time_now)
 
 root = os.getcwd()
-weather_scripts_dir = os.path.join(root,'weather','scripts')
+weather_scripts_dir = os.path.join(root, 'weather', 'scripts')
 if mode == 'operational':
-    data_dir = os.path.join(root,'weather','data','operational')
+    data_dir = os.path.join(root,'weather', 'data', 'operational')
 else:
     data_dir = os.path.join(root, 'weather', 'data', 'manual')
 data_today_dir = os.path.join(data_dir,today)
@@ -382,30 +456,9 @@ except:
     os.mkdir(data_run_dir)
 
 os.chdir(weather_scripts_dir)
-if shr_wt_run_st == '18':
-    command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + \
-              lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + yesterday
-else:
-    command = 'python gfs_grib_parallel.py -t 0 108 -x ' + lon_min + ' ' + lon_max + ' -y ' + lat_min + ' ' + \
-              lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + today
-os.system(command)
-if which('sbatch') is None:
-    os.system('sh grib2nc.sh ' + time_diff_hours)
-else:
-    lines = []
-    lines_original = []
-    with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
-        for line in grib2nc_script:
-            lines_original.append(line)
-            if 't_start=$1' in line:
-                line = 't_start=' + time_diff_hours + '\n'
-            lines.append(line)
-    lines.append('wait\n')
-    with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
-        grib2nc_script.writelines(lines)
-    os.system('sbatch grib2nc.sh')
-    with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
-        grib2nc_script.writelines(lines_original)
+get_grib()
+convert_grib_to_nc()
+
 if mode == 'manual':
     os.rename('operational.nc', mode + '.nc')
 
