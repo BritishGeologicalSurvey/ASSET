@@ -291,7 +291,11 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
     print('Saving weather data along the vertical at the vent location')
     wgrib2_zoom_commands = []
     wgrib2_interpolation_commands = []
-    for i in range(0, len(wtfiles)):
+    if len(wtfiles) > 48:
+        max_refir_weather_data = 48
+    else:
+        max_refir_weather_data = len(wtfiles)
+    for i in range(0, max_refir_weather_data):
         wgrib2_zoom_commands.append('wgrib2 ' + wtfiles[i]
                                     + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + lon_corner
                                     + ':200:0.01 ' + lat_corner + ':200:0.01 ' + wtfiles_interpolated[i])
@@ -299,7 +303,7 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
                                              slat_source + '  >' + profiles_grb[i])
 
     if which('sbatch') is None:
-        pool = ThreadingPool(len(wgrib2_zoom_commands))
+        pool = ThreadingPool(max_refir_weather_data)
         pool.map(run_wgrib2_commands_parallel, wgrib2_zoom_commands, wgrib2_interpolation_commands)
     else:
         lines = []
@@ -311,12 +315,12 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
                     line = '#SBATCH -n ' + str(len(wgrib2_zoom_commands)) + '\n'
                 lines.append(line)
         # Prepare and run wgrib2 script to zoom
-        for i in range(0, len(wgrib2_zoom_commands) - 1):
+        for i in range(0, max_refir_weather_data - 1):
             line = wgrib2_zoom_commands[i] + ' &\n'
             lines.append(line)
         lines.append(wgrib2_zoom_commands[-1] + '\n')
         lines.append('wait\n')
-        for i in range(0, len(wgrib2_interpolation_commands) - 1):
+        for i in range(0, max_refir_weather_data - 1):
             line = wgrib2_interpolation_commands[i] + ' &\n'
             lines.append(line)
         lines.append(wgrib2_interpolation_commands[-1] + '\n')
@@ -327,7 +331,7 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
         # wgrib2.sh back to the original version
         with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
             wgrib_script.writelines(lines_original)
-        for i in range(0, len(profiles_grb)):
+        for i in range(0, max_refir_weather_data):
             with open(profiles_grb[i], "r", encoding="utf-8", errors="surrogateescape") as profile_file:
                 records1 = []
                 records2 = []
