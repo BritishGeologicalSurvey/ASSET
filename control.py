@@ -1331,7 +1331,7 @@ def run_models(short_simulation, eruption_dur):
                 copy(os.path.join(HYSPLIT_RUNS, 'hysplit.sh'), hysplit_script)
                 lines = []
                 hycm_std_command = 'mpirun -np ' + '{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std') + '\n'
-                con2cdf_command = os.path.join(HYSPLIT, 'con2cdf4') + ' cdump cdump.nc'
+                con2cdf_command = os.path.join(HYSPLIT, 'con2cdf4') + ' cdump cdump.nc\n'
                 if which('sbatch') is None:
                     with open(hysplit_script, 'r', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
                         for line in hysplit_script_input:
