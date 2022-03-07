@@ -7,4 +7,5 @@
 ## set the partition (a queue in SGE)
 ## request the use of 14 core
 #SBATCH -n 16
+#SBATCH -N 1
 source ~/.bashrc
