@@ -8,11 +8,11 @@
 ## request the use of 1 core
 #SBATCH -n 1
 source ~/.bashrc
+cd /home/vulcanomod/Operational_modelling/weather/scripts
 TABLEFILE=/home/vulcanomod/FALL3D/fall3d-8.0.1/Other/Meteo/Utils/grib_utils/gfs_0p25.levels
 OUTPUTFILE=operational.nc
 GRIBDIR=.
 t_start=$1
-
 for i in $(seq -w $t_start 108)
 do
     GRIBFILE="${GRIBDIR}/${i}-gfs_0p25.grb"

@@ -14,14 +14,10 @@ from datetime import datetime
 from fall3dutil.grib_filter import GFS
 from pathos.multiprocessing import ThreadingPool
 import os
-from shutil import which
 
 timesteps = []
 wtfiles_refir = []
 gribfiles = []
-arlfiles = []
-HYSPLIT = '/home/vulcanomod/HYSPLIT'
-API2ARL = os.path.join(HYSPLIT,'hysplit.v5.2.0','exec','api2arl_v4')
 
 def lat_type(str):
     try:
@@ -86,7 +82,6 @@ def main():
                 fcst = str(i)
         wtfiles_refir.append('weather_data_' + date + anl + '_f' + fcst)
         gribfiles.append(fcst + '-' + args.output + '.grb')
-        arlfiles.append(fcst + '-' + args.output + '.arl')
         i += 1
 
     if args.area:
@@ -136,36 +131,13 @@ def main():
         request = GFS(args)
         request.save_data()
 
-    pool = ThreadingPool(args.time[1]+1)
+    try:
+       ncpus = int(os.environ["SLURM_NTASKS"])
+    except KeyError:
+       ncpus = args.time[1] + 1
+    pool = ThreadingPool(ncpus)
     pool.map(launch_requests,timesteps)
 
-    def convert_to_arl(gribfile, arlfile):
-        os.system(API2ARL + ' -dapi2arl.cfg -i' + gribfile + ' -o' + arlfile)
-
-    if which('sbatch') is None:
-        pool = ThreadingPool(args.time[1]+1)
-        pool.map(convert_to_arl, gribfiles, arlfiles)
-    else:
-        lines = []
-        lines_original = []
-        with open('api2arl.sh', 'r', encoding="utf-8", errors="surrogateescape") as api2arl_script:
-            for line in api2arl_script:
-                lines_original.append(line)
-                if '#SBATCH -n 1' in line:
-                    line = '#SBATCH -n ' + str(len(gribfiles)) + '\n'
-                lines.append(line)
-        lines.pop()
-        for i in range(0, len(gribfiles)):
-            lines.append('$MYAPP -dapi2arl.cfg -i' + gribfiles[i] + ' -o' + arlfiles[i] + ' &\n')
-        lines.append('wait\n')
-        with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
-            api2arl_script.writelines(lines)
-        os.system('sbatch -W api2arl.sh')
-        with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
-            api2arl_script.writelines(lines_original)
 
 if __name__ == '__main__':
     main()
-
-for i in timesteps:
-    os.system('cp ' + gribfiles[i] + ' ' + wtfiles_refir[i])  

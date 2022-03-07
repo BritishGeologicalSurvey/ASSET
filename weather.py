@@ -221,59 +221,94 @@ def get_grib():
                   lat_max + ' -c ' + shr_wt_run_st + ' -o gfs_0p25 ' + today
     lines = []
     lines_original = []
+    with open('get_grib.sh', 'r', encoding="utf-8", errors="surrogateescape") as get_grib_script:
+        for line in get_grib_script:
+            lines_original.append(line)
+            if '#SBATCH -n 1' in line:
+                lines.append('#SBATCH -n 108\n')
+            else:
+                lines.append(line)
+    lines.append(command + '\n')
+    lines.append('wait\n')
+    with open('get_grib.sh', 'w', encoding="utf-8", errors="surrogateescape") as get_grib_script:
+        get_grib_script.writelines(lines)
+
     if which('sbatch') is None:
-        with open('get_grib.sh', 'r', encoding="utf-8", errors="surrogateescape") as get_grib_script:
-            for line in get_grib_script:
-                lines_original.append(line)
-                if '#SBATCH' not in line or '##' not in line:
-                    lines.append(line)
-            lines.append(command + '\n')
-            lines.append('wait\n')
-        with open('get_grib.sh', 'w', encoding="utf-8", errors="surrogateescape") as get_grib_script:
-            get_grib_script.writelines(lines)
         os.system('sh get_grib.sh')
     else:
-        with open('get_grib.sh', 'r', encoding="utf-8", errors="surrogateescape") as get_grib_script:
-            for line in get_grib_script:
-                lines_original.append(line)
-                lines.append(line)
-        lines.append(command + '\n')
-        lines.append('wait\n')
-        with open('get_grib.sh', 'w', encoding="utf-8", errors="surrogateescape") as get_grib_script:
-            get_grib_script.writelines(lines)
         os.system('sbatch -W get_grib.sh')
     with open('get_grib.sh', 'w', encoding="utf-8", errors="surrogateescape") as get_grib_script:
         get_grib_script.writelines(lines_original)
+    gribfiles = []
+    for file in os.listdir(os.getcwd()):
+        if file.endswith('.grb'):
+            gribfiles.append(file)
+    return gribfiles
 
 
-def convert_grib_to_nc():
+def convert_grib_to_nc(gribfiles):
     lines = []
     lines_original = []
-    if which('sbatch') is None:
-        with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
-            for line in grib2nc_script:
-                lines_original.append(line)
-                if '#SBATCH' not in line or '##' not in line:
-                    lines.append(line)
-            lines.append('wait\n')
-        with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
-            grib2nc_script.writelines(lines)
-        os.system('sh grib2nc.sh ' + time_diff_hours)
-    else:
-        lines = []
-        lines_original = []
-        with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
-            for line in grib2nc_script:
-                lines_original.append(line)
-                if 't_start=$1' in line:
-                    line = 't_start=' + time_diff_hours + '\n'
+    with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+        for line in grib2nc_script:
+            lines_original.append(line)
+            if 't_start=$1' in line:
+                lines.append('t_start=' + time_diff_hours + '\n')
+            else:
                 lines.append(line)
-        lines.append('wait\n')
-        with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
-            grib2nc_script.writelines(lines)
+    lines.append('wait\n')
+    with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+        grib2nc_script.writelines(lines)
+    if which('sbatch') is None:
+        os.system('sh grib2nc.sh')
+    else:
         os.system('sbatch -W grib2nc.sh')
-        with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
-            grib2nc_script.writelines(lines_original)
+    with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+        grib2nc_script.writelines(lines_original)
+
+
+def convert_grib_to_arl(gribfiles):
+    arlfiles = []
+    for file in gribfiles:
+        arlfiles.append(file.split('.grb')[0] + '.arl')
+    lines_original = []
+    with open('api2arl.sh', 'r', encoding="utf-8", errors="surrogateescape") as api2arl_script:
+        for line in api2arl_script:
+            lines_original.append(line)
+    max_number_simultaneous_processes = 48
+    k = 0
+    while k <= len(gribfiles):
+        commands = []
+        lines = []
+        start = k
+        stop = k + max_number_simultaneous_processes - 1
+        if stop > len(gribfiles):
+            stop = len(gribfiles) - 1
+        for i in range(start, stop):
+            commands.append(API2ARL + ' -dapi2arl.cfg -i' + gribfiles[i] + ' -o' + arlfiles[i] + ' &\n')
+        commands.append(API2ARL + ' -dapi2arl.cfg -i' + gribfiles[stop] + ' -o' + arlfiles[stop] + '\n')
+        with open('api2arl.sh', 'r', encoding="utf-8", errors="surrogateescape") as api2arl_script:
+            for line in api2arl_script:
+                if '#SBATCH -n 1' in line:
+                    lines.append('#SBATCH -n ' + str(stop - start + 1) + '\n')
+                else:
+                    lines.append(line)
+        for command in commands:
+            lines.append(command)
+        lines.append('wait\n')
+        with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
+            api2arl_script.writelines(lines)
+        if which('sbatch') is None:
+            os.system('sh api2arl.sh')
+        else:
+            os.system('sbatch -W api2arl.sh')
+        k = stop + 1
+        if k >= len(gribfiles):
+            break
+        with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
+            api2arl_script.writelines(lines_original)
+    with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
+        api2arl_script.writelines(lines_original)
 
 
 def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
@@ -331,81 +366,85 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
         # wgrib2.sh back to the original version
         with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
             wgrib_script.writelines(lines_original)
-        for i in range(0, max_refir_weather_data):
-            with open(profiles_grb[i], "r", encoding="utf-8", errors="surrogateescape") as profile_file:
-                records1 = []
-                records2 = []
-                nrecords = 0
-                for line in profile_file:
-                    nrecords += 1
-                    records1.append(line.split(':'))
-                    records2.append(line.split('val='))
-            u_tmp = []
-            v_tmp = []
-            hgt_tmp = []
-            tmp_k_tmp = []
-            mb_tmp = []
-            u = []
-            v = []
-            wind = []
-            hgt = []
-            tmp_k = []
-            tmp_c = []
-            mb = []
-            p = []
-            j = 0
-            temp_level = '999'
-            while j < nrecords - 1:
-                level = records1[j][4]
-                if level[-2:] == 'mb':
-                    if records1[j][4] == '0.4 mb':
-                        j += 1
-                        continue
-                    else:
-                        if records1[j][4].split(' ')[0] != temp_level and records1[j][3] != '5WAVH':
-                            if len(hgt_tmp) > len(u_tmp):
-                                hgt_tmp.pop()
-                                tmp_k_tmp.pop()
-                                mb_tmp.pop()
-                        if records1[j][3] == 'HGT' and records1[j][4].split(' ')[0] != temp_level:
-                            temp_level = records1[j][4].split(' ')[0]
-                            hgt_tmp.append(records2[j][1])
-                            mb_tmp.append(records1[j][4].split(' '))
-                        elif records1[j][3] == 'TMP' and records1[j][4].split(' ')[0] == temp_level:
-                            tmp_k_tmp.append(records2[j][1])
-                        elif records1[j][3] == 'UGRD' and records1[j][4].split(' ')[0] == temp_level:
-                            u_tmp.append(records2[j][1])
-                        elif records1[j][3] == 'VGRD' and records1[j][4].split(' ')[0] == temp_level:
-                            v_tmp.append(records2[j][1])
-                    if records1[j][4] == '1000 mb':
-                        if records1[j][3] == 'HGT':
-                            hgt_tmp.append(records2[j][1])
-                            mb_tmp.append(records1[j][4].split(' '))
-                        elif records1[j][3] == 'TMP':
-                            tmp_k_tmp.append(records2[j][1])
-                        elif records1[j][3] == 'UGRD':
-                            u_tmp.append(records2[j][1])
-                        elif records1[j][3] == 'VGRD':
-                            v_tmp.append(records2[j][1])
-                j += 1
+    for i in range(0, max_refir_weather_data):
+        with open(profiles_grb[i], "r", encoding="utf-8", errors="surrogateescape") as profile_file:
+            records1 = []
+            records2 = []
+            nrecords = 0
+            for line in profile_file:
+                nrecords += 1
+                records1.append(line.split(':'))
+                records2.append(line.split('val='))
+        u_tmp = []
+        v_tmp = []
+        hgt_tmp = []
+        tmp_k_tmp = []
+        mb_tmp = []
+        u = []
+        v = []
+        wind = []
+        hgt = []
+        tmp_k = []
+        tmp_c = []
+        mb = []
+        p = []
+        j = 0
+        temp_level = '999'
+        while j < nrecords - 1:
+            level = records1[j][4]
+            if level[-2:] == 'mb':
+                if records1[j][4] == '0.4 mb':
+                    j += 1
+                    continue
+                else:
+                    if records1[j][4].split(' ')[0] != temp_level and records1[j][3] != '5WAVH':
+                        if len(hgt_tmp) > len(u_tmp):
+                            hgt_tmp.pop()
+                            tmp_k_tmp.pop()
+                            mb_tmp.pop()
+                    if records1[j][3] == 'HGT' and records1[j][4].split(' ')[0] != temp_level:
+                        temp_level = records1[j][4].split(' ')[0]
+                        hgt_tmp.append(records2[j][1])
+                        mb_tmp.append(records1[j][4].split(' '))
+                    elif records1[j][3] == 'TMP' and records1[j][4].split(' ')[0] == temp_level:
+                        tmp_k_tmp.append(records2[j][1])
+                    elif records1[j][3] == 'UGRD' and records1[j][4].split(' ')[0] == temp_level:
+                        u_tmp.append(records2[j][1])
+                    elif records1[j][3] == 'VGRD' and records1[j][4].split(' ')[0] == temp_level:
+                        v_tmp.append(records2[j][1])
+                if records1[j][4] == '1000 mb':
+                    if records1[j][3] == 'HGT':
+                        hgt_tmp.append(records2[j][1])
+                        mb_tmp.append(records1[j][4].split(' '))
+                    elif records1[j][3] == 'TMP':
+                        tmp_k_tmp.append(records2[j][1])
+                    elif records1[j][3] == 'UGRD':
+                        u_tmp.append(records2[j][1])
+                    elif records1[j][3] == 'VGRD':
+                        v_tmp.append(records2[j][1])
+            j += 1
 
-            for j in range(0, len(u_tmp)):
-                u.append(float(u_tmp[j]))
-                v.append(float(v_tmp[j]))
-                wind.append((u[j] ** 2 + v[j] ** 2) ** 0.5)
-                hgt.append(float(hgt_tmp[j]))
-                tmp_k.append(float(tmp_k_tmp[j]))
-                tmp_c.append(tmp_k[j] - 273.15)
-                mb.append(float(mb_tmp[j][0]))
-                p.append(mb[j] * 100)
-            p[len(u_tmp) - 1] = 100000
+        for j in range(0, len(u_tmp)):
+            u.append(float(u_tmp[j]))
+            v.append(float(v_tmp[j]))
+            wind.append((u[j] ** 2 + v[j] ** 2) ** 0.5)
+            hgt.append(float(hgt_tmp[j]))
+            tmp_k.append(float(tmp_k_tmp[j]))
+            tmp_c.append(tmp_k[j] - 273.15)
+            mb.append(float(mb_tmp[j][0]))
+            p.append(mb[j] * 100)
+        p[len(u_tmp) - 1] = 100000
 
-            with open(profiles[i], 'w',encoding="utf-8", errors="surrogateescape") as wt_output:
-                wt_output.write('  HGT[m]         P[Pa]       T[K]       T[C]     U[m/s]     V[m/s]  WIND[m/s]\n')
-                for j in range(0, len(u)):
-                    wt_output.write('%8.2f\t%9.2f\t%6.2f\t%6.2f\t%7.2f\t%7.2f\t%7.2f\n' % (
+        with open(profiles[i], 'w', encoding="utf-8", errors="surrogateescape") as wt_output:
+            wt_output.write('  HGT[m]         P[Pa]       T[K]       T[C]     U[m/s]     V[m/s]  WIND[m/s]\n')
+            for j in range(0, len(u)):
+                wt_output.write('%8.2f\t%9.2f\t%6.2f\t%6.2f\t%7.2f\t%7.2f\t%7.2f\n' % (
                     hgt[j], p[j], tmp_k[j], tmp_c[j], u[j], v[j], wind[j]))
 
+
+HYSPLIT = '/home/vulcanomod/HYSPLIT'
+API2ARL = os.path.join(HYSPLIT,'hysplit.v5.2.0','exec','api2arl_v4')
+WGRIB2 = '/home/vulcanomod/grib2/wgrib2/wgrib2'
 
 run_name, start_time, start_time_datetime, duration, lat_min, lat_max, lon_min, lon_max, no_refir, volc_id, mode = \
     get_args()
@@ -460,11 +499,10 @@ except:
     os.mkdir(data_run_dir)
 
 os.chdir(weather_scripts_dir)
-get_grib()
-convert_grib_to_nc()
-
-if mode == 'manual':
-    os.rename('operational.nc', mode + '.nc')
+gribfiles = get_grib()
+gribfiles = sorted(gribfiles)
+convert_grib_to_nc(gribfiles)
+convert_grib_to_arl(gribfiles)
 
 # Remove arl time steps before the starting times before merging
 arl_files_to_remove = []
@@ -487,18 +525,6 @@ if not no_refir:
     except:
         print('Folder ' + refir_weather_today_dir + ' already exists')
 
-for file in os.listdir(weather_scripts_dir):
-    if file.startswith('weather_data') and not no_refir:
-        try:
-            shutil.move(file, refir_weather_today_dir)
-        except:
-            print('File ' + file + ' already present in ' + refir_weather_today_dir)
-            os.remove(file)
-    elif file.endswith('.grb') or file.endswith('0p25.arl'):
-        os.remove(file)
-    elif file.startswith(mode):
-        shutil.move(file, data_run_dir)
-
 if mode == 'operational' and not no_refir:
     # Create profile files readable by REFIR
     lat_source, lon_source = get_volc_location()
@@ -506,22 +532,30 @@ if mode == 'operational' and not no_refir:
     profiles_grb = []
     wtfiles = []
     wtfiles_interpolated = []
-    time_validity = datetime.datetime.strptime(today+shr_wt_run_st,format('%Y%m%d%H'))
+    time_validity = datetime.datetime.strptime(today+shr_wt_run_st, format('%Y%m%d%H'))
     for i in range(0, duration + 1):
-        wtfiles.append(os.path.join(refir_weather_today_dir,'weather_data_'+ today + '{:02}'.format(int(shr_wt_run_st))
-                                    + '_f' + '{:03}'.format(i)))
+        wtfiles.append(os.path.join(refir_weather_today_dir, 'weather_data_' + today
+                                    + '{:02}'.format(int(shr_wt_run_st)) + '_f' + '{:03}'.format(i)))
         wtfiles_interpolated.append(os.path.join(refir_weather_today_dir, 'weather_data_interpolated_'+ today
                                                  + '{:02}'.format(int(shr_wt_run_st)) + '_f' + '{:03}'.format(i)))
         time_validity_s = datetime.datetime.strftime(time_validity,format('%Y%m%d%H'))
         profiles_grb.append(os.path.join(refir_weather_today_dir, 'profile_' + time_validity_s + '.txt'))
         profiles.append(os.path.join(refir_weather_today_dir, 'profile_data_' + time_validity_s + '.txt'))
         time_validity += datetime.timedelta(hours=1)
+    for i in range(0, len(wtfiles)):
+        shutil.copy(gribfiles[i], wtfiles[i])
     extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles)
 
 try:
     shutil.rmtree(data_twodaysago_dir)
 except:
     print('Folder ' + data_twodaysago_dir + ' not present')
+
+for file in os.listdir(weather_scripts_dir):
+    if file.endswith('.grb') or file.endswith('0p25.arl'):
+        os.remove(file)
+    elif file.startswith(mode):
+        shutil.move(file, data_run_dir)
 
 os.remove('arldata.cfg')
 
