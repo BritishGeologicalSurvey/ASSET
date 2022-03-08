@@ -19,8 +19,8 @@ do
     echo "$GRIBFILE"
     if [ $i -eq 0 ]
     then
-        wgrib2 $GRIBFILE -nc_table $TABLEFILE -nc3 -netcdf $OUTPUTFILE
+        /home/vulcanomod/grib2/wgrib2/wgrib2 $GRIBFILE -nc_table $TABLEFILE -nc3 -netcdf $OUTPUTFILE
     else
-        wgrib2 $GRIBFILE -nc_table $TABLEFILE -append -nc3 -netcdf $OUTPUTFILE
+        /home/vulcanomod/grib2/wgrib2/wgrib2 $GRIBFILE -nc_table $TABLEFILE -append -nc3 -netcdf $OUTPUTFILE
     fi
 done
