@@ -331,10 +331,10 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
     else:
         max_refir_weather_data = len(wtfiles)
     for i in range(0, max_refir_weather_data):
-        wgrib2_zoom_commands.append('wgrib2 ' + wtfiles[i]
+        wgrib2_zoom_commands.append(WGRIB2 + ' ' + wtfiles[i]
                                     + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + lon_corner
                                     + ':200:0.01 ' + lat_corner + ':200:0.01 ' + wtfiles_interpolated[i])
-        wgrib2_interpolation_commands.append('wgrib2 ' + wtfiles_interpolated[i] + ' -s -lon ' + slon_source + ' ' +
+        wgrib2_interpolation_commands.append(WGRIB2 + ' ' + wtfiles_interpolated[i] + ' -s -lon ' + slon_source + ' ' +
                                              slat_source + '  >' + profiles_grb[i])
 
     if which('sbatch') is None:
@@ -349,6 +349,7 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
                 if '#SBATCH -n 1' in line:
                     line = '#SBATCH -n ' + str(len(wgrib2_zoom_commands)) + '\n'
                 lines.append(line)
+        lines.append('cd ' + refir_weather_today_dir + '\n')
         # Prepare and run wgrib2 script to zoom
         for i in range(0, max_refir_weather_data - 1):
             line = wgrib2_zoom_commands[i] + ' &\n'
@@ -509,7 +510,7 @@ arl_files_to_remove = []
 all_files = os.listdir(os.getcwd())
 for arl_file in all_files:
     if arl_file.endswith('.arl'):
-       if int(arl_file.split('-')[0]) < int(time_diff_hours):
+       if int(arl_file.split('-')[0]) < int(float(time_diff_hours)):
            arl_files_to_remove.append(arl_file)
 for file_to_remove in arl_files_to_remove:
     os.remove(file_to_remove)
