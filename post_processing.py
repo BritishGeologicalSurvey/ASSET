@@ -6,94 +6,94 @@ from shutil import which, copy
 
 ROOT = os.getcwd()
 RUNS = os.path.join(ROOT,'Runs')
-#NP = int(os.environ["SLURM_JOB_CPUS_PER_NODE"])
 
-parser = argparse.ArgumentParser(description='Input data for the post_processing script')
-parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via '
-                                                             'operational_settings.txt\nmanual: run with user specific inputs')
-parser.add_argument('-SET','--set',default='True',help='Read simulation parameters from operational_settings.txt')
-parser.add_argument('-LATMIN','--latmin',default=999,help='Domain minimum latitude')
-parser.add_argument('-LATMAX','--latmax',default=999,help='Domain maximum latitude')
-parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longitude')
-parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
-parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all '
-                                                        '(both hysplit and fall3d)')
-parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR '
-                                                             'for ESPs')
-args = parser.parse_args()
-mode = args.mode
-models_in = args.model
-no_refir = args.no_refir
-if mode != 'manual' and mode != 'operational':
-    print('Wrong value for variable --mode')
-    print('Execution stopped')
-    sys.exit()
-if args.set == 'True':
-    settings_file = True
-elif args.set == 'False':
-    settings_file = False
-else:
-    print('Wrong value for variable --set')
-    print('Execution stopped')
-    sys.exit()
-if no_refir.lower() == 'true':
-    no_refir = True
-elif no_refir.lower() == 'false':
-    no_refir = False
-else:
-    print('WARNING. Wrong input for argument -NR --no_refir')
-    no_refir = False
-RUNS_mode = os.path.join(RUNS, mode)
-
-if settings_file:
-    with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
-        for line in settings:
-            if line.split('=')[0] == 'LAT_MIN_[deg]':
-                lat_min = line.split('=')[1]
-                lat_min = lat_min.split('\n')[0]
-            elif line.split('=')[0] == 'LAT_MAX_[deg]':
-                lat_max = line.split('=')[1]
-                lat_max = lat_max.split('\n')[0]
-            elif line.split('=')[0] == 'LON_MIN_[deg]':
-                lon_min = line.split('=')[1]
-                lon_min = lon_min.split('\n')[0]
-            elif line.split('=')[0] == 'LON_MAX_[deg]':
-                lon_max = line.split('=')[1]
-                lon_max = lon_max.split('\n')[0]
-            elif line.split('=')[0] == 'NO_REFIR':
-                no_refir = line.split('=')[1]
-                no_refir = no_refir.split('\n')[0]
-                if no_refir.lower() == 'true':
-                    no_refir = True
-                elif no_refir.lower() == 'false':
-                    no_refir = False
-                else:
-                    no_refir = False
-            elif line.split('=')[0] == 'MODELS':
-                try:
-                    models_in = line.split('=')[1]
-                    models_in = models_in.split('\n')[0]
-                except:
-                    models_in = 'all'
-else:
-    if args.latmin == 999 or args.latmax == 999 or args.lonmin == 999 or args.lonmax == 999:
-        print('Error. Wrong coordinate specification')
+def read_args():
+    parser = argparse.ArgumentParser(description='Input data for the post_processing script')
+    parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via '
+                                                                 'operational_settings.txt\nmanual: run with user specific inputs')
+    parser.add_argument('-SET','--set',default='True',help='Read simulation parameters from operational_settings.txt')
+    parser.add_argument('-LATMIN','--latmin',default=999,help='Domain minimum latitude')
+    parser.add_argument('-LATMAX','--latmax',default=999,help='Domain maximum latitude')
+    parser.add_argument('-LONMIN','--lonmin',default=999,help='Domain minimum longitude')
+    parser.add_argument('-LONMAX','--lonmax',default=999,help='Domain maximum longitude')
+    parser.add_argument('-MOD','--model',default='all',help='Dispersion model to use. Options are: hysplit, fall3d, all '
+                                                            '(both hysplit and fall3d)')
+    parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR '
+                                                                 'for ESPs')
+    args = parser.parse_args()
+    mode = args.mode
+    models_in = args.model
+    no_refir = args.no_refir
+    if mode != 'manual' and mode != 'operational':
+        print('Wrong value for variable --mode')
         print('Execution stopped')
         sys.exit()
+    if args.set == 'True':
+        settings_file = True
+    elif args.set == 'False':
+        settings_file = False
     else:
-        lon_min = args.lonmin
-        lon_max = args.lonmax
-        lat_min = args.latmin
-        lat_max = args.latmax
-if models_in == 'all':
-    models = ['FALL3D', 'HYSPLIT']
-elif models_in == 'hysplit':
-    models = ['HYSPLIT']
-elif models_in == 'fall3d':
-    models = ['FALL3D']
-else:
-    print('Wrong model selection')
-    sys.exit()
+        print('Wrong value for variable --set')
+        print('Execution stopped')
+        sys.exit()
+    if no_refir.lower() == 'true':
+        no_refir = True
+    elif no_refir.lower() == 'false':
+        no_refir = False
+    else:
+        print('WARNING. Wrong input for argument -NR --no_refir')
+        no_refir = False
+
+    if settings_file:
+        with open('operational_settings.txt','r',encoding="utf-8", errors="surrogateescape") as settings:
+            for line in settings:
+                if line.split('=')[0] == 'LAT_MIN_[deg]':
+                    lat_min = line.split('=')[1]
+                    lat_min = lat_min.split('\n')[0]
+                elif line.split('=')[0] == 'LAT_MAX_[deg]':
+                    lat_max = line.split('=')[1]
+                    lat_max = lat_max.split('\n')[0]
+                elif line.split('=')[0] == 'LON_MIN_[deg]':
+                    lon_min = line.split('=')[1]
+                    lon_min = lon_min.split('\n')[0]
+                elif line.split('=')[0] == 'LON_MAX_[deg]':
+                    lon_max = line.split('=')[1]
+                    lon_max = lon_max.split('\n')[0]
+                elif line.split('=')[0] == 'NO_REFIR':
+                    no_refir = line.split('=')[1]
+                    no_refir = no_refir.split('\n')[0]
+                    if no_refir.lower() == 'true':
+                        no_refir = True
+                    elif no_refir.lower() == 'false':
+                        no_refir = False
+                    else:
+                        no_refir = False
+                elif line.split('=')[0] == 'MODELS':
+                    try:
+                        models_in = line.split('=')[1]
+                        models_in = models_in.split('\n')[0]
+                    except:
+                        models_in = 'all'
+    else:
+        if args.latmin == 999 or args.latmax == 999 or args.lonmin == 999 or args.lonmax == 999:
+            print('Error. Wrong coordinate specification')
+            print('Execution stopped')
+            sys.exit()
+        else:
+            lon_min = args.lonmin
+            lon_max = args.lonmax
+            lat_min = args.latmin
+            lat_max = args.latmax
+    if models_in == 'all':
+        models = ['FALL3D', 'HYSPLIT']
+    elif models_in == 'hysplit':
+        models = ['HYSPLIT']
+    elif models_in == 'fall3d':
+        models = ['FALL3D']
+    else:
+        print('Wrong model selection')
+        sys.exit()
+    return models, no_refir, lon_min, lon_max, lat_min, lat_max, mode,
 
 def post_process_model():
     def post_process_solution(output_folder, output_file):
@@ -212,6 +212,11 @@ def post_process_model():
     except:
         print('Error processing outputs in parallel')
 
+
+models, no_refir, lon_min, lon_max, lat_min, lat_max, mode = read_args()
+
+
+RUNS_mode = os.path.join(RUNS, mode)
 post_process_model()
 
 

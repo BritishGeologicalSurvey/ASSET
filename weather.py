@@ -1,11 +1,9 @@
 import os
 import datetime
-import shutil
 import argparse
-from pathos.multiprocessing import ThreadingPool
 import pandas as pd
 import sys
-from shutil import which
+from shutil import which, move, rmtree, copy
 
 def get_args():
     parser = argparse.ArgumentParser(description='Input data for the control script')
@@ -232,7 +230,6 @@ def get_grib():
     lines.append('wait\n')
     with open('get_grib.sh', 'w', encoding="utf-8", errors="surrogateescape") as get_grib_script:
         get_grib_script.writelines(lines)
-
     if which('sbatch') is None:
         os.system('sh get_grib.sh')
     else:
@@ -246,7 +243,7 @@ def get_grib():
     return gribfiles
 
 
-def convert_grib_to_nc(gribfiles):
+def convert_grib_to_nc():
     lines = []
     lines_original = []
     with open('grib2nc.sh', 'r', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
@@ -260,11 +257,12 @@ def convert_grib_to_nc(gribfiles):
     with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
         grib2nc_script.writelines(lines)
     if which('sbatch') is None:
-        os.system('sh grib2nc.sh')
+        scheduler_command = 'sh grib2nc.sh\n'
     else:
-        os.system('sbatch -W grib2nc.sh')
-    with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
-        grib2nc_script.writelines(lines_original)
+        scheduler_command = 'sbatch -W grib2nc.sh\n'
+    with open(scheduler_file_path, 'a') as scheduler_file_update:
+        scheduler_file_update.write(scheduler_command)
+    return lines_original
 
 
 def convert_grib_to_arl(gribfiles):
@@ -275,47 +273,32 @@ def convert_grib_to_arl(gribfiles):
     with open('api2arl.sh', 'r', encoding="utf-8", errors="surrogateescape") as api2arl_script:
         for line in api2arl_script:
             lines_original.append(line)
-    max_number_simultaneous_processes = 48
-    k = 0
-    while k <= len(gribfiles):
-        commands = []
-        lines = []
-        start = k
-        stop = k + max_number_simultaneous_processes - 1
-        if stop > len(gribfiles):
-            stop = len(gribfiles) - 1
-        for i in range(start, stop):
-            commands.append(API2ARL + ' -dapi2arl.cfg -i' + gribfiles[i] + ' -o' + arlfiles[i] + ' &\n')
-        commands.append(API2ARL + ' -dapi2arl.cfg -i' + gribfiles[stop] + ' -o' + arlfiles[stop] + '\n')
-        with open('api2arl.sh', 'r', encoding="utf-8", errors="surrogateescape") as api2arl_script:
-            for line in api2arl_script:
-                if '#SBATCH -n 1' in line:
-                    lines.append('#SBATCH -n ' + str(stop - start + 1) + '\n')
-                else:
-                    lines.append(line)
-        for command in commands:
-            lines.append(command)
-        lines.append('wait\n')
-        with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
-            api2arl_script.writelines(lines)
-        if which('sbatch') is None:
-            os.system('sh api2arl.sh')
-        else:
-            os.system('sbatch -W api2arl.sh')
-        k = stop + 1
-        if k >= len(gribfiles):
-            break
-        with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
-            api2arl_script.writelines(lines_original)
+    commands = []
+    lines = []
+    for i in range(0, len(gribfiles)):
+        commands.append(API2ARL + ' -dapi2arl.cfg -i' + gribfiles[i] + ' -o' + arlfiles[i] + ' -earldata.cfg_' + str(i)
+                        + ' &\n')
+    with open('api2arl.sh', 'r', encoding="utf-8", errors="surrogateescape") as api2arl_script:
+        for line in api2arl_script:
+            if '#SBATCH -n 1' in line:
+                lines.append('#SBATCH -n ' + str(len(gribfiles)) + '\n')
+            else:
+                lines.append(line)
+    for command in commands:
+        lines.append(command)
+    lines.append('wait\n')
     with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
-        api2arl_script.writelines(lines_original)
+        api2arl_script.writelines(lines)
+    if which('sbatch') is None:
+        scheduler_command = 'sh api2arl.sh\n'
+    else:
+        scheduler_command = 'sbatch -W api2arl.sh\n'
+    with open(scheduler_file_path, 'a') as scheduler_file_update:
+        scheduler_file_update.write(scheduler_command)
+    return lines_original
 
 
-def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
-    def run_wgrib2_commands_parallel(wgrib2_zoom_command, wgrib2_interpolation_command):
-        os.system(wgrib2_zoom_command)
-        os.system(wgrib2_interpolation_command)
-
+def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb):
     print('Interpolating weather data to a finer grid around the source')
     slon_source = str(lon_source)
     slat_source = str(lat_source)
@@ -336,38 +319,41 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles):
                                     + ':200:0.01 ' + lat_corner + ':200:0.01 ' + wtfiles_interpolated[i])
         wgrib2_interpolation_commands.append(WGRIB2 + ' ' + wtfiles_interpolated[i] + ' -s -lon ' + slon_source + ' ' +
                                              slat_source + '  >' + profiles_grb[i])
+    lines = []
+    lines_original = []
+    with open('wgrib2.sh', 'r', encoding="utf-8", errors="surrogateescape") as wgrib_script:
+        for line in wgrib_script:
+            lines_original.append(line)
+            if '#SBATCH -n 1' in line:
+                line = '#SBATCH -n ' + str(len(wgrib2_zoom_commands)) + '\n'
+            lines.append(line)
+    lines.append('cd ' + refir_weather_today_dir + '\n')
+    # Prepare and run wgrib2 script to zoom
+    for i in range(0, max_refir_weather_data - 1):
+        line = wgrib2_zoom_commands[i] + ' &\n'
+        lines.append(line)
+    lines.append(wgrib2_zoom_commands[-1] + '\n')
+    lines.append('wait\n')
+    for i in range(0, max_refir_weather_data - 1):
+        line = wgrib2_interpolation_commands[i] + ' &\n'
+        lines.append(line)
+    lines.append(wgrib2_interpolation_commands[-1] + '\n')
+    lines.append('wait\n')
+    with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
+        wgrib_script.writelines(lines)
 
     if which('sbatch') is None:
-        pool = ThreadingPool(max_refir_weather_data)
-        pool.map(run_wgrib2_commands_parallel, wgrib2_zoom_commands, wgrib2_interpolation_commands)
+        scheduler_command = 'sh wgrib2.sh\n'
     else:
-        lines = []
-        lines_original = []
-        with open('wgrib2.sh', 'r', encoding="utf-8", errors="surrogateescape") as wgrib_script:
-            for line in wgrib_script:
-                lines_original.append(line)
-                if '#SBATCH -n 1' in line:
-                    line = '#SBATCH -n ' + str(len(wgrib2_zoom_commands)) + '\n'
-                lines.append(line)
-        lines.append('cd ' + refir_weather_today_dir + '\n')
-        # Prepare and run wgrib2 script to zoom
-        for i in range(0, max_refir_weather_data - 1):
-            line = wgrib2_zoom_commands[i] + ' &\n'
-            lines.append(line)
-        lines.append(wgrib2_zoom_commands[-1] + '\n')
-        lines.append('wait\n')
-        for i in range(0, max_refir_weather_data - 1):
-            line = wgrib2_interpolation_commands[i] + ' &\n'
-            lines.append(line)
-        lines.append(wgrib2_interpolation_commands[-1] + '\n')
-        lines.append('wait\n')
-        with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
-            wgrib_script.writelines(lines)
-        os.system('sbatch -W wgrib2.sh')
+        scheduler_command = 'sbatch -W wgrib2.sh\n'
         # wgrib2.sh back to the original version
-        with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
-            wgrib_script.writelines(lines_original)
-    for i in range(0, max_refir_weather_data):
+    with open(scheduler_file_path, 'a') as scheduler_file_update:
+        scheduler_file_update.write(scheduler_command)
+    return max_refir_weather_data, lines_original
+
+
+def elaborate_refir_weather_data(n_refir_data, profiles_grb, profiles):
+    for i in range(0, n_refir_data):
         with open(profiles_grb[i], "r", encoding="utf-8", errors="surrogateescape") as profile_file:
             records1 = []
             records2 = []
@@ -458,6 +444,10 @@ syr, smo, sda, shr, shr_wt_st, shr_wt_run_st, today, yesterday, twodaysago, time
 
 root = os.getcwd()
 weather_scripts_dir = os.path.join(root, 'weather', 'scripts')
+scheduler_file_path = os.path.join(weather_scripts_dir, 'scheduler_weather.sh')
+with open(scheduler_file_path, 'w') as scheduler_file:
+    scheduler_file.write('#!/bin/bash\n')
+    scheduler_file.write('cd ' + weather_scripts_dir + '\n')
 if mode == 'operational':
     data_dir = os.path.join(root,'weather', 'data', 'operational')
 else:
@@ -481,7 +471,7 @@ if not no_refir:
     for file in refir_files_list:
         if file.startswith('run_' + today):
             try:
-                shutil.move(os.path.join(refir_dir,file,'raw_forecast_weather_data_' + today),refir_dir)
+                move(os.path.join(refir_dir,file,'raw_forecast_weather_data_' + today),refir_dir)
             except:
                 print('Folder ' + refir_weather_today_dir + ' not present in ' + os.path.join(refir_dir,file))
 try:
@@ -496,29 +486,18 @@ try:
     os.mkdir(data_run_dir)
 except:
     print('Folder ' + data_run_dir + ' already exists')
-    shutil.rmtree(data_run_dir)
+    rmtree(data_run_dir)
     os.mkdir(data_run_dir)
 
 os.chdir(weather_scripts_dir)
 gribfiles = get_grib()
 gribfiles = sorted(gribfiles)
-convert_grib_to_nc(gribfiles)
-convert_grib_to_arl(gribfiles)
-
-# Remove arl time steps before the starting times before merging
-arl_files_to_remove = []
-all_files = os.listdir(os.getcwd())
-for arl_file in all_files:
-    if arl_file.endswith('.arl'):
-       if int(arl_file.split('-')[0]) < int(float(time_diff_hours)):
-           arl_files_to_remove.append(arl_file)
-for file_to_remove in arl_files_to_remove:
-    os.remove(file_to_remove)
-os.system('cat *.arl > ' + mode + '.arl')
+grib_to_nc_original_lines = convert_grib_to_nc()
+grib_to_arl_original_lines = convert_grib_to_arl(gribfiles)
 
 if not no_refir:
     try:
-        shutil.rmtree(refir_weather_twodaysago_dir)
+        rmtree(refir_weather_twodaysago_dir)
     except:
         print('Folder ' + refir_weather_twodaysago_dir + ' not present')
     try:
@@ -544,11 +523,27 @@ if mode == 'operational' and not no_refir:
         profiles.append(os.path.join(refir_weather_today_dir, 'profile_data_' + time_validity_s + '.txt'))
         time_validity += datetime.timedelta(hours=1)
     for i in range(0, len(wtfiles)):
-        shutil.copy(gribfiles[i], wtfiles[i])
-    extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb, profiles)
+        copy(gribfiles[i], wtfiles[i])
+    max_refir_weather_data, extract_data_gfs_original_lines = \
+        extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb)
+
+os.system('sh ' + scheduler_file_path)
+if mode == 'operational' and not no_refir:
+    elaborate_refir_weather_data(max_refir_weather_data, profiles_grb, profiles)
+
+# Remove arl time steps before the starting times before merging
+arl_files_to_remove = []
+all_files = os.listdir(os.getcwd())
+for arl_file in all_files:
+    if arl_file.endswith('.arl'):
+       if int(arl_file.split('-')[0]) < int(float(time_diff_hours)):
+           arl_files_to_remove.append(arl_file)
+for file_to_remove in arl_files_to_remove:
+    os.remove(file_to_remove)
+os.system('cat *.arl > ' + mode + '.arl')
 
 try:
-    shutil.rmtree(data_twodaysago_dir)
+    rmtree(data_twodaysago_dir)
 except:
     print('Folder ' + data_twodaysago_dir + ' not present')
 
@@ -556,10 +551,16 @@ for file in os.listdir(weather_scripts_dir):
     if file.endswith('.grb') or file.endswith('0p25.arl'):
         os.remove(file)
     elif file.startswith(mode):
-        shutil.move(file, data_run_dir)
+        move(file, data_run_dir)
 
-os.remove('arldata.cfg')
-
+os.system('rm arldata.cfg*')
+with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib2nc_script:
+    grib2nc_script.writelines(grib_to_nc_original_lines)
+with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
+    api2arl_script.writelines(grib_to_arl_original_lines)
+if mode == 'operational' and not no_refir:
+    with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
+        wgrib_script.writelines(extract_data_gfs_original_lines)
 
 
 

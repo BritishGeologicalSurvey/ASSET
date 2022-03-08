@@ -2,7 +2,6 @@ import os
 import datetime
 from shutil import which, copy, copyfile, rmtree
 import argparse
-from pathos.multiprocessing import ThreadingPool
 import sys
 
 # Folder structure
@@ -250,6 +249,7 @@ def read_args():
            lat_max, tot_dx, tot_dy, run_duration, source_resolution, tot_particle_rate, output_interval, models, \
            run_name
 
+
 def read_operational_settings_file():
     mer_input = []
     plh_input = []
@@ -406,6 +406,7 @@ def read_operational_settings_file():
            Iceland_scenario, no_refir, er_duration_input, plh_input, mer_input, source_resolution, tot_particle_rate, \
            output_interval, tgsd, run_name, models
 
+
 def get_times(time):
     twodaysago_t = time - datetime.timedelta(days=2)
     syr = time.strftime('%Y')
@@ -419,6 +420,7 @@ def get_times(time):
     shr_wt_st = '{:01d}'.format(int(shr))
     shr_wt_end = str(int(shr_wt_st) + int(run_duration))
     return syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago
+
 
 def read_esps_database():
     import pandas as pd
@@ -446,6 +448,7 @@ def read_esps_database():
                 print('ID not found')
                 break
     return esps_dur, esps_plh, esps_mer, summit, volc_lat, volc_lon
+
 
 def run_foxi():
     copy(os.path.join(ROOT, 'fix_config.txt'), os.path.join(REFIR, 'fix_config.txt'))
@@ -552,6 +555,7 @@ def run_foxi():
     os.chdir(ROOT)
     return esps_dur, esps_plh, summit, volc_lat, volc_lon
 
+
 def run_refir():
     REFIR_CONFIG = os.path.join(REFIR,'refir_config')
     REFIR_CONFIG_OPERATIONAL = os.path.join(REFIR_CONFIG, 'operational_setting')
@@ -602,6 +606,7 @@ def run_refir():
         copy(os.path.join(REFIR_CONFIG_OPERATIONAL,file),REFIR_CONFIG)
     os.chdir(ROOT)
     return er_dur, summit, volc_lat, volc_lon
+
 
 def run_models(short_simulation, eruption_dur):
     def read_refir_outputs(short_simulation):
@@ -1023,7 +1028,8 @@ def run_models(short_simulation, eruption_dur):
                     lines.append('wait\n')
                     with open(fall3d_script, 'w', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
                         fall3d_script_input.writelines(lines)
-                    os.system('sh ' + fall3d_script)
+                    #os.system('sh ' + fall3d_script)
+                    scheduler_command = 'sh ' + fall3d_script + '&\n'
                 else:
                     with open(fall3d_script, 'r', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
                         for line in fall3d_script_input:
@@ -1037,13 +1043,14 @@ def run_models(short_simulation, eruption_dur):
                     lines.append('wait\n')
                     with open(fall3d_script, 'w', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
                         fall3d_script_input.writelines(lines)
-                    os.system('sbatch -W ' + fall3d_script)
+                    #os.system('sbatch ' + fall3d_script)
+                    scheduler_command = 'sbatch ' + fall3d_script + ' &\n'
+                with open(scheduler_file_path, 'a') as scheduler_file_update:
+                    scheduler_file_update.write('cd ' + RUN + '\n')
+                    scheduler_file_update.write(scheduler_command)
 
-            try:
-                pool_fall3d = ThreadingPool(len(solutions))
-                pool_fall3d.map(run_fall3d_mpi, solutions, processes_distributions)
-            except:
-                print('Error processing FALL3D in parallel')
+            for i in range(0, len(solutions)):
+                run_fall3d_mpi(solutions[i], processes_distributions[i])
 
 
         def run_hysplit():
@@ -1342,7 +1349,7 @@ def run_models(short_simulation, eruption_dur):
                         lines.append('wait\n')
                     with open(hysplit_script, 'w', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
                         hysplit_script_input.writelines(lines)
-                    os.system('sh ' + hysplit_script)
+                    scheduler_command = 'sh ' + hysplit_script + '\n'
                 else:
                     with open(hysplit_script, 'r', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
                         for line in hysplit_script_input:
@@ -1355,13 +1362,13 @@ def run_models(short_simulation, eruption_dur):
                         lines.append('wait\n')
                     with open(hysplit_script, 'w', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
                         hysplit_script_input.writelines(lines)
-                    os.system('sbatch -W hysplit.sh')
+                    scheduler_command = 'sbatch ' + hysplit_script + ' &\n'
+                with open(scheduler_file_path, 'a') as scheduler_file_update:
+                    scheduler_file_update.write('cd ' + os.getcwd() + '\n')
+                    scheduler_file_update.write(scheduler_command)
 
-            try:
-                pool_fall3d = ThreadingPool(len(solutions))
-                pool_fall3d.map(run_hysplit_mpi, solutions)
-            except:
-                print('Error processing HYSPLIT in parallel')
+            for solution in solutions:
+                run_hysplit_mpi(solution)
 
         if model == 'fall3d':
             run_fall3d()
@@ -1373,8 +1380,21 @@ def run_models(short_simulation, eruption_dur):
             read_refir_outputs(short_simulation)
         if new_er_dur != 0:
             eruption_dur = new_er_dur / 60
-    pool_programs = ThreadingPool(2)
-    pool_programs.map(controller, models)
+    for model in models:
+        controller(model)
+
+def clean_folders():
+    for file in os.listdir(REFIR):
+        if file.startswith('run_' + twodaysago):
+            rmtree(os.path.join(REFIR,file))
+    for file in os.listdir(os.path.join(RUNS,'FALL3D')):
+        if file == twodaysago:
+            rmtree(os.path.join(RUNS,'FALL3D',file))
+    for file in os.listdir(os.path.join(RUNS,'HYSPLIT')):
+        if file == twodaysago:
+            rmtree(os.path.join(RUNS,'HYSPLIT',file))
+        elif file.startswith('EMITIMES_'):
+            os.remove(os.path.join(RUNS,'HYSPLIT',file))
 
 settings_file, tgsd, short_simulation, start_time, start_time_datetime, no_refir_plots, mode, no_refir, plh_input, \
 mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, \
@@ -1400,7 +1420,7 @@ if start_time != '999' and mode == 'manual':
     time_now = start_time_datetime
 else:
     time_now = datetime.datetime.utcnow()
-syr,smo,sda,shr,shr_wt_st,shr_wt_end,twodaysago = get_times(time_now)
+syr, smo, sda, shr, shr_wt_st, shr_wt_end, twodaysago = get_times(time_now)
 
 if run_name == 'default':
     run_folder = shr_wt_st
@@ -1434,19 +1454,10 @@ else:
 
 
 os.chdir(ROOT)
-
-def clean_folders():
-    for file in os.listdir(REFIR):
-        if file.startswith('run_' + twodaysago):
-            rmtree(os.path.join(REFIR,file))
-    for file in os.listdir(os.path.join(RUNS,'FALL3D')):
-        if file == twodaysago:
-            rmtree(os.path.join(RUNS,'FALL3D',file))
-    for file in os.listdir(os.path.join(RUNS,'HYSPLIT')):
-        if file == twodaysago:
-            rmtree(os.path.join(RUNS,'HYSPLIT',file))
-        elif file.startswith('EMITIMES_'):
-            os.remove(os.path.join(RUNS,'HYSPLIT',file))
+scheduler_file_path = os.path.join(ROOT, 'scheduler_runs.sh')
+with open(scheduler_file_path, 'w') as scheduler_file:
+    scheduler_file.write('#!/bin/bash\n')
+    scheduler_file.write('cd ' + ROOT + '\n')
 
 if mode == 'manual':
     RUNS = os.path.join(RUNS,'manual')
@@ -1462,5 +1473,6 @@ else:
         print('Folder ' + RUNS + ' exists')
 
 run_models(short_simulation, eruption_dur)
+os.system('sh ' + scheduler_file_path)
 clean_folders()
 
