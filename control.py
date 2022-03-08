@@ -1028,7 +1028,6 @@ def run_models(short_simulation, eruption_dur):
                     lines.append('wait\n')
                     with open(fall3d_script, 'w', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
                         fall3d_script_input.writelines(lines)
-                    #os.system('sh ' + fall3d_script)
                     scheduler_command = 'sh ' + fall3d_script + '&\n'
                 else:
                     with open(fall3d_script, 'r', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
@@ -1043,7 +1042,6 @@ def run_models(short_simulation, eruption_dur):
                     lines.append('wait\n')
                     with open(fall3d_script, 'w', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
                         fall3d_script_input.writelines(lines)
-                    #os.system('sbatch ' + fall3d_script)
                     scheduler_command = 'sbatch ' + fall3d_script + ' &\n'
                 with open(scheduler_file_path, 'a') as scheduler_file_update:
                     scheduler_file_update.write('cd ' + RUN + '\n')
@@ -1383,6 +1381,7 @@ def run_models(short_simulation, eruption_dur):
     for model in models:
         controller(model)
 
+
 def clean_folders():
     for file in os.listdir(REFIR):
         if file.startswith('run_' + twodaysago):
@@ -1395,6 +1394,7 @@ def clean_folders():
             rmtree(os.path.join(RUNS,'HYSPLIT',file))
         elif file.startswith('EMITIMES_'):
             os.remove(os.path.join(RUNS,'HYSPLIT',file))
+
 
 settings_file, tgsd, short_simulation, start_time, start_time_datetime, no_refir_plots, mode, no_refir, plh_input, \
 mer_input, er_duration_input, volc_id, n_processes, Iceland_scenario, lon_min, lon_max, lat_min, lat_max, tot_dx, \
@@ -1475,4 +1475,5 @@ else:
 run_models(short_simulation, eruption_dur)
 os.system('sh ' + scheduler_file_path)
 clean_folders()
+os.remove(scheduler_file_path)
 

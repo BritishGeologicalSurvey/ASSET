@@ -562,5 +562,7 @@ if mode == 'operational' and not no_refir:
     with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
         wgrib_script.writelines(extract_data_gfs_original_lines)
 
+os.remove(scheduler_file_path)
+
 
 

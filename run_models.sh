@@ -12,4 +12,4 @@ cd /home/vulcanomod/Operational_modelling/BGS-AADM
 python weather.py > log/log_weather_$shr.txt # Download weather data
 python control.py --set=True > log/log_models_$shr.txt # Add options
 conda deactivate
-sbatch post_processing.sh 'post_processing.py --set=True --mode=operational'
+python post_processing.py --set=True --mode=operational > log/log_post_processing_$shr.txt

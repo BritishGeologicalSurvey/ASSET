@@ -4,9 +4,6 @@ from pathos.multiprocessing import ThreadingPool
 import sys
 from shutil import which, copy
 
-ROOT = os.getcwd()
-RUNS = os.path.join(ROOT,'Runs')
-
 def read_args():
     parser = argparse.ArgumentParser(description='Input data for the post_processing script')
     parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via '
@@ -96,27 +93,22 @@ def read_args():
     return models, no_refir, lon_min, lon_max, lat_min, lat_max, mode,
 
 def post_process_model():
-    def post_process_solution(output_folder, output_file):
-        if 'HYSPLIT' in str(output_file):
-            model = 'hysplit'
-        else:
-            model = 'fall3d'
-        try:
-            output_dir = os.path.join(output_folder, 'iris_outputs')
-            try:
-                os.mkdir(output_dir)
-            except:
-                print('Folder ' + output_dir + ' already exists')
-            os.system('plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
-                      ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' +
-                      model)
-        except:
-            print('Unable to process ' + output_file)
-
     def preprocess_models(model):
 
         def preprocess_hysplit_outputs(solution_file):
             folder_hysplit = os.path.dirname(solution_file)
+            pre_process_hysplit_scheduler_file_path = os.path.join(folder_hysplit, 'pre_process.sh')
+            with open(pre_process_hysplit_scheduler_file_path, 'w') as preprocess_hysplit_scheduler_file:
+                preprocess_hysplit_scheduler_file.write('#!/bin/bash\n')
+                if which('sbatch') is None:
+                    preprocess_hysplit_scheduler_file.write('cd ' + folder_hysplit + '\n')
+                else:
+                    preprocess_hysplit_scheduler_file.write('#SBATCH --job-name=pre_hysplit\n')
+                    preprocess_hysplit_scheduler_file.write('#SBATCH -o pre_hysplit.out\n')
+                    preprocess_hysplit_scheduler_file.write('#SBATCH -o pre_hysplit.err\n')
+                    preprocess_hysplit_scheduler_file.write('#SBATCH -n 1\n')
+                    preprocess_hysplit_scheduler_file.write('source ~/.bashrc\n')
+                    preprocess_hysplit_scheduler_file.write('cd ' + folder_hysplit + '\n')
             pollutants = ''
             with open(os.path.join(folder_hysplit, 'CONTROL'), 'r') as control_file:
                 for line in control_file:
@@ -127,11 +119,20 @@ def post_process_model():
             try:
                 cdump_sum_file = os.path.join(folder_hysplit, 'cdump_sum.nc')
                 cdump_temp_file = os.path.join(folder_hysplit, 'cdump_temp.nc')
-                os.system('ncap2 -s ' + pollutants + ' ' + solution_file + ' ' + cdump_sum_file)
-                os.system('ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file)
-                copy(cdump_temp_file, solution_file)
-                os.remove(cdump_sum_file)
-                os.remove(cdump_temp_file)
+                with open(pre_process_hysplit_scheduler_file_path, 'a') as preprocess_hysplit_scheduler_file:
+                    preprocess_hysplit_scheduler_file.write('cd ' + folder_hysplit + '\n')
+                    preprocess_hysplit_scheduler_file.write('ncap2 -s ' + pollutants + ' ' + solution_file + ' ' +
+                                                            cdump_sum_file + '\n')
+                    preprocess_hysplit_scheduler_file.write('ncks -v sum ' + cdump_sum_file + ' ' + cdump_temp_file
+                                                            + '\n')
+                    preprocess_hysplit_scheduler_file.write('cp ' + cdump_temp_file + ' ' + solution_file + '\n')
+                    preprocess_hysplit_scheduler_file.write('rm ' + cdump_sum_file + '\n')
+                    preprocess_hysplit_scheduler_file.write('rm ' + cdump_temp_file + '\n')
+                with open(scheduler_file_path, 'a') as scheduler_file:
+                    if which('sbatch') is None:
+                        scheduler_file.write('sh ' + pre_process_hysplit_scheduler_file_path + ' &\n')
+                    else:
+                        scheduler_file.write('sbatch -W ' + pre_process_hysplit_scheduler_file_path + ' &\n')
             except:
                 print('Unable to process ' + solution_file + ' with ncap2 and ncks')
                 files_to_remove.append(solution_file)
@@ -140,28 +141,77 @@ def post_process_model():
 
         def preprocess_fall3d_outputs(solution_file):
             folder_fall3d = os.path.dirname(solution_file)
+            pre_process_fall3d_scheduler_file_path = os.path.join(folder_fall3d, 'pre_process.sh')
+            with open(pre_process_fall3d_scheduler_file_path, 'w') as preprocess_fall3d_scheduler_file:
+                preprocess_fall3d_scheduler_file.write('#!/bin/bash\n')
+                if which('sbatch') is None:
+                    preprocess_fall3d_scheduler_file.write('cd ' + folder_fall3d + '\n')
+                else:
+                    preprocess_fall3d_scheduler_file.write('#SBATCH --job-name=pre_fall3d\n')
+                    preprocess_fall3d_scheduler_file.write('#SBATCH -o pre_fall3d.out\n')
+                    preprocess_fall3d_scheduler_file.write('#SBATCH -o pre_fall3d.err\n')
+                    preprocess_fall3d_scheduler_file.write('#SBATCH -n 1\n')
+                    preprocess_fall3d_scheduler_file.write('source ~/.bashrc\n')
+                    preprocess_fall3d_scheduler_file.write('cd ' + folder_fall3d + '\n')
             try:
                 temp_cdo_file = str(solution_file) + '_cdo'
-                os.system('cdo -selyear,2020/2999 ' + solution_file + ' ' + temp_cdo_file + ' &> cdo.txt')
-                os.rename(temp_cdo_file, solution_file)
+                with open(pre_process_fall3d_scheduler_file_path, 'a') as preprocess_fall3d_scheduler_file:
+                    preprocess_fall3d_scheduler_file.write('cdo -selyear,2020/2999 ' + solution_file + ' ' +
+                                                           temp_cdo_file + ' &> cdo.txt\n')
+                    preprocess_fall3d_scheduler_file.write('mv ' + temp_cdo_file + ' ' + solution_file + '\n')
+                with open(scheduler_file_path, 'a') as scheduler_file:
+                    if which('sbatch') is None:
+                        scheduler_file.write('sh ' + pre_process_fall3d_scheduler_file_path + ' &\n')
+                    else:
+                        scheduler_file.write('sbatch -W ' + pre_process_fall3d_scheduler_file_path + ' &\n')
             except:
                 print('Unable to process ' + solution_file + ' with CDO')
                 files_to_remove.append(solution_file)
                 folders_to_remove.append(folder_fall3d)
 
         if model == 'FALL3D':
-            try:
-                pool_pre_fall3d = ThreadingPool(len(solution_files_fall3d))
-                pool_pre_fall3d.map(preprocess_fall3d_outputs, solution_files_fall3d)
-            except:
-                print('Error pre-processing FALL3D outputs')
+            for solution_file in solution_files_fall3d:
+                preprocess_fall3d_outputs(solution_file)
         else:
-            try:
-                pool_pre_hysplit = ThreadingPool(len(solution_files_hysplit))
-                pool_pre_hysplit.map(preprocess_hysplit_outputs, solution_files_hysplit)
-            except:
-                print('Error pre-processing HYSPLIT outputs')
+            for solution_file in solution_files_hysplit:
+                preprocess_hysplit_outputs(solution_file)
+        with open(scheduler_file_path, 'a') as scheduler_file:
+            scheduler_file.write('wait\n')
         return folders_to_remove, files_to_remove
+
+
+    def post_process_solution(output_folder, output_file):
+        post_process_scheduler_file_path = os.path.join(output_folder, 'post_process.sh')
+        if 'HYSPLIT' in str(output_file):
+            model = 'hysplit'
+        else:
+            model = 'fall3d'
+        try:
+            output_dir = os.path.join(output_folder, 'iris_outputs')
+            try:
+                os.mkdir(output_dir)
+            except:
+                print('Folder ' + output_dir + ' already exists')
+            with open(post_process_scheduler_file_path, 'w') as post_process_scheduler_file:
+                post_process_scheduler_file.write('#!/bin/bash\n')
+                if which('sbatch') is None:
+                    post_process_scheduler_file.write('cd ' + output_folder + '\n')
+                else:
+                    post_process_scheduler_file.write('#SBATCH --job-name=plot_results\n')
+                    post_process_scheduler_file.write('#SBATCH -o plot_results.out\n')
+                    post_process_scheduler_file.write('#SBATCH -o plot_results.err\n')
+                    post_process_scheduler_file.write('#SBATCH -n 16\n')
+                    post_process_scheduler_file.write('#SBATCH -N 1\n')
+                    post_process_scheduler_file.write('source ~/.bashrc\n')
+                    post_process_scheduler_file.write('conda activate ash_model_plotting\n')
+                    post_process_scheduler_file.write('cd ' + output_folder + '\n')
+                    post_process_scheduler_file.write('plot_ash_model_results ' + output_file + ' --output_dir ' + output_dir +
+                                         ' --limits ' + lon_min + ' ' + lat_min + ' ' + lon_max + ' ' + lat_max + ' --model_type ' +
+                                         model + '\n')
+            with open(scheduler_file_path, 'a') as scheduler_file:
+                scheduler_file.write('sbatch ' + post_process_scheduler_file_path + ' &\n')
+        except:
+            print('Unable to process ' + output_file)
 
 
     folders_to_remove = []
@@ -195,28 +245,32 @@ def post_process_model():
                 solution_files_fall3d.append(file_full_name)
             elif 'HYSPLIT' in str(file_full_name) and file.endswith('.nc'):
                 solution_files_hysplit.append(os.path.join(folder, file_full_name))
-    try:
-        pool_preprocess = ThreadingPool(len(models))
-        pool_preprocess.map(preprocess_models, models)
-    except:
-        print('Error pre-processing outputs in parallel')
+
+    for model in models:
+        preprocess_models(model)
 
     solution_files = solution_files_fall3d + solution_files_hysplit
     s = set(folders_to_remove)
     solution_folders = [x for x in solution_folders if x not in s]
     s = set(files_to_remove)
     solution_files = [x for x in solution_files if x not in s]
-    try:
-        pool_solution_post = ThreadingPool(len(solution_folders))
-        pool_solution_post.map(post_process_solution, solution_folders, solution_files)
-    except:
-        print('Error processing outputs in parallel')
+    for i in range(0, len(solution_folders)):
+        post_process_solution(solution_folders[i], solution_files[i])
 
+
+ROOT = os.getcwd()
+RUNS = os.path.join(ROOT, 'Runs')
+
+scheduler_file_path = os.path.join(ROOT, 'scheduler_postprocessing.sh')
+with open(scheduler_file_path, 'w') as scheduler_file:
+    scheduler_file.write('#!/bin/bash\n')
+    scheduler_file.write('cd ' + ROOT + '\n')
 
 models, no_refir, lon_min, lon_max, lat_min, lat_max, mode = read_args()
 
 
 RUNS_mode = os.path.join(RUNS, mode)
 post_process_model()
-
+os.system('sh ' + scheduler_file_path)
+os.remove(scheduler_file_path)
 
