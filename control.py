@@ -1042,7 +1042,7 @@ def run_models(short_simulation, eruption_dur):
                     lines.append('wait\n')
                     with open(fall3d_script, 'w', encoding="utf-8", errors="surrogateescape") as fall3d_script_input:
                         fall3d_script_input.writelines(lines)
-                    scheduler_command = 'sbatch ' + fall3d_script + ' &\n'
+                    scheduler_command = 'sbatch -W ' + fall3d_script + ' &\n'
                 with open(scheduler_file_path, 'a') as scheduler_file_update:
                     scheduler_file_update.write('cd ' + RUN + '\n')
                     scheduler_file_update.write(scheduler_command)
@@ -1336,14 +1336,14 @@ def run_models(short_simulation, eruption_dur):
                 copy(os.path.join(HYSPLIT_RUNS, 'hysplit.sh'), hysplit_script)
                 lines = []
                 hycm_std_command = 'mpirun -np ' + '{:.0f}'.format(np) + ' ' + os.path.join(HYSPLIT, 'hycm_std') + '\n'
-                con2cdf_command = os.path.join(HYSPLIT, 'con2cdf4') + ' cdump cdump.nc\n'
+                #con2cdf_command = os.path.join(HYSPLIT, 'con2cdf4') + ' cdump cdump.nc\n'
                 if which('sbatch') is None:
                     with open(hysplit_script, 'r', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
                         for line in hysplit_script_input:
                             if '#SBATCH' not in line or '##' not in line:
                                 lines.append(line)
                         lines.append(hycm_std_command)
-                        lines.append(con2cdf_command)
+                        #lines.append(con2cdf_command)
                         lines.append('wait\n')
                     with open(hysplit_script, 'w', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
                         hysplit_script_input.writelines(lines)
@@ -1356,11 +1356,11 @@ def run_models(short_simulation, eruption_dur):
                             else:
                                 lines.append(line)
                         lines.append(hycm_std_command)
-                        lines.append(con2cdf_command)
+                        #lines.append(con2cdf_command)
                         lines.append('wait\n')
                     with open(hysplit_script, 'w', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
                         hysplit_script_input.writelines(lines)
-                    scheduler_command = 'sbatch ' + hysplit_script + ' &\n'
+                    scheduler_command = 'sbatch -W ' + hysplit_script + ' &\n'
                 with open(scheduler_file_path, 'a') as scheduler_file_update:
                     scheduler_file_update.write('cd ' + os.getcwd() + '\n')
                     scheduler_file_update.write(scheduler_command)
@@ -1473,6 +1473,8 @@ else:
         print('Folder ' + RUNS + ' exists')
 
 run_models(short_simulation, eruption_dur)
+with open(scheduler_file_path, 'a') as scheduler_file_update:
+    scheduler_file_update.write('wait\n')
 os.system('sh ' + scheduler_file_path)
 clean_folders()
 os.remove(scheduler_file_path)
