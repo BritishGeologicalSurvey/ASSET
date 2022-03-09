@@ -251,6 +251,8 @@ def convert_grib_to_nc():
             lines_original.append(line)
             if 't_start=$1' in line:
                 lines.append('t_start=' + time_diff_hours + '\n')
+            elif 'OUTPUTFILE=' in line:
+                lines.append('OUTPUTFILE=' + mode + '.nc\n')
             else:
                 lines.append(line)
     lines.append('wait\n')
@@ -452,7 +454,7 @@ if mode == 'operational':
     data_dir = os.path.join(root,'weather', 'data', 'operational')
 else:
     data_dir = os.path.join(root, 'weather', 'data', 'manual')
-data_today_dir = os.path.join(data_dir,today)
+data_today_dir = os.path.join(data_dir, today)
 if run_name == 'default':
     run_folder = shr_wt_st
 else:
