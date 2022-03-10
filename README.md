@@ -14,7 +14,6 @@ The package contains the following files and folders:
 - post_processing.py
 - fix_config.txt
 - run_models.sh
-- post_processing.sh
 - TGSDs
 - Runs
 - weather
@@ -157,15 +156,11 @@ Note that:
 - run_models.sh
 Bash script that automatically performs all the simulation steps above. It is currently set to work for operational applications, but it can be edited for any application.
 
-- post_processing.sh
-Slurm script to run post_processing.py using the HPC cluster. It is used in this way:
-sbatch post_processing.sh 'python post_processing.py ARGS', where ARGS is the list of arguments required by post_processing.py. It is important to enclose the whole Python command in quotation marks.
-
 - TGSDs
 Folder that contains text files with the total grain size distributions of Icelandic volcanoes. The user can use a different TGSD in manual mode by editing the file "user_defined" and using the format of the other files.  
 
 - Runs
-Fodlder that stores all the simulation outputs. It contains two subfolders: "manual" and "operational". The former stores the outputs of simulations run in manual mode, the latter hose of simulations run in operational mode. Both subfolders have the following subfolders:
+Foldder that stores all the simulation outputs. It contains two subfolders: "manual" and "operational". The former stores the outputs of simulations run in manual mode, the latter hose of simulations run in operational mode. Both subfolders have the following subfolders:
 	- FALL3D. This stores the outputs of FALL3D and contains a template of the FALL3D input file that is edited by control.py in run time. The template can be edited in any of its part following the instruction of FALL3D user manual (https://gitlab.com/fall3d-distribution/v8.0/-/wikis/home), with a note that all the variables with "xx" are overwritten by control.py.
 	- HYSPLIT. This stores the output of HYSPLIT simulations and contains two files that are needed by HYSPLIT: ASCDATA.CFG and SETUP.CFG. The former should not be edited since it contains general configurations. SETUP.CFG contains some simulation settings which can be edited by the user following HYSPLIT User manual (https://www.ready.noaa.gov/hysplitusersguide/). 
 For each model, in each application three simulations are carried out, each corresponding to the REFIR solutions: (average, maximum and minimum). When simulations are run, the following subfolders are created:
@@ -182,26 +177,11 @@ For each model, in each application three simulations are carried out, each corr
 	+ YYYYMMDD: date of the simulation
 		+ HH :time of the simulation in hours
 			+ avg :average solution simulation
-				+ output: folder that stores the processed HYSPLIT runs in both native and NetCDF format
-					+ iris_outputs: outputs produced by post_processing.py 
-				+ runs: folder that contains each individual HYSPLIT run. In fact, the HYSPLIT simulation is split in different sub-simulations corresponding to the different pollutant (=grainsize bin), as to obtain an efficient parallelization. Result of each individual pollutant-run are then merged together to produce a single output file in "output"
-					+ poll"n": folder containing the pollutant-specific HYSPLIT run for the nth pollutant
-						+ run: folder containing the HYSPLIT input file and output files produced at run-time
-						+ output: folder containing the HYSPLIT output file of the pollutant-specific simulation
+				+ iris_outputs: outputs produced by post_processing.py
 			+ max :maximum solution simulation
-				+ output: folder that stores the processed HYSPLIT runs in both native and NetCDF format
-					+ iris_outputs: outputs produced by post_processing.py 
-				+ runs: folder that contains each individual HYSPLIT run. In fact, the HYSPLIT simulation is split in different sub-simulations corresponding to the different pollutant (=grainsize bin), as to obtain an efficient parallelization. Result of each individual pollutant-run are then merged together to produce a single output file in "output"
-					+ poll"n": folder containing the pollutant-specific HYSPLIT run for the nth pollutant
-						+ run: folder containing the HYSPLIT input file and output files produced at run-time
-						+ output: folder containing the HYSPLIT output file of the pollutant-specific simulation
+				+ iris_outputs: outputs produced by post_processing.py 
 			+ min :minimum solution simulation
-				+ output: folder that stores the processed HYSPLIT runs in both native and NetCDF format
-					+ iris_outputs: outputs produced by post_processing.py 
-				+ runs: folder that contains each individual HYSPLIT run. In fact, the HYSPLIT simulation is split in different sub-simulations corresponding to the different pollutant (=grainsize bin), as to obtain an efficient parallelization. Result of each individual pollutant-run are then merged together to produce a single output file in "output"
-					+ poll"n": folder containing the pollutant-specific HYSPLIT run for the nth pollutant
-						+ run: folder containing the HYSPLIT input file and output files produced at run-time
-						+ output: folder containing the HYSPLIT output file of the pollutant-specific simulation
+				+ iris_outputs: outputs produced by post_processing.py 
 
 - weather
 Folder that contains scripts that are used to retrieve and process weather data necessary for REFIR and the dispersion simulations. 
