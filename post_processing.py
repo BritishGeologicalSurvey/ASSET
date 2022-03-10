@@ -128,7 +128,6 @@ def post_process_model():
                 cdump_sum_file = os.path.join(folder_hysplit, 'cdump_sum.nc')
                 cdump_temp_file = os.path.join(folder_hysplit, 'cdump_temp.nc')
                 with open(pre_process_hysplit_scheduler_file_path, 'a') as preprocess_hysplit_scheduler_file:
-                    preprocess_hysplit_scheduler_file.write('cd ' + folder_hysplit + '\n')
                     preprocess_hysplit_scheduler_file.write(os.path.join(HYSPLIT, 'con2cdf4') + ' ' + solution_file +
                                                             ' ' + cdump_nc_file + '\n')
                     preprocess_hysplit_scheduler_file.write('ncap2 -s ' + pollutants + ' ' + cdump_nc_file + ' ' +
