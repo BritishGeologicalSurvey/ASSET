@@ -3,7 +3,7 @@ import datetime
 import argparse
 import pandas as pd
 import sys
-from shutil import which, move, rmtree, copy
+from shutil import which, move, rmtree, copy, copytree
 
 def get_args():
     parser = argparse.ArgumentParser(description='Input data for the control script')
@@ -348,7 +348,6 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb):
         scheduler_command = 'sh wgrib2.sh\n'
     else:
         scheduler_command = 'sbatch -W wgrib2.sh\n'
-        # wgrib2.sh back to the original version
     with open(scheduler_file_path, 'a') as scheduler_file_update:
         scheduler_file_update.write(scheduler_command)
     return max_refir_weather_data, lines_original
@@ -463,9 +462,10 @@ data_run_dir = os.path.join(data_today_dir,run_folder)
 data_twodaysago_dir = os.path.join(data_dir,twodaysago)
 
 if not no_refir:
-    # refir_dir = os.path.join(cwd,'REFIR')
     refir_dir = ('/home/vulcanomod/REFIR')
     refir_weather_today_dir = os.path.join(refir_dir, 'raw_forecast_weather_data_' + today)
+    # To create a reanalysis copy of the REFIR weather data folder in case the user wants to run in reanalysis mode
+    refir_reanalysis_dir = os.path.join(refir_dir, 'raw_reanalysis_weather_data_' + today)
     refir_weather_twodaysago_dir = os.path.join(refir_dir, 'raw_forecast_weather_data_' + twodaysago)
     # Check if the weather data are in the run folder of REFIR, and if yes move it one level up
     os.chdir(refir_dir)
@@ -507,7 +507,7 @@ if not no_refir:
     except:
         print('Folder ' + refir_weather_today_dir + ' already exists')
 
-if mode == 'operational' and not no_refir:
+if not no_refir:
     # Create profile files readable by REFIR
     lat_source, lon_source = get_volc_location()
     profiles = []
@@ -530,8 +530,12 @@ if mode == 'operational' and not no_refir:
         extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb)
 
 os.system('sh ' + scheduler_file_path)
-if mode == 'operational' and not no_refir:
+if not no_refir:
     elaborate_refir_weather_data(max_refir_weather_data, profiles_grb, profiles)
+if not no_refir:
+    if os.path.exists(refir_reanalysis_dir):
+        os.system('rm -r ' + refir_reanalysis_dir)
+    os.system('cp -r ' + refir_weather_today_dir + ' ' + refir_reanalysis_dir)
 
 # Remove arl time steps before the starting times before merging
 arl_files_to_remove = []
@@ -560,7 +564,7 @@ with open('grib2nc.sh', 'w', encoding="utf-8", errors="surrogateescape") as grib
     grib2nc_script.writelines(grib_to_nc_original_lines)
 with open('api2arl.sh', 'w', encoding="utf-8", errors="surrogateescape") as api2arl_script:
     api2arl_script.writelines(grib_to_arl_original_lines)
-if mode == 'operational' and not no_refir:
+if not no_refir:
     with open('wgrib2.sh', 'w', encoding="utf-8", errors="surrogateescape") as wgrib_script:
         wgrib_script.writelines(extract_data_gfs_original_lines)
 
