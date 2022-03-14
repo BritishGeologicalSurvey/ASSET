@@ -1,4 +1,4 @@
-﻿BGS-AADM - British Geological Survey Automatic Ash Dispersion Modelling
+﻿bgs-ash-modelling - British Geological Survey Automatic Ash Dispersion Modelling
 Fabio Dioguardi. British Geological Survey, The Lyell Centre, Edinburgh, United Kingdom. Email: fabiod@bgs.ac.uk
 
 This package is designed to simplify and speed-up dispersion modelling applications for volcanic eruptions in real-time, i.e. in forecast mode. Dispersion models currently supported are:
@@ -199,18 +199,28 @@ Folder that stores all the log files produced by the scripts above.
 ### DEPENDENCIES ###
 To run the whole package, the following dependencies must be satisfied.
 - Python environment
-All the scripts work for Python version > 3.
-The following Python modules must be installed: basemap, pandas, xlrd, future, pillow, cdsapi, pathos, gdal, utm, fall3dutil, urllib3
-It is convenient to set up a Anaconda environment that can be activated before using BGS-AADM. This can be done with the following command:
-conda create -n myenv python=3.8 basemap, pandas, xlrd, future, pillow, cdsapi, pathos, gdal, utm, fall3dutil, urllib3
-Note that the package fall3dutil should be installed with pip from inside the environment when this is activated:
-python pip -m install fall3dutil.
+With Conda, it is possible to set a virtual environmnent with all the required dependencies specific for bgs-ash-modelling. This simplifies the installation of the different packages and the management of the Python installation in the system.
+
+Instructions for setting the Conda environment:
+
+1) create the environment with all the needed additional packages:
+	`conda env create -f environment.yml`
+2) activate the environment with:
+	`conda activate vigil`
+3) to exit from the environment:
+	`conda deactivate`
+
+If required, the name of the environment can be changed by editing
+`environment.yml`.
+
 - Dispersion models
 The system assumes that the following dispersion models are installed in the system: FALL3D and HYSPLIT. The paths to the FALL3D and HYSPLIT executables are specified in the control.py file. If these needs to be changed, the user should modify the following variables in control.py:
 	+ FALL3D: path to the FALL3D executable Fall3d.r8.x (e.g. /path/to/FALL3D/executables/Fall3d.r8.x)
 	+ HYSPLIT: path to the HYSPLIT folder "exec" with all the HYSPLIT scripts (e.g. /path/to/HYSPLIT/scripts/exec)
+
 - wgrib2
 The system assumes the executable is in the system PATH
+
 - plot_ash_model_results
 Executable of the ash-model-plotting package (https://github.com/BritishGeologicalSurvey/ash-model-plotting) that must be installed in the system. This program is called from post_processing.py, which in turn needs to be run after the ash-model-plotting Conda environment has been activated (see ash-model-plotting instructions)
 

@@ -1,0 +1,16 @@
+name: bgs-ash-modelling
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - basemap 
+  - pandas
+  - xlrd 
+  - future
+  - pillow 
+  - cdsapi
+  - pathos 
+  - gdal 
+  - utm
+  - fall3dutil
+  - urllib3
