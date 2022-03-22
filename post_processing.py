@@ -73,7 +73,7 @@ def read_args():
                     try:
                         models_input = line.split('=')[1]
                         models_input = models_input.split('\n')[0]
-                    except:
+                    except IndexError:
                         models_input = 'all'
     else:
         if args.latmin == 999 or args.latmax == 999 or args.lonmin == 999 or args.lonmax == 999:
@@ -142,7 +142,7 @@ def post_process_model():
                         scheduler_file.write('sh ' + pre_process_hysplit_scheduler_file_path + ' &\n')
                     else:
                         scheduler_file.write('sbatch -W ' + pre_process_hysplit_scheduler_file_path + ' &\n')
-            except:
+            except BaseException:
                 print('Unable to process ' + cdump_nc_file + ' with ncap2 and ncks')
                 files_to_remove.append(cdump_nc_file)
                 folders_to_remove.append(folder_hysplit)
@@ -174,7 +174,7 @@ def post_process_model():
                         scheduler_file.write('sh ' + pre_process_fall3d_scheduler_file_path + ' &\n')
                     else:
                         scheduler_file.write('sbatch -W ' + pre_process_fall3d_scheduler_file_path + ' &\n')
-            except:
+            except BaseException:
                 print('Unable to process ' + solution_file + ' with CDO')
                 files_to_remove.append(solution_file)
                 folders_to_remove.append(folder_fall3d)
@@ -197,7 +197,7 @@ def post_process_model():
             output_dir = os.path.join(output_folder, 'iris_outputs')
             try:
                 os.mkdir(output_dir)
-            except:
+            except FileExistsError:
                 print('Folder ' + output_dir + ' already exists')
             with open(post_process_scheduler_file_path, 'w') as post_process_scheduler_file:
                 post_process_scheduler_file.write('#!/bin/bash\n')
@@ -219,7 +219,7 @@ def post_process_model():
                                                       lon_max + ' ' + lat_max + ' --model_type ' + model + '\n')
             with open(scheduler_file_path, 'a') as scheduler_file:
                 scheduler_file.write('sbatch ' + post_process_scheduler_file_path + ' &\n')
-        except:
+        except BaseException:
             print('Unable to process ' + output_file)
 
     folders_to_remove = []

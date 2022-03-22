@@ -89,7 +89,7 @@ def get_args():
             if duration <= 0:
                 print('Please provide a valid duration (> 0)')
                 sys.exit()
-        except:
+        except ValueError:
             print('Please provide a valid duration')
             sys.exit()
         try:
@@ -97,7 +97,7 @@ def get_args():
             if volc_id <= 0:
                 print('Please provide a valid ID (> 0)')
                 sys.exit()
-        except:
+        except ValueError:
             print('Please provide a valid ID')
         if lat_min == '999':
             print('Please specify a valid value for lat_min')
@@ -135,7 +135,7 @@ def get_args():
     if start_time != '999':
         try:
             start_time_datetime = datetime.datetime.strptime(start_time,format('%d/%m/%Y-%H:%M'))
-        except:
+        except ValueError:
             print('Unable to read starting time. Please check the format')
             sys.exit()
     return run_name, start_time, start_time_datetime, duration, lat_min, lat_max, lon_min, lon_max, no_refir, volc_id,\
@@ -186,7 +186,7 @@ def get_volc_location():
         try:
             df = pd.read_excel('https://webapps.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
                                      sheetname='volcanoes')
-        except:
+        except TypeError:
             df = pd.read_excel('https://webapps.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
                                      sheet_name='volcanoes')
         nrows = df.shape[0]
@@ -201,7 +201,7 @@ def get_volc_location():
                 if row >= nrows:
                     print('ID not found')
                     break
-    except:
+    except BaseException:
         print('Unable to retrieve data from the ESPs database. Please provide inputs manually')
         print('Type volcano latitude')
         volc_lat = str(input())
@@ -431,7 +431,7 @@ def elaborate_refir_weather_data(n_refir_data, profiles_grb, profiles):
 
 
 HYSPLIT = '/home/vulcanomod/HYSPLIT'
-API2ARL = os.path.join(HYSPLIT,'hysplit.v5.2.0','exec','api2arl_v4')
+API2ARL = os.path.join(HYSPLIT, 'hysplit.v5.2.0', 'exec', 'api2arl_v4')
 WGRIB2 = '/home/vulcanomod/grib2/wgrib2/wgrib2'
 
 run_name, start_time, start_time_datetime, duration, lat_min, lat_max, lon_min, lon_max, no_refir, volc_id, mode = \
@@ -473,20 +473,20 @@ if not no_refir:
     for file in refir_files_list:
         if file.startswith('run_' + today):
             try:
-                move(os.path.join(refir_dir,file,'raw_forecast_weather_data_' + today),refir_dir)
-            except:
-                print('Folder ' + refir_weather_today_dir + ' not present in ' + os.path.join(refir_dir,file))
+                move(os.path.join(refir_dir, file, 'raw_forecast_weather_data_' + today), refir_dir)
+            except FileNotFoundError:
+                print('Folder ' + refir_weather_today_dir + ' not present in ' + os.path.join(refir_dir, file))
 try:
     os.mkdir(data_dir)
-except:
+except FileExistsError:
     print('Folder ' + data_dir + ' already exists')
 try:
     os.mkdir(data_today_dir)
-except:
+except FileExistsError:
     print('Folder ' + data_today_dir + ' already exists')
 try:
     os.mkdir(data_run_dir)
-except:
+except FileExistsError:
     print('Folder ' + data_run_dir + ' already exists')
     rmtree(data_run_dir)
     os.mkdir(data_run_dir)
@@ -500,11 +500,11 @@ grib_to_arl_original_lines = convert_grib_to_arl(gribfiles)
 if not no_refir:
     try:
         rmtree(refir_weather_twodaysago_dir)
-    except:
+    except FileNotFoundError:
         print('Folder ' + refir_weather_twodaysago_dir + ' not present')
     try:
         os.mkdir(refir_weather_today_dir)
-    except:
+    except FileExistsError:
         print('Folder ' + refir_weather_today_dir + ' already exists')
 
 if not no_refir:
@@ -550,7 +550,7 @@ os.system('cat *.arl > ' + mode + '.arl')
 
 try:
     rmtree(data_twodaysago_dir)
-except:
+except FileNotFoundError:
     print('Folder ' + data_twodaysago_dir + ' not present')
 
 for file in os.listdir(weather_scripts_dir):

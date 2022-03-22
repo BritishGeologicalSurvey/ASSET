@@ -106,7 +106,7 @@ def read_args():
     if start_time != '999':
         try:
             start_time_datetime = datetime.datetime.strptime(start_time, format('%d/%m/%Y-%H:%M'))
-        except:
+        except BaseException:
             print('Unable to read starting time. Please check the format')
             sys.exit()
     if no_refir.lower() == 'true':
@@ -192,7 +192,7 @@ def read_args():
         if volc_id <= 0 or volc_id == 999:
             print('Please provide a valid volcano ID')
             sys.exit()
-    except:
+    except ValueError:
         print('Please provide a valid volcano ID')
         sys.exit()
     try:
@@ -200,14 +200,14 @@ def read_args():
         if n_processes <= 0:
             print('Please provide a valid number of processes (> 0)')
             sys.exit()
-    except:
+    except ValueError:
         print('Please provide a valid number of processes')
     try:
         run_duration = int(run_duration)
         if run_duration <= 0:
             print('Please provide a valid duration (> 0)')
             sys.exit()
-    except:
+    except ValueError:
         print('Please provide a valid duration')
         sys.exit()
     if Iceland_scenario.lower() == 'true':
@@ -219,14 +219,14 @@ def read_args():
         sys.exit()
     try:
         source_resolution = int(source_resolution)
-    except:
+    except ValueError:
         print('Please provide a valid integer for the source resolution in minutes')
         sys.exit()
     base = 5
     source_resolution = base * round(source_resolution / base) #Ensure the source resolution is always a multiple of 5
     try:
         tot_particle_rate = int(per)
-    except:
+    except ValueError:
         print('Please provide a valid number for the Total particle emission rate')
         sys.exit()
     if int(output_interval) <= 0:
@@ -274,8 +274,8 @@ def read_operational_settings_file():
                 short_simulation = line.split('=')[1]
                 try:
                     short_simulation = short_simulation.split('\n')[0]
-                except:
-                    None
+                except IndexError:
+                    pass
                 if short_simulation.lower() == 'true':
                     short_simulation = True
                 elif short_simulation.lower() == 'false':
@@ -284,8 +284,8 @@ def read_operational_settings_file():
                 Iceland_scenario = line.split('=')[1]
                 try:
                     Iceland_scenario = Iceland_scenario.split('\n')[0]
-                except:
-                    None
+                except IndexError:
+                    pass
                 if Iceland_scenario.lower() == 'true':
                     Iceland_scenario = True
                 elif Iceland_scenario.lower() == 'false':
@@ -294,8 +294,8 @@ def read_operational_settings_file():
                 no_refir = line.split('=')[1]
                 try:
                     no_refir = no_refir.split('\n')[0]
-                except:
-                    None
+                except IndexError:
+                    pass
                 if no_refir.lower() == 'true':
                     no_refir = True
                 elif no_refir.lower() == 'false':
@@ -307,7 +307,7 @@ def read_operational_settings_file():
                     if er_duration_input[0] <= 0:
                         print('ERROR. Negative value of eruption duration provided.')
                         sys.exit()
-                except:
+                except (IndexError, ValueError) as e:
                     try:
                         er_duration_input_s = er_duration_input_s.split('\t')
                         for i in range(1, len(er_duration_input_s)):
@@ -315,7 +315,7 @@ def read_operational_settings_file():
                                 print('ERROR. Negative value of eruption duration provided.')
                                 sys.exit()
                             er_duration_input.append(float(er_duration_input_s[i]))
-                    except:
+                    except (IndexError, ValueError) as e:
                         er_duration_input.append(999)
                 if not er_duration_input:
                     er_duration_input.append(999)
@@ -326,7 +326,7 @@ def read_operational_settings_file():
                     if plh_input[0] <= 0:
                         print('ERROR. Negative value of PLH provided.')
                         sys.exit()
-                except:
+                except (IndexError, ValueError) as e:
                     try:
                         plh_input_s = plh_input_s.split('\t')
                         for i in range(1, len(plh_input_s)):
@@ -334,7 +334,7 @@ def read_operational_settings_file():
                                 print('ERROR. Negative value of PLH provided.')
                                 sys.exit()
                             plh_input.append(float(plh_input_s[i]))
-                    except:
+                    except (IndexError, ValueError) as e:
                         plh_input.append(999)
                 if not plh_input:
                     plh_input.append(999)
@@ -345,7 +345,7 @@ def read_operational_settings_file():
                     if mer_input[0] <= 0:
                         print('ERROR. Negative value of MER provided.')
                         sys.exit()
-                except:
+                except (IndexError, ValueError) as e:
                     try:
                         mer_input_s = mer_input_s.split('\t')
                         for i in range(1, len(mer_input_s)):
@@ -353,7 +353,7 @@ def read_operational_settings_file():
                                 print('ERROR. Negative value of MER provided.')
                                 sys.exit()
                             mer_input.append(float(mer_input_s[i]))
-                    except:
+                    except (IndexError, ValueError) as e:
                         mer_input.append(999)
                 if not mer_input:
                     mer_input.append(999)
@@ -364,20 +364,20 @@ def read_operational_settings_file():
                     base = 5
                     source_resolution = base * round(source_resolution / base)  # Ensure the source resolution is
                     # always a multiple of 5
-                except:
+                except (IndexError, ValueError) as e:
                     source_resolution = 60
             elif line.split('=')[0] == 'PARTICLE_EMISSION_RATE_[p/hr]':
                 try:
                     tot_particle_rate = line.split('=')[1]
                     tot_particle_rate = int(tot_particle_rate)
-                except:
+                except (IndexError, ValueError) as e:
                     tot_particle_rate = 1000000
             elif line.split('=')[0] == 'OUTPUT_INTERVAL_[hr]':
                 try:
                     output_interval = line.split('=')[1]
                     output_interval = output_interval.split('\n')[0]
                     int(output_interval)
-                except:
+                except (IndexError, ValueError) as e:
                     output_interval = '1'
             elif line.split('=')[0] == 'TGSD':
                 tgsd = line.split('=')[1]
@@ -389,7 +389,7 @@ def read_operational_settings_file():
                 try:
                     models_in = line.split('=')[1]
                     models_in = models_in.split('\n')[0]
-                except:
+                except (IndexError, ValueError) as e:
                     models_in = 'all'
                 if models_in == 'all':
                     models = ['hysplit', 'fall3d']
@@ -427,7 +427,7 @@ def read_esps_database():
     try:
         database = pd.read_excel('https://webapps.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
                                  sheetname='volcanoes')
-    except:
+    except TypeError:
         database = pd.read_excel('https://webapps.bgs.ac.uk/research/volcanoes/esp/volcanoExport.xlsx',
                                      sheet_name='volcanoes')
     nrows = database.shape[0]
@@ -470,7 +470,7 @@ def run_foxi():
             fix_config_records.append(line.split('\n')[0])
     try:
         esps_dur, esps_plh, dummy, summit, volc_lat, volc_lon = read_esps_database()
-    except:
+    except BaseException:
         print('Unable to read ESPs database')
         sys.exit()
     if er_duration_input[0] != 999:
@@ -570,16 +570,16 @@ def run_refir():
     os.system(foxi_command)
     try:
         dummy1, dummy2, dummy3, summit, volc_lat, volc_lon = read_esps_database()
-    except:
+    except BaseException:
         volcano_list_file = os.path.join(REFIR_CONFIG, 'volcano_list.ini')
-        with open(volcano_list_file,'r',encoding="utf-8", errors="surrogateescape") as volcano_list:
+        with open(volcano_list_file, 'r', encoding="utf-8", errors="surrogateescape") as volcano_list:
             for line in volcano_list:
                 try:
                     if int(line.split('\t')[0]) == volc_id:
                         volc_lat = line.split('\t')[1]
                         volc_lon = line.split('\t')[2]
                         summit = float(line.split('\t')[3])
-                except:
+                except (IndexError, ValueError) as e:
                     continue
     paths = []
     files = os.listdir(REFIR)
@@ -589,7 +589,7 @@ def run_refir():
     latest_run_path = max(paths, key=os.path.getmtime)
     refir_run = os.path.join(REFIR, latest_run_path)
     refir_config = os.path.join(refir_run, 'fix_config.txt')
-    with open(refir_config, 'r',encoding="utf-8", errors="surrogateescape") as refir_config_r:
+    with open(refir_config, 'r', encoding="utf-8", errors="surrogateescape") as refir_config_r:
         lines = []
         for line in refir_config_r:
             lines.append(line)
@@ -667,7 +667,7 @@ def run_models(short_simulation, eruption_dur):
                         mer_max = line.split('\t')[4]
                         mer_max = mer_max.split('\n')[0]
                         mer_max = mer_max.split('.')[0]
-                    except:
+                    except (IndexError, ValueError) as e:
                         continue
             with open(plh_file, 'r', encoding="utf-8", errors="surrogateescape") as plh_file_r:
                 plh_min = ''
@@ -683,7 +683,7 @@ def run_models(short_simulation, eruption_dur):
                         plh_max = line.split('\t')[4]
                         plh_max = plh_max.split('\n')[0]
                         plh_max = plh_max.split('.')[0]
-                    except:
+                    except (IndexError, ValueError) as e:
                         continue
         else:
             lines = 0
@@ -712,7 +712,7 @@ def run_models(short_simulation, eruption_dur):
                         mer_max_tmp = line.split('\t')[4]
                         mer_max_tmp = mer_max_tmp.split('.')[0]
                         mer_max += ' ' + mer_max_tmp
-                except:
+                except (IndexError, ValueError) as e:
                     continue
             mer_file_r.close()
             lines = 0
@@ -740,7 +740,7 @@ def run_models(short_simulation, eruption_dur):
                         plh_max_tmp = line.split('\t')[4]
                         plh_max_tmp = plh_max_tmp.split('.')[0]
                         plh_max += ' ' + plh_max_tmp
-                except:
+                except (IndexError, ValueError) as e:
                     continue
             plh_file_r.close()
             if 0 < new_er_dur < source_resolution:
@@ -772,7 +772,7 @@ def run_models(short_simulation, eruption_dur):
                         mer_max_tmp = mer_max_tmp.split('.')[0]
                         mer_max_new += float(mer_max_tmp) * delta_min
                         minute_old = minute
-                    except:
+                    except (IndexError, ValueError) as e:
                         continue
                 mer_min_new = mer_min_new / new_er_dur
                 mer_min += ' ' + '{:.0f}'.format(mer_min_new)
@@ -797,7 +797,7 @@ def run_models(short_simulation, eruption_dur):
                         plh_max_tmp = plh_max_tmp.split('.')[0]
                         plh_max_new += float(plh_max_tmp) * delta_min
                         minute_old = minute
-                    except:
+                    except (IndexError, ValueError) as e:
                         continue
                 plh_min_new = plh_min_new / new_er_dur
                 plh_min += ' ' + '{:.0f}'.format(plh_min_new)
@@ -981,10 +981,10 @@ def run_models(short_simulation, eruption_dur):
                                 record = line.split('VALUES')
                                 if record[0] == '      Z-':
                                     line = record[0] + 'VALUES ' + levels[2:] + '\n'
-                            except:
-                                None
-                        except:
-                                None
+                            except (IndexError, ValueError) as e:
+                                pass
+                        except BaseException:
+                                pass
                         lines.append(line)
                 with open(INPUT,'w',encoding="utf-8", errors="surrogateescape") as fall3d_input:
                     fall3d_input.writelines(lines)
@@ -1306,7 +1306,7 @@ def run_models(short_simulation, eruption_dur):
             try:
                 n_bins, diam, rho, shape, wt_fraction, pollutants, diam_strings, rho_strings, shape_strings, \
                 wt_fraction_strings, pollutants_strings = read_tgsd_file(tgsd)
-            except:
+            except BaseException:
                 print('Unable to process file ' + tgsd)
                 sys.exit()
 
