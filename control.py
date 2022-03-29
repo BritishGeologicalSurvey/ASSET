@@ -6,9 +6,9 @@ import sys
 
 # Folder structure
 ROOT = os.getcwd()
-REFIR = '/home/vulcanomod/REFIR'
-RUNS = os.path.join(ROOT,'Runs')
-TGSDS = os.path.join(ROOT,'TGSDs')
+REFIR = os.environ.get('REFIR')
+RUNS = os.path.join(ROOT, 'Runs')
+TGSDS = os.path.join(ROOT, 'TGSDs')
 
 def read_args():
     parser = argparse.ArgumentParser(description='Input data for the control script')
@@ -813,7 +813,8 @@ def run_models(short_simulation, eruption_dur):
     def controller(model):
         def run_fall3d():
             GFSGRIB = os.path.join(ROOT, 'weather', 'data', mode)
-            FALL3D = '/home/vulcanomod/FALL3D/fall3d-8.0.1/bin/Fall3d.r8.x'
+            FALL3D = os.environ.get('FALL3D')
+            FALL3D_exe = os.path.join(FALL3D, 'Fall3d.r8.x')
             FALL3D_RUNS = os.path.join(RUNS, 'FALL3D')
             try:
                 os.mkdir(FALL3D_RUNS)
@@ -1009,10 +1010,10 @@ def run_models(short_simulation, eruption_dur):
                 npx = processes[1]
                 npy = processes[2]
                 npz = processes[3]
-                command_setdbs = 'mpirun -n ' + str(np) + ' ' + FALL3D + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + \
+                command_setdbs = 'mpirun -n ' + str(np) + ' ' + FALL3D_exe + ' SetDbs ' + INPUT + ' ' + str(npx) + ' ' + \
                                  str(npy) + ' ' + str(npz) + '\n'
-                command_setsrc = FALL3D + ' SetSrc ' + INPUT + '\n'
-                command_fall3d = 'mpirun -n ' + str(np) + ' ' + FALL3D + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + \
+                command_setsrc = FALL3D_exe + ' SetSrc ' + INPUT + '\n'
+                command_fall3d = 'mpirun -n ' + str(np) + ' ' + FALL3D_exe + ' Fall3D ' + INPUT + ' ' + str(npx) + ' ' + \
                                  str(npy) + ' ' + str(npz) + '\n'
                 fall3d_script = os.path.join(RUN, 'fall3d.sh')
                 copy(os.path.join(RUNS, 'FALL3D', 'fall3d.sh'), fall3d_script)
@@ -1053,7 +1054,7 @@ def run_models(short_simulation, eruption_dur):
 
         def run_hysplit():
             ARL = os.path.join(ROOT, 'weather', 'data', mode)
-            HYSPLIT = '/home/vulcanomod/HYSPLIT/hysplit.v5.2.0/exec'
+            HYSPLIT = os.environ.get('HYSPLIT')
             HYSPLIT_RUNS = os.path.join(RUNS, 'HYSPLIT')
             try:
                 os.mkdir(HYSPLIT_RUNS)

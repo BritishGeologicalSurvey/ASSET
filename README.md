@@ -214,12 +214,17 @@ If required, the name of the environment can be changed by editing
 `environment.yml`.
 
 - Dispersion models
-The system assumes that the following dispersion models are installed in the system: FALL3D and HYSPLIT. The paths to the FALL3D and HYSPLIT executables are specified in the control.py file. If these needs to be changed, the user should modify the following variables in control.py:
-	+ FALL3D: path to the FALL3D executable Fall3d.r8.x (e.g. /path/to/FALL3D/executables/Fall3d.r8.x)
-	+ HYSPLIT: path to the HYSPLIT folder "exec" with all the HYSPLIT scripts (e.g. /path/to/HYSPLIT/scripts/exec)
+The system assumes that the following dispersion models are installed in the system: FALL3D and HYSPLIT. The scripts assume that the following environment variables are set in the system:
+	+ FALL3D: path to the FALL3D bin folder where Fall3d.r8.x is 
+	+ HYSPLIT: path to the HYSPLIT folder "exec" with all the HYSPLIT scripts
 
 - wgrib2
-The system assumes the executable is in the system PATH
+The scripts assume that the following environment variable is set in the system:
+	+ REFIR: path to the folder storing the REFIR scripts
+
+- REFIR
+The scripts assume that the following environment variable is set in the system:
+	+ WGRIB2: path to the folder where the wgrib2 executable is
 
 - plot_ash_model_results
 Executable of the ash-model-plotting package (https://github.com/BritishGeologicalSurvey/ash-model-plotting) that must be installed in the system. This program is called from post_processing.py, which in turn needs to be run after the ash-model-plotting Conda environment has been activated (see ash-model-plotting instructions)

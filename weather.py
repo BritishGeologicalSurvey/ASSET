@@ -316,10 +316,10 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb):
     else:
         max_refir_weather_data = len(wtfiles)
     for i in range(0, max_refir_weather_data):
-        wgrib2_zoom_commands.append(WGRIB2 + ' ' + wtfiles[i]
+        wgrib2_zoom_commands.append(WGRIB2_exe + ' ' + wtfiles[i]
                                     + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + lon_corner
                                     + ':200:0.01 ' + lat_corner + ':200:0.01 ' + wtfiles_interpolated[i])
-        wgrib2_interpolation_commands.append(WGRIB2 + ' ' + wtfiles_interpolated[i] + ' -s -lon ' + slon_source + ' ' +
+        wgrib2_interpolation_commands.append(WGRIB2_exe + ' ' + wtfiles_interpolated[i] + ' -s -lon ' + slon_source + ' ' +
                                              slat_source + '  >' + profiles_grb[i])
     lines = []
     lines_original = []
@@ -430,9 +430,10 @@ def elaborate_refir_weather_data(n_refir_data, profiles_grb, profiles):
                     hgt[j], p[j], tmp_k[j], tmp_c[j], u[j], v[j], wind[j]))
 
 
-HYSPLIT = '/home/vulcanomod/HYSPLIT'
-API2ARL = os.path.join(HYSPLIT, 'hysplit.v5.2.0', 'exec', 'api2arl_v4')
-WGRIB2 = '/home/vulcanomod/grib2/wgrib2/wgrib2'
+HYSPLIT = os.environ.get('HYSPLIT')
+API2ARL = os.path.join(HYSPLIT, 'api2arl_v4')
+WGRIB2 = os.environ.get('WGRIB2')
+WGRIB2_exe = os.path.join(WGRIB2, 'wgrib2')
 
 run_name, start_time, start_time_datetime, duration, lat_min, lat_max, lon_min, lon_max, no_refir, volc_id, mode = \
     get_args()
@@ -462,7 +463,7 @@ data_run_dir = os.path.join(data_today_dir,run_folder)
 data_twodaysago_dir = os.path.join(data_dir,twodaysago)
 
 if not no_refir:
-    refir_dir = ('/home/vulcanomod/REFIR')
+    refir_dir = os.environ.get('REFIR')
     refir_weather_today_dir = os.path.join(refir_dir, 'raw_forecast_weather_data_' + today)
     # To create a reanalysis copy of the REFIR weather data folder in case the user wants to run in reanalysis mode
     refir_reanalysis_dir = os.path.join(refir_dir, 'raw_reanalysis_weather_data_' + today)

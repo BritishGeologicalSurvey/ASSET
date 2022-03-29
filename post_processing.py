@@ -274,7 +274,7 @@ def post_process_model():
 
 ROOT = os.getcwd()
 RUNS = os.path.join(ROOT, 'Runs')
-HYSPLIT = '/home/vulcanomod/HYSPLIT/hysplit.v5.2.0/exec'
+HYSPLIT = os.environ.get('HYSPLIT')
 
 scheduler_file_path = os.path.join(ROOT, 'scheduler_postprocessing.sh')
 with open(scheduler_file_path, 'w') as scheduler_file:
