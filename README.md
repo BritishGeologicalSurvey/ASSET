@@ -1,4 +1,4 @@
-﻿bgs-ash-modelling - British Geological Survey Automatic Ash Dispersion Modelling
+﻿ASSET - Automatic aSh diSpersion modElling Tool
 Fabio Dioguardi. British Geological Survey, The Lyell Centre, Edinburgh, United Kingdom. Email: fabiod@bgs.ac.uk
 
 This package is designed to simplify and speed-up dispersion modelling applications for volcanic eruptions in real-time, i.e. in forecast mode. Dispersion models currently supported are:
@@ -199,7 +199,7 @@ Folder that stores all the log files produced by the scripts above.
 ### DEPENDENCIES ###
 To run the whole package, the following dependencies must be satisfied.
 - Python environment
-With Conda, it is possible to set a virtual environmnent with all the required dependencies specific for bgs-ash-modelling. This simplifies the installation of the different packages and the management of the Python installation in the system.
+With Conda, it is possible to set a virtual environmnent with all the required dependencies specific for ASSET. This simplifies the installation of the different packages and the management of the Python installation in the system.
 
 Instructions for setting the Conda environment:
 
