@@ -11,7 +11,8 @@ RUNS = os.path.join(ROOT, 'Runs')
 TGSDS = os.path.join(ROOT, 'TGSDs')
 
 def read_args():
-    parser = argparse.ArgumentParser(description='Input data for the control script')
+    parser = argparse.ArgumentParser(description='Input data for the control script',
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-M', '--mode', default='operational',
                         help='operational: routine simulation mode controlled via operational_settings.txt'
                              '\nmanual: run with user specific inputs')

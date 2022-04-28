@@ -5,7 +5,8 @@ from shutil import which
 
 
 def read_args():
-    parser = argparse.ArgumentParser(description='Input data for the post_processing script')
+    parser = argparse.ArgumentParser(description='Input data for the post_processing script',
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-M', '--mode', default='operational',
                         help='operational: routine simulation mode controlled via '
                              'operational_settings.txt\nmanual: run with user '

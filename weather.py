@@ -6,11 +6,12 @@ import sys
 from shutil import which, move, rmtree, copy, copytree
 
 def get_args():
-    parser = argparse.ArgumentParser(description='Input data for the control script')
-    parser.add_argument('-SET','--set',default='True',help='True or False. True: Read simulation parameters from '
+    parser = argparse.ArgumentParser(description='Input data for the control script',
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('-SET', '--set', default='True', help='True or False. True: Read simulation parameters from '
                                                            'operational_settings.txt. False: simulation parameters are '
                                                            'read from the other arguments')
-    parser.add_argument('-M','--mode',default='operational',help='operational: routine simulation mode controlled via '
+    parser.add_argument('-M', '--mode', default='operational', help='operational: routine simulation mode controlled via '
                                                                  'operational_settings.txt\nmanual: run with user specific inputs')
     parser.add_argument('-LATMIN','--latmin',default='999',help='Domain minimum latitude')
     parser.add_argument('-LATMAX','--latmax',default='999',help='Domain maximum latitude')
