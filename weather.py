@@ -11,16 +11,18 @@ def get_args():
     parser.add_argument('-SET', '--set', default='True', help='True or False. True: Read simulation parameters from '
                                                            'operational_settings.txt. False: simulation parameters are '
                                                            'read from the other arguments')
-    parser.add_argument('-M', '--mode', default='operational', help='operational: routine simulation mode controlled via '
-                                                                 'operational_settings.txt\nmanual: run with user specific inputs')
+    parser.add_argument('-M', '--mode', default='operational', help='operational: routine simulation mode controlled '
+                                                                    'via operational_settings.txt manual: run with '
+                                                                    'user specific inputs')
     parser.add_argument('-LATMIN','--latmin',default='999',help='Domain minimum latitude')
     parser.add_argument('-LATMAX','--latmax',default='999',help='Domain maximum latitude')
     parser.add_argument('-LONMIN','--lonmin',default='999',help='Domain minimum longitude')
     parser.add_argument('-LONMAX','--lonmax',default='999',help='Domain maximum longitude')
     parser.add_argument('-D','--dur',default='96',help='Ash dispersion simulation duration')
-    parser.add_argument('-V','--volc',default='999',help='Smithsonian Institude volcano ID')
+    parser.add_argument('-V','--volc',default='999',help='Smithsonian Institute volcano ID')
     parser.add_argument('-START','--start_time',default='999',help='Starting date and time of the simulation in UTC '
-                                                                   '(DD/MM/YYYY-HH:MM). Option valid only in manual mode')
+                                                                   '(DD/MM/YYYY-HH:MM). Option valid only in manual '
+                                                                   'mode')
     parser.add_argument('-RUN','--run_name',default='default',help='Run name. If not specified, the run name will be '
                                                                    'the starting time with format HH')
     parser.add_argument('-NR', '--no_refir',default='False',help='True: avoid running REFIR for ESPs. False: run REFIR '
@@ -320,8 +322,8 @@ def extract_data_gfs(wtfiles, wtfiles_interpolated, profiles_grb):
         wgrib2_zoom_commands.append(WGRIB2_exe + ' ' + wtfiles[i]
                                     + ' -set_grib_type same -new_grid_winds earth -new_grid latlon ' + lon_corner
                                     + ':200:0.01 ' + lat_corner + ':200:0.01 ' + wtfiles_interpolated[i])
-        wgrib2_interpolation_commands.append(WGRIB2_exe + ' ' + wtfiles_interpolated[i] + ' -s -lon ' + slon_source + ' ' +
-                                             slat_source + '  >' + profiles_grb[i])
+        wgrib2_interpolation_commands.append(WGRIB2_exe + ' ' + wtfiles_interpolated[i] + ' -s -lon ' + slon_source +
+                                             ' ' + slat_source + '  >' + profiles_grb[i])
     lines = []
     lines_original = []
     with open('wgrib2.sh', 'r', encoding="utf-8", errors="surrogateescape") as wgrib_script:
