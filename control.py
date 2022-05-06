@@ -1346,7 +1346,7 @@ def run_models(short_simulation, eruption_dur):
                                 lines.append(line)
                         lines.append(hycm_std_command)
                         #lines.append(con2cdf_command)
-                        lines.append('wait\n')
+                        #lines.append('wait\n')
                     with open(hysplit_script, 'w', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
                         hysplit_script_input.writelines(lines)
                     scheduler_command = 'sh ' + hysplit_script + '\n'
@@ -1359,7 +1359,7 @@ def run_models(short_simulation, eruption_dur):
                                 lines.append(line)
                         lines.append(hycm_std_command)
                         #lines.append(con2cdf_command)
-                        lines.append('wait\n')
+                        #lines.append('wait\n')
                     with open(hysplit_script, 'w', encoding="utf-8", errors="surrogateescape") as hysplit_script_input:
                         hysplit_script_input.writelines(lines)
                     scheduler_command = 'sbatch -W ' + hysplit_script + ' &\n'
